@@ -17,7 +17,7 @@
 @media(max-width:700px){.sync-grid{grid-template-columns:1fr}}
 </style>
 <link href="../css/responsive.css" rel="stylesheet"/><link href="../css/print.css" rel="stylesheet"/><link href="../css/jokjung-ui-v3.31.css" rel="stylesheet"/></head>
-<body><div class="app">
+<body class="jk314-bulk"><div class="app">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-brand"><strong>JOKJUNG</strong><small>Back Office</small></div>
 <nav>
@@ -49,16 +49,16 @@
 <section class="panel">
 <div class="toolbar">
 <input id="search" placeholder="ค้นหาเมนู..."/>
-<button class="outline-btn" id="previewBtn">↻ Preview ใหม่</button>
-<button class="outline-btn" id="selectAllBtn">เลือกทั้งหมดที่ Sync ได้</button>
-<button class="primary-btn" id="applyBtn">✅ Sync ต้นทุนที่เลือก</button>
+<button class="outline-btn" id="previewBtn">↻ Preview</button>
+<button class="outline-btn" id="selectAllBtn">เลือก Sync ได้</button>
+<button class="primary-btn" id="applyBtn">✅ Sync</button>
 </div>
 <div class="table-wrap">
 <table>
 <thead><tr><th><input id="masterCheck" type="checkbox"/></th><th>เมนู</th><th class="num">Recipe Rows</th><th class="num">ต้นทุนเดิม</th><th class="num">ต้นทุนจาก Recipe</th><th class="num">ต่างกัน</th><th>สถานะ</th></tr></thead>
 <tbody id="rows"></tbody>
 </table>
-</div>
+</div><div class="jk314-bulk-cards" id="bulkCards"></div>
 <p id="message"></p>
 </section>
 </main></div></div>

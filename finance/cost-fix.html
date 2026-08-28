@@ -26,7 +26,7 @@
 @media(max-width:550px){.fix-grid,.diag{grid-template-columns:1fr}.issue-head{flex-direction:column}.ing{grid-template-columns:1fr 1fr}}
 </style>
 <link href="../css/responsive.css" rel="stylesheet"/><link href="../css/print.css" rel="stylesheet"/><link href="../css/jokjung-ui-v3.31.css" rel="stylesheet"/></head>
-<body><div class="app">
+<body class="jk314-costfix"><div class="app">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-brand"><strong>JOKJUNG</strong><small>Back Office</small></div>
 <nav>
@@ -47,7 +47,7 @@
 <header class="topbar"><div class="topbar-left"><button class="menu-btn" id="menuBtn">☰</button><div><h1>🛠 Cost Fix Center</h1><p id="branchText">-</p></div></div><div class="user-box"><span id="userName">-</span><span class="role-pill" id="roleBadge">-</span><button class="outline-btn" id="logoutBtn">ออกจากระบบ</button></div></header>
 <main class="content">
 <div class="page-head"><div><h2>หาสาเหตุ COGS = 0</h2><p>ตรวจจาก Sale → Product → Recipe/BOM → Ingredient Cost แล้วพาไปแก้ตรงจุด</p></div></div>
-<section class="panel"><div class="filters"><input id="dateFrom" type="date"/><input id="dateTo" type="date"/><button class="outline-btn" id="monthBtn">เดือนนี้</button><button class="primary-btn" id="loadBtn">วิเคราะห์</button></div></section>
+<section class="panel"><div class="filters"><label class="field"><span>วันที่เริ่ม</span><input id="dateFrom" type="date"/></label><label class="field"><span>วันที่สิ้นสุด</span><input id="dateTo" type="date"/></label><button class="outline-btn" id="monthBtn">เดือนนี้</button><button class="primary-btn" id="loadBtn">วิเคราะห์</button></div><div class="jk314-diagnostic-summary" id="diagnosticSummary">เลือกช่วงวันที่แล้วกดวิเคราะห์</div></section>
 <div class="fix-grid">
 <div class="fix-card"><span>ปัญหาทั้งหมด</span><strong id="total">0</strong></div>
 <div class="fix-card"><span>ไม่มี Recipe</span><strong id="noRecipe">0</strong></div>
