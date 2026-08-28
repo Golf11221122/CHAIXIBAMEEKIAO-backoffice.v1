@@ -682,7 +682,7 @@
 (function(){
   'use strict';
 
-  const state={statusDock:null,mo:null,ticking:false};
+  const state={mo:null,ticking:false};
 
   function shortLabel(el){
     if(!(el instanceof HTMLElement)) return;
@@ -721,25 +721,37 @@
     document.querySelectorAll('.jk27-action-wrap button,.jk27-action-wrap a').forEach(shortLabel);
   }
 
-  function ensureStatusDock(){
-    let dock=document.getElementById('jk31StatusDock');
-    if(!dock){
-      dock=document.createElement('aside');
-      dock.id='jk31StatusDock';
-      dock.className='no-print';
-      dock.setAttribute('aria-label','สถานะระบบ');
-      document.body.appendChild(dock);
-    }
-    state.statusDock=dock;
-    return dock;
-  }
+  function integrateStatusIntoTopbar(){
+    const topbar=document.querySelector('.topbar');
+    if(!topbar) return;
 
-  function floatStatusBars(){
-    const dock=ensureStatusDock();
-    const nodes=[...document.querySelectorAll('.jk-opsbar,.jk23-contextbar')]
-      .filter(n=>n.parentElement!==dock);
-    nodes.forEach(n=>dock.appendChild(n));
-    if(dock.children.length) document.body.classList.add('jk31-status-floating');
+    let host=topbar.querySelector('.jk31-top-status');
+    if(!host){
+      host=document.createElement('div');
+      host.className='jk31-top-status no-print';
+      host.setAttribute('aria-label','สถานะระบบ');
+      const userBox=topbar.querySelector('.user-box');
+      if(userBox) topbar.insertBefore(host,userBox);
+      else topbar.appendChild(host);
+    }
+
+    const ops=document.querySelector('.jk-opsbar');
+    if(ops){
+      [...ops.querySelectorAll('.jk-ops-chip')].forEach(chip=>{
+        const text=(chip.textContent||'').replace(/\s+/g,' ').trim();
+        if(/JOKJUNG Back Office/i.test(text)) return;
+        host.appendChild(chip);
+      });
+      ops.remove();
+    }
+
+    // Context bar duplicates the page name already shown in the top bar.
+    // Keep only one locked header, as requested.
+    document.querySelectorAll('.jk23-contextbar').forEach(bar=>bar.remove());
+
+    document.getElementById('jk31StatusDock')?.remove();
+    document.body.classList.remove('jk31-status-floating','jk31-scrolled');
+    document.body.classList.add('jk31-status-in-topbar');
   }
 
   function enhanceTables(){
@@ -756,7 +768,7 @@
 
   function updateScrollState(){
     state.ticking=false;
-    document.body.classList.toggle('jk31-scrolled',window.scrollY>70);
+    // Top bar remains locked; no floating opacity state is needed.
   }
   function requestScrollUpdate(){
     if(state.ticking)return;
@@ -766,7 +778,7 @@
 
   function pass(){
     compactActionLabels();
-    floatStatusBars();
+    integrateStatusIntoTopbar();
     enhanceTables();
   }
 

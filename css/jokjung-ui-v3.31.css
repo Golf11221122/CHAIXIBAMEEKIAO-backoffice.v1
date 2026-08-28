@@ -3377,3 +3377,82 @@ body.jk31-ingredients .panel>.toolbar :is(input,select,button){
   }
   body.jk31-ingredients .panel>.toolbar :is(input,select,button){font-size:9px!important;padding:0 5px!important}
 }
+
+/* =========================================================
+   V3.31.1 — Single Locked Top Bar
+   Status is integrated into the top bar; no floating status dock.
+   ========================================================= */
+#jk31StatusDock{display:none!important}
+body.jk31-status-in-topbar main.content>.jk-opsbar,
+body.jk31-status-in-topbar main.content>.jk23-contextbar{display:none!important}
+
+.topbar{
+  position:sticky!important;
+  top:0!important;
+  z-index:32000!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  flex-wrap:wrap!important;
+  background:rgba(255,255,255,.985)!important;
+  backdrop-filter:blur(12px) saturate(145%)!important;
+  -webkit-backdrop-filter:blur(12px) saturate(145%)!important;
+}
+
+.jk31-top-status{
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  flex-wrap:nowrap!important;
+  margin-left:auto!important;
+  min-width:0!important;
+}
+.jk31-top-status .jk-ops-chip{
+  min-height:28px!important;
+  padding:4px 7px!important;
+  margin:0!important;
+  border-radius:8px!important;
+  font-size:10px!important;
+  white-space:nowrap!important;
+  background:#f8fafc!important;
+  border:1px solid #e3e8ef!important;
+  box-shadow:none!important;
+}
+.jk31-top-status .jk-ops-chip strong{font-size:10px!important}
+.jk31-top-status .jk-status-dot{width:7px!important;height:7px!important}
+
+html[data-jk-theme="dark"] .topbar{
+  background:rgba(8,17,34,.985)!important;
+  border-bottom-color:#243758!important;
+}
+html[data-jk-theme="dark"] .jk31-top-status .jk-ops-chip{
+  background:#101e38!important;
+  border-color:#284164!important;
+  color:#d8e3f3!important;
+}
+html[data-jk-theme="dark"] .jk31-top-status .jk-ops-chip strong{
+  color:#f7fbff!important;
+}
+
+@media(max-width:760px){
+  .topbar{gap:8px!important;padding-bottom:8px!important}
+  .jk31-top-status{
+    order:3!important;
+    width:100%!important;
+    margin-left:0!important;
+    justify-content:flex-start!important;
+    overflow:hidden!important;
+  }
+  .jk31-top-status .jk-ops-chip{
+    flex:1 1 0!important;
+    min-width:0!important;
+    justify-content:center!important;
+    padding:4px 5px!important;
+    font-size:9px!important;
+  }
+  .jk31-top-status .jk-ops-chip strong{
+    font-size:9px!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+}
