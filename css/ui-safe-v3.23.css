@@ -1,0 +1,269 @@
+/* =========================================================
+   JOKJUNG Back Office V3.23 — SAFE MOBILE UI
+   Base: V3.22 Store Command Center
+   Scope: top actions, compact date range, compact actions,
+          independent scroll tables with sticky header/first column.
+   No business logic is changed here.
+   ========================================================= */
+
+:root{
+  --jk23-action-size:40px;
+  --jk23-gap:7px;
+}
+
+/* ---------- Top bar actions ---------- */
+.jk23-top-actions{
+  display:inline-flex;
+  align-items:center;
+  gap:var(--jk23-gap);
+  flex:0 0 auto;
+}
+.jk23-top-action{
+  width:var(--jk23-action-size)!important;
+  min-width:var(--jk23-action-size)!important;
+  height:var(--jk23-action-size)!important;
+  min-height:var(--jk23-action-size)!important;
+  padding:0!important;
+  display:inline-grid!important;
+  place-items:center!important;
+  border-radius:10px!important;
+  font-size:18px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+}
+.jk23-top-action .jk23-action-text{display:none!important}
+.jk23-top-action[hidden], .jk23-duplicate-action{display:none!important}
+#globalReportActions.jk23-empty-report-actions,
+.report-actions.jk23-empty-report-actions{display:none!important}
+
+/* ---------- Compact range button ---------- */
+.jk23-range-control{
+  display:none;
+  align-items:center;
+  gap:8px;
+  width:auto;
+  max-width:100%;
+}
+.jk23-range-button{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  width:auto!important;
+  min-width:0!important;
+  min-height:40px!important;
+  padding:8px 12px!important;
+  border:1px solid #cfd7e3!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  color:#152238!important;
+  font-size:12px!important;
+  font-weight:850!important;
+  line-height:1.2!important;
+  white-space:nowrap!important;
+  box-shadow:0 1px 2px rgba(16,24,40,.04)!important;
+}
+.jk23-range-button::before{content:"📅";font-size:14px}
+.jk23-range-original{}
+
+/* Date range dialog */
+.jk23-date-dialog{
+  position:fixed;
+  inset:0;
+  z-index:50000;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:rgba(11,18,32,.42);
+  backdrop-filter:blur(3px);
+}
+.jk23-date-dialog[hidden]{display:none!important}
+.jk23-date-card{
+  width:min(390px,100%);
+  padding:18px;
+  border:1px solid #e3e8ef;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 24px 60px rgba(16,24,40,.22);
+}
+.jk23-date-step{
+  display:inline-flex;
+  align-items:center;
+  min-height:26px;
+  padding:4px 8px;
+  margin-bottom:8px;
+  border-radius:999px;
+  background:#fff8e8;
+  color:#946200;
+  font-size:10px;
+  font-weight:900;
+}
+.jk23-date-title{margin:0 0 4px;color:#152238;font-size:20px;font-weight:900}
+.jk23-date-help{margin:0 0 14px;color:#667085;font-size:12px;line-height:1.5}
+.jk23-date-input{
+  width:100%!important;
+  min-height:48px!important;
+  margin:0 0 14px!important;
+  padding:10px 12px!important;
+  font-size:16px!important;
+  font-weight:800!important;
+}
+.jk23-date-error{min-height:18px;margin:-5px 0 9px;color:#b42318;font-size:11px;font-weight:750}
+.jk23-date-actions{display:flex;justify-content:flex-end;gap:8px}
+.jk23-date-actions button{
+  width:auto!important;
+  min-width:82px!important;
+  min-height:40px!important;
+  padding:8px 13px!important;
+}
+
+/* ---------- Operational buttons: compact, never giant bars ---------- */
+@media(max-width:900px){
+  .jk23-range-control{display:inline-flex!important}
+  .jk23-range-original{display:none!important}
+
+  .page-head .primary-btn,
+  .page-head .outline-btn,
+  .page-head .secondary-btn,
+  .page-head .danger-btn,
+  .toolbar button,
+  .filters button,
+  .filter-bar button,
+  .action-row button,
+  .report-actions button,
+  .panel-head button,
+  .panel-header button{
+    width:auto!important;
+    min-width:0!important;
+    max-width:100%!important;
+    min-height:40px!important;
+    padding:8px 12px!important;
+    flex:0 0 auto!important;
+    white-space:nowrap!important;
+  }
+
+  .toolbar,.filters,.filter-bar,.action-row,.report-actions{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+    gap:8px!important;
+  }
+  .toolbar input:not([type="checkbox"]):not([type="radio"]),
+  .toolbar select,
+  .filters input:not([type="checkbox"]):not([type="radio"]),
+  .filters select,
+  .filter-bar input:not([type="checkbox"]):not([type="radio"]),
+  .filter-bar select{
+    width:auto!important;
+    min-width:130px!important;
+    max-width:100%!important;
+    flex:1 1 150px!important;
+  }
+
+  /* keep actual checkboxes/radios from turning into large text fields */
+  input[type="checkbox"],input[type="radio"]{
+    min-height:0!important;
+    width:20px!important;
+    height:20px!important;
+    min-width:20px!important;
+    padding:0!important;
+    border-radius:5px!important;
+    flex:0 0 20px!important;
+  }
+}
+
+/* ---------- Tables own their scrolling ---------- */
+.table-wrap,.table-responsive,.report-table-wrap{
+  position:relative!important;
+  overflow:auto!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  scrollbar-gutter:stable both-edges;
+}
+.table-wrap table,.table-responsive table,.report-table-wrap table{
+  min-width:max(760px,100%)!important;
+}
+.table-wrap thead th,.table-responsive thead th,.report-table-wrap thead th{
+  position:sticky!important;
+  top:0!important;
+  z-index:5!important;
+  background:#f8fafc!important;
+}
+.table-wrap th:first-child,.table-responsive th:first-child,.report-table-wrap th:first-child{
+  position:sticky!important;
+  left:0!important;
+  z-index:7!important;
+  background:#f8fafc!important;
+  box-shadow:1px 0 0 #e3e8ef;
+}
+.table-wrap td:first-child,.table-responsive td:first-child,.report-table-wrap td:first-child{
+  position:sticky!important;
+  left:0!important;
+  z-index:3!important;
+  background:#fff!important;
+  box-shadow:1px 0 0 #eef1f5;
+}
+.table-wrap tbody tr:hover td:first-child,
+.table-responsive tbody tr:hover td:first-child,
+.report-table-wrap tbody tr:hover td:first-child{background:#fbfcfe!important}
+
+@media(max-width:900px){
+  /* separate vertical scroll from the page for long tables */
+  .table-wrap,.table-responsive,.report-table-wrap{
+    max-height:min(62dvh,560px)!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+
+  /* stable compact sticky top bar */
+  .topbar{
+    position:sticky!important;
+    top:0!important;
+    z-index:1000!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-areas:
+      "left left"
+      "user user"!important;
+    gap:8px!important;
+    min-height:0!important;
+    padding:8px 12px!important;
+  }
+  .topbar-left{grid-area:left;min-width:0!important}
+  .topbar-left>div{min-width:0!important}
+  .topbar h1{
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+  .user-box{
+    grid-area:user;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    flex-wrap:nowrap!important;
+    gap:7px!important;
+    min-width:0!important;
+  }
+  .user-box #logoutBtn{
+    width:auto!important;
+    min-width:0!important;
+    min-height:40px!important;
+    padding:8px 11px!important;
+    white-space:nowrap!important;
+  }
+  .jk23-top-actions{order:-1}
+}
+
+@media(max-width:430px){
+  :root{--jk23-action-size:38px;--jk23-gap:5px}
+  .topbar{padding-left:9px!important;padding-right:9px!important}
+  .user-box{gap:5px!important}
+  .user-box #logoutBtn{padding-left:9px!important;padding-right:9px!important;font-size:11px!important}
+  .jk23-range-button{font-size:11px!important;padding:8px 10px!important}
+}
+
+/* Desktop tables can also scroll independently when very long. */
+@media(min-width:901px){
+  .table-wrap,.table-responsive,.report-table-wrap{max-height:70vh}
+}
