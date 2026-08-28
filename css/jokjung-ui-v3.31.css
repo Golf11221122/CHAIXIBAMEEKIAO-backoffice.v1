@@ -1,0 +1,3379 @@
+/* =========================================================
+   JOKJUNG Back Office — Unified UI V3.29
+   Consolidated from UI Pro V3.20 + Store UI V3.21–V3.28.5.
+   Keep this file loaded AFTER page/base CSS so the latest UI overrides win.
+   Generated without changing application / Supabase / business logic.
+   ========================================================= */
+
+
+/* ==================== SOURCE: ui-pro-v3.20.css ==================== */
+/* =========================================================
+   JOKJUNG BACK OFFICE — PROFESSIONAL UI V3.20
+   Formal shell + clear interactive states + mobile polish
+   Loaded last so it safely enhances existing pages.
+   ========================================================= */
+
+:root{
+  --jk-ink:#162033;
+  --jk-ink-2:#243047;
+  --jk-muted:#667085;
+  --jk-bg:#f4f6f8;
+  --jk-surface:#ffffff;
+  --jk-line:#e1e6ec;
+  --jk-line-strong:#cfd6df;
+  --jk-brand:#d79b00;
+  --jk-brand-soft:#fff7dc;
+  --jk-primary:#1d3557;
+  --jk-primary-hover:#142945;
+  --jk-focus:#2f6fed;
+  --jk-success:#137a4a;
+  --jk-danger:#b42318;
+  --jk-warning:#9a6700;
+  --jk-shadow:0 8px 24px rgba(16,24,40,.07);
+  --jk-shadow-lg:0 18px 48px rgba(16,24,40,.14);
+  --jk-radius:12px;
+  --jk-radius-lg:16px;
+}
+
+html{background:var(--jk-bg)}
+body{
+  background:var(--jk-bg)!important;
+  color:var(--jk-ink)!important;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* ---------- shell ---------- */
+.sidebar{
+  background:linear-gradient(180deg,#172033 0%,#111827 100%)!important;
+  border-right:0!important;
+  box-shadow:4px 0 18px rgba(16,24,40,.08);
+}
+.sidebar-brand{
+  border-bottom:1px solid rgba(255,255,255,.12)!important;
+  margin-bottom:12px!important;
+  padding:10px 10px 18px!important;
+}
+.sidebar-brand strong{color:#fff!important;letter-spacing:.035em;font-size:19px!important}
+.sidebar-brand small{color:#aeb9c9!important;letter-spacing:.03em}
+.nav-title{color:#7f8ba0!important;font-size:10px!important;letter-spacing:.12em!important;padding-top:10px!important}
+.nav-link{
+  color:#dbe2ec!important;
+  border:1px solid transparent;
+  border-radius:10px!important;
+  min-height:42px;
+  transition:background .16s ease,border-color .16s ease,transform .12s ease,color .16s ease;
+}
+.nav-link:hover{background:rgba(255,255,255,.07)!important;color:#fff!important}
+.nav-link.active{
+  background:rgba(215,155,0,.16)!important;
+  color:#fff!important;
+  border-color:rgba(242,190,70,.24)!important;
+  box-shadow:inset 3px 0 0 #e6ad27;
+}
+.nav-link:active{transform:translateY(1px)}
+
+.main{background:var(--jk-bg)!important}
+.topbar{
+  min-height:66px;
+  background:rgba(255,255,255,.96)!important;
+  border-bottom:1px solid var(--jk-line)!important;
+  box-shadow:0 2px 10px rgba(16,24,40,.035);
+  backdrop-filter:saturate(140%) blur(10px);
+}
+.topbar h1{color:var(--jk-ink)!important;font-weight:800!important;letter-spacing:-.015em}
+.topbar p,.page-head p,.panel-head p{color:var(--jk-muted)!important}
+.role-pill{
+  background:#eef2f6!important;
+  color:#344054!important;
+  border:1px solid #dde3ea;
+  font-weight:800!important;
+}
+.content{padding-top:22px!important}
+.page-head{margin-bottom:18px!important}
+.page-head h2{color:var(--jk-ink)!important;font-size:25px!important;letter-spacing:-.025em}
+
+/* ---------- surfaces ---------- */
+.panel,.summary-card,.card,.kpi-card,.metric-card,.history-card,.filter-card{
+  background:var(--jk-surface)!important;
+  border:1px solid var(--jk-line)!important;
+  box-shadow:0 1px 2px rgba(16,24,40,.025);
+}
+.panel{border-radius:var(--jk-radius-lg)!important;padding:18px!important}
+.summary-card,.kpi-card,.metric-card,.history-card{border-radius:14px!important}
+.summary-card strong,.kpi-card strong,.metric-card strong{color:var(--jk-ink)!important;font-weight:800!important}
+.panel-head h3{color:var(--jk-ink)!important;font-weight:800!important}
+
+.quick-link,.product-item{
+  border:1px solid var(--jk-line)!important;
+  box-shadow:0 1px 2px rgba(16,24,40,.02);
+  transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease,background .14s ease;
+}
+.quick-link:hover,.product-item:hover{transform:translateY(-1px);border-color:#bcc6d3!important;box-shadow:var(--jk-shadow)}
+.quick-link:active,.product-item:active{transform:translateY(1px)}
+
+/* ---------- forms ---------- */
+input,select,textarea{
+  color:var(--jk-ink)!important;
+  border-color:var(--jk-line-strong)!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+input:hover,select:hover,textarea:hover{border-color:#aeb8c6!important}
+input:focus,select:focus,textarea:focus{
+  outline:none!important;
+  border-color:var(--jk-focus)!important;
+  box-shadow:0 0 0 3px rgba(47,111,237,.13)!important;
+}
+input:disabled,select:disabled,textarea:disabled{background:#f2f4f7!important;color:#98a2b3!important;cursor:not-allowed}
+label,.field span{color:#344054;font-weight:700!important}
+
+/* ---------- buttons: predictable tactile feedback ---------- */
+button,.primary-btn,.outline-btn,.danger-btn,.secondary-btn,.small-btn,.detail-btn,.icon-btn,.tab{
+  position:relative;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  transition:transform .08s ease,box-shadow .15s ease,background .15s ease,border-color .15s ease,opacity .15s ease!important;
+}
+button:focus-visible,.primary-btn:focus-visible,.outline-btn:focus-visible,.danger-btn:focus-visible,.small-btn:focus-visible,.detail-btn:focus-visible,.tab:focus-visible,a:focus-visible{
+  outline:3px solid rgba(47,111,237,.28)!important;
+  outline-offset:2px!important;
+}
+.primary-btn{
+  background:var(--jk-primary)!important;
+  border:1px solid var(--jk-primary)!important;
+  color:#fff!important;
+  box-shadow:0 1px 2px rgba(16,24,40,.10)!important;
+}
+.primary-btn:hover{background:var(--jk-primary-hover)!important;border-color:var(--jk-primary-hover)!important;box-shadow:0 5px 12px rgba(29,53,87,.16)!important}
+.outline-btn,.small-btn,.detail-btn,.icon-btn,.menu-btn{
+  background:#fff!important;
+  color:#344054!important;
+  border:1px solid var(--jk-line-strong)!important;
+}
+.outline-btn:hover,.small-btn:hover,.detail-btn:hover,.icon-btn:hover,.menu-btn:hover{background:#f8fafc!important;border-color:#aeb8c6!important}
+.danger-btn{background:#fff!important;color:var(--jk-danger)!important;border:1px solid #f3b8b3!important}
+.danger-btn:hover{background:#fff1f0!important;border-color:#e99089!important}
+button:active,.primary-btn:active,.outline-btn:active,.danger-btn:active,.secondary-btn:active,.small-btn:active,.detail-btn:active,.icon-btn:active,.tab:active,.jk-pressed{
+  transform:translateY(1px) scale(.985)!important;
+  box-shadow:none!important;
+}
+button.jk-clicked::after,.primary-btn.jk-clicked::after,.outline-btn.jk-clicked::after,.danger-btn.jk-clicked::after,.small-btn.jk-clicked::after,.detail-btn.jk-clicked::after{
+  content:'✓';
+  position:absolute;
+  top:-7px;
+  right:-7px;
+  min-width:20px;
+  height:20px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  background:var(--jk-success);
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  box-shadow:0 3px 8px rgba(19,122,74,.25);
+  animation:jkAck .55s ease both;
+  z-index:5;
+}
+@keyframes jkAck{0%{opacity:0;transform:scale(.55)}35%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+button:disabled,.primary-btn:disabled,.outline-btn:disabled,.danger-btn:disabled,.small-btn:disabled,.detail-btn:disabled{
+  opacity:.48!important;
+  cursor:not-allowed!important;
+  filter:saturate(.45);
+  box-shadow:none!important;
+  transform:none!important;
+}
+button[aria-busy="true"]{cursor:progress!important;padding-right:36px!important}
+button[aria-busy="true"]::before{
+  content:'';
+  position:absolute;
+  right:12px;
+  top:50%;
+  width:14px;
+  height:14px;
+  margin-top:-7px;
+  border:2px solid currentColor;
+  border-right-color:transparent;
+  border-radius:50%;
+  opacity:.75;
+  animation:jkSpin .75s linear infinite;
+}
+@keyframes jkSpin{to{transform:rotate(360deg)}}
+
+/* ---------- tables ---------- */
+.table-wrap,.table-responsive,.report-table-wrap{border-color:var(--jk-line)!important;border-radius:12px!important;background:#fff}
+table{background:#fff!important}
+th{
+  background:#f8fafc!important;
+  color:#475467!important;
+  font-weight:800!important;
+  border-bottom:1px solid var(--jk-line)!important;
+}
+td{border-bottom:1px solid #eef1f4!important}
+tbody tr{transition:background .12s ease}
+tbody tr:hover{background:#fafbfc}
+
+.badge,.status-pill{border:1px solid transparent}
+.badge.ok{background:#eaf8f0!important;color:#087443!important}
+.badge.low{background:#fff7df!important;color:#8b5d00!important}
+.badge.out{background:#fff0ef!important;color:#b42318!important}
+
+/* ---------- tabs ---------- */
+.tabs{border-bottom:1px solid var(--jk-line);gap:4px!important}
+.tab{border-radius:9px 9px 0 0!important;color:#667085!important;font-weight:750!important}
+.tab.active{color:var(--jk-primary)!important;background:#edf2f7!important;box-shadow:inset 0 -2px 0 var(--jk-primary)}
+
+/* ---------- modal ---------- */
+.modal{background:rgba(16,24,40,.56)!important;backdrop-filter:blur(2px)}
+.modal-card{border:1px solid rgba(255,255,255,.5);box-shadow:var(--jk-shadow-lg)!important;border-radius:16px!important}
+.close-btn{color:#475467!important}
+
+/* ---------- explicit action acknowledgement ---------- */
+#jkActionToast{
+  position:fixed;
+  right:max(16px,env(safe-area-inset-right));
+  bottom:max(18px,calc(env(safe-area-inset-bottom) + 10px));
+  z-index:10000;
+  max-width:min(360px,calc(100vw - 32px));
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 14px;
+  border-radius:12px;
+  color:#fff;
+  background:#182230;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 14px 34px rgba(16,24,40,.24);
+  font-size:13px;
+  font-weight:750;
+  opacity:0;
+  transform:translateY(12px);
+  pointer-events:none;
+  transition:opacity .18s ease,transform .18s ease;
+}
+#jkActionToast.show{opacity:1;transform:translateY(0)}
+#jkActionToast .jk-toast-dot{width:8px;height:8px;border-radius:50%;background:#f2b63d;box-shadow:0 0 0 4px rgba(242,182,61,.13)}
+
+.jk-sidebar-scrim{display:none}
+
+/* ---------- Employees page missing stylesheet recovery ---------- */
+body:has(.page-heading) .page{max-width:1400px;margin:0 auto;padding:22px 18px}
+.page-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}
+.page-heading h2{margin:0;color:var(--jk-ink);font-size:25px}.page-heading p{margin:5px 0 0;color:var(--jk-muted)}
+.filter-card{border-radius:14px;padding:16px;margin-bottom:16px}
+.filter-grid{display:grid;grid-template-columns:minmax(220px,2fr) minmax(150px,1fr) minmax(150px,1fr) auto auto;gap:10px;align-items:end}
+.table-card{background:#fff;border:1px solid var(--jk-line);border-radius:14px;overflow:hidden}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.form-message{min-height:20px;color:var(--jk-danger);font-weight:700}
+.topbar-right{display:flex;align-items:center;gap:10px}
+
+@media(max-width:900px){
+  .sidebar{transition:transform .2s ease!important}
+  body.sidebar-open{overflow:hidden}
+  .jk-sidebar-scrim{position:fixed;inset:0;background:rgba(16,24,40,.46);z-index:25;display:block;opacity:0;pointer-events:none;transition:opacity .2s ease}
+  body.sidebar-open .jk-sidebar-scrim{opacity:1;pointer-events:auto}
+  .filter-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:640px){
+  .content{padding:14px 10px 22px!important}
+  .topbar{min-height:60px!important}
+  .topbar h1{font-size:20px!important}
+  .page-head h2,.page-heading h2{font-size:22px!important}
+  .panel{padding:14px!important;border-radius:14px!important}
+  button,.primary-btn,.outline-btn,.danger-btn,.secondary-btn{min-height:46px}
+  .page-heading{display:block}.page-heading>button{width:100%;margin-top:12px}
+  body:has(.page-heading) .page{padding:14px 10px 22px}
+  .filter-grid{grid-template-columns:1fr}.filter-grid>*{width:100%}
+  #jkActionToast{left:12px;right:12px;max-width:none;justify-content:center}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+
+/* ==================== SOURCE: ui-store-v3.21.css ==================== */
+/* =========================================================
+   JOKJUNG BACK OFFICE V3.21 — STORE OPERATIONS UI
+   Production-grade visual layer. Loaded last.
+   ========================================================= */
+:root{
+  --jk-navy-950:#0b1220;--jk-navy-900:#111b2e;--jk-navy-800:#18263d;
+  --jk-brand:#e4aa2b;--jk-brand-2:#f2c257;--jk-brand-soft:#fff8e8;
+  --jk-bg:#f3f5f8;--jk-surface:#fff;--jk-surface-2:#f8fafc;
+  --jk-text:#152238;--jk-muted:#667085;--jk-line:#e3e8ef;--jk-line-2:#cfd7e3;
+  --jk-green:#067647;--jk-green-bg:#ecfdf3;--jk-red:#b42318;--jk-red-bg:#fff1f0;
+  --jk-amber:#946200;--jk-amber-bg:#fff8e5;--jk-blue:#175cd3;--jk-blue-bg:#eff8ff;
+  --jk-radius:14px;--jk-radius-lg:18px;
+  --jk-shadow-sm:0 1px 2px rgba(16,24,40,.04);
+  --jk-shadow:0 8px 24px rgba(16,24,40,.07);
+  --jk-shadow-lg:0 20px 48px rgba(16,24,40,.14);
+}
+*{box-sizing:border-box}
+html{background:var(--jk-bg)}
+body{background:var(--jk-bg)!important;color:var(--jk-text)!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",Tahoma,sans-serif!important;-webkit-font-smoothing:antialiased}
+
+/* Store shell */
+.sidebar{background:var(--jk-navy-950)!important;border-right:1px solid rgba(255,255,255,.05)!important;box-shadow:8px 0 28px rgba(10,18,32,.08)!important}
+.sidebar-brand{padding:18px 14px 20px!important;border-bottom:1px solid rgba(255,255,255,.09)!important;position:relative}
+.sidebar-brand:before{content:"";display:block;width:34px;height:4px;border-radius:999px;background:var(--jk-brand);margin:0 0 11px}
+.sidebar-brand strong{color:#fff!important;font-size:19px!important;letter-spacing:.06em;font-weight:850!important}
+.sidebar-brand small{color:#8fa0b8!important;font-size:11px!important;text-transform:uppercase;letter-spacing:.12em}
+.nav-section{margin-top:14px!important}
+.nav-title{color:#66758c!important;font-size:10px!important;font-weight:850!important;letter-spacing:.14em!important;text-transform:uppercase;padding:8px 12px!important}
+.nav-link{min-height:44px!important;border-radius:10px!important;color:#cbd5e1!important;border:1px solid transparent!important;font-weight:650!important;padding:10px 12px!important;transition:.14s ease!important}
+.nav-link:hover{background:#162237!important;color:#fff!important;border-color:#22314b!important}
+.nav-link.active{background:#1c2940!important;color:#fff!important;border-color:#2b3a54!important;box-shadow:inset 3px 0 0 var(--jk-brand)!important}
+.nav-link:active{transform:scale(.985)!important}
+
+.main{background:var(--jk-bg)!important}
+.topbar{min-height:72px!important;background:rgba(255,255,255,.97)!important;border-bottom:1px solid var(--jk-line)!important;box-shadow:0 1px 0 rgba(16,24,40,.03)!important;backdrop-filter:blur(12px);padding-top:max(0px,env(safe-area-inset-top))!important}
+.topbar h1{font-size:20px!important;font-weight:850!important;letter-spacing:-.02em!important;color:var(--jk-text)!important}
+.topbar p{color:var(--jk-muted)!important;font-size:12px!important}
+.user-box{gap:9px!important}
+.user-name{font-weight:750!important;color:#344054!important}
+.role-pill{background:#f2f4f7!important;color:#344054!important;border:1px solid #e4e7ec!important;border-radius:999px!important;padding:5px 9px!important;font-size:11px!important;font-weight:800!important}
+.content{max-width:1540px;margin:0 auto;padding:24px 24px 42px!important}
+.page-head{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:16px!important;margin-bottom:20px!important}
+.page-head h2{font-size:26px!important;font-weight:850!important;letter-spacing:-.035em!important;color:var(--jk-text)!important;margin-bottom:4px!important}
+.page-head p{font-size:13px!important;color:var(--jk-muted)!important;line-height:1.55!important}
+
+/* Operations status strip */
+.jk-opsbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:0 0 18px;padding:10px 12px;background:#fff;border:1px solid var(--jk-line);border-radius:12px;box-shadow:var(--jk-shadow-sm)}
+.jk-ops-chip{display:inline-flex;align-items:center;gap:7px;min-height:30px;padding:5px 9px;border:1px solid #e7ebf0;border-radius:9px;background:#fafbfc;color:#475467;font-size:11px;font-weight:750;white-space:nowrap}
+.jk-ops-chip strong{font-weight:850;color:#25324a}
+.jk-status-dot{width:8px;height:8px;border-radius:50%;background:#12b76a;box-shadow:0 0 0 3px rgba(18,183,106,.12)}
+.jk-status-dot.offline{background:#f04438;box-shadow:0 0 0 3px rgba(240,68,56,.12)}
+.jk-ops-spacer{flex:1}
+
+/* Cards / metrics */
+.panel,.card,.summary-card,.kpi-card,.metric-card,.history-card,.filter-card{background:var(--jk-surface)!important;border:1px solid var(--jk-line)!important;border-radius:var(--jk-radius)!important;box-shadow:var(--jk-shadow-sm)!important}
+.panel{padding:20px!important;border-radius:var(--jk-radius-lg)!important}
+.panel-head{padding-bottom:14px!important;margin-bottom:15px!important;border-bottom:1px solid #eef1f5!important}
+.panel-head h3{font-size:16px!important;color:var(--jk-text)!important;font-weight:850!important;letter-spacing:-.015em!important}
+.kpi-grid{gap:14px!important}
+.kpi-card,.summary-card,.metric-card{position:relative;overflow:hidden;padding:18px!important;min-height:126px!important}
+.kpi-card:before,.summary-card:before,.metric-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#d7dde7}
+.kpi-card span,.summary-card span,.metric-card span{font-size:12px!important;color:var(--jk-muted)!important;font-weight:700!important}
+.kpi-card strong,.summary-card strong,.metric-card strong{font-size:27px!important;letter-spacing:-.035em!important;color:var(--jk-text)!important;font-weight:900!important;font-variant-numeric:tabular-nums}
+.kpi-card small,.summary-card small,.metric-card small{color:#7b8798!important;font-size:11px!important}
+.kpi-card:hover,.summary-card:hover,.metric-card:hover{box-shadow:var(--jk-shadow)!important;border-color:#d5dce6!important}
+
+/* Quick work tiles */
+.quick-links{gap:10px!important}
+.quick-link{background:#fff!important;border:1px solid var(--jk-line)!important;border-radius:12px!important;min-height:58px!important;padding:14px!important;color:#344054!important;font-weight:750!important;box-shadow:none!important;transition:.14s ease!important}
+.quick-link:hover{border-color:#bfc9d8!important;background:#fbfcfe!important;box-shadow:0 6px 18px rgba(16,24,40,.06)!important;transform:translateY(-1px)!important}
+.quick-link:active{transform:translateY(1px) scale(.99)!important}
+
+/* Buttons — cashier-grade feedback */
+button,.primary-btn,.outline-btn,.secondary-btn,.danger-btn,.small-btn,.detail-btn,.icon-btn,.menu-btn,.tab{min-height:40px;border-radius:10px!important;font-weight:780!important;letter-spacing:-.005em;touch-action:manipulation;-webkit-tap-highlight-color:transparent;position:relative;transition:transform .07s ease,box-shadow .14s ease,background .14s ease,border-color .14s ease,opacity .14s ease!important}
+.primary-btn{background:var(--jk-navy-800)!important;color:#fff!important;border:1px solid var(--jk-navy-800)!important;box-shadow:0 1px 2px rgba(16,24,40,.12)!important}
+.primary-btn:hover{background:#102039!important;border-color:#102039!important;box-shadow:0 5px 14px rgba(16,32,57,.16)!important}
+.outline-btn,.secondary-btn,.small-btn,.detail-btn,.icon-btn,.menu-btn{background:#fff!important;color:#344054!important;border:1px solid var(--jk-line-2)!important;box-shadow:0 1px 2px rgba(16,24,40,.03)!important}
+.outline-btn:hover,.secondary-btn:hover,.small-btn:hover,.detail-btn:hover,.icon-btn:hover,.menu-btn:hover{background:#f8fafc!important;border-color:#aeb9c8!important}
+.danger-btn{background:#fff!important;color:var(--jk-red)!important;border:1px solid #f3b8b3!important}
+.danger-btn:hover{background:var(--jk-red-bg)!important;border-color:#ea8d85!important}
+button:active,.primary-btn:active,.outline-btn:active,.secondary-btn:active,.danger-btn:active,.small-btn:active,.detail-btn:active,.icon-btn:active,.menu-btn:active,.tab:active,.jk-pressed{transform:translateY(1px) scale(.975)!important;box-shadow:none!important}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(23,92,211,.24)!important;outline-offset:2px!important}
+button:disabled,.primary-btn:disabled,.outline-btn:disabled,.danger-btn:disabled{opacity:.44!important;cursor:not-allowed!important;filter:saturate(.45)!important;transform:none!important;box-shadow:none!important}
+button[aria-busy="true"]{cursor:progress!important;padding-right:38px!important;pointer-events:none}
+button[aria-busy="true"]:after{content:"";position:absolute;right:13px;top:50%;width:15px;height:15px;margin-top:-7.5px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;opacity:.8;animation:jkStoreSpin .7s linear infinite}
+@keyframes jkStoreSpin{to{transform:rotate(360deg)}}
+.jk-action-pulse{animation:jkActionPulse .32s ease}
+@keyframes jkActionPulse{0%{box-shadow:0 0 0 0 rgba(23,92,211,.24)}100%{box-shadow:0 0 0 8px rgba(23,92,211,0)}}
+
+/* Fields */
+label,.field span{color:#344054!important;font-size:12px!important;font-weight:780!important}
+input,select,textarea{min-height:42px!important;background:#fff!important;border:1px solid var(--jk-line-2)!important;border-radius:10px!important;color:var(--jk-text)!important;box-shadow:inset 0 1px 1px rgba(16,24,40,.02)!important}
+input:hover,select:hover,textarea:hover{border-color:#aeb9c8!important}
+input:focus,select:focus,textarea:focus{border-color:#5283dc!important;box-shadow:0 0 0 3px rgba(23,92,211,.10)!important;outline:0!important}
+input:disabled,select:disabled,textarea:disabled{background:#f2f4f7!important;color:#98a2b3!important;cursor:not-allowed!important}
+
+/* Tables — operational density */
+.table-wrap,.table-responsive,.report-table-wrap{border:1px solid var(--jk-line)!important;border-radius:12px!important;background:#fff!important;overflow:auto!important;box-shadow:var(--jk-shadow-sm)!important}
+table{width:100%;background:#fff!important;border-collapse:separate!important;border-spacing:0!important;font-variant-numeric:tabular-nums}
+th{position:sticky;top:0;z-index:2;background:#f8fafc!important;color:#475467!important;font-size:11px!important;text-transform:none;letter-spacing:.01em;font-weight:850!important;border-bottom:1px solid var(--jk-line)!important;white-space:nowrap}
+td{color:#344054!important;border-bottom:1px solid #eef1f5!important;font-size:12px!important}
+th,td{padding:11px 12px!important}
+tbody tr:last-child td{border-bottom:0!important}
+tbody tr:hover{background:#fbfcfe!important}
+.badge,.status-pill{display:inline-flex!important;align-items:center!important;min-height:25px!important;padding:3px 8px!important;border-radius:999px!important;font-size:10px!important;font-weight:850!important;border:1px solid transparent!important}
+.badge.ok,.status-pill.ok{background:var(--jk-green-bg)!important;color:var(--jk-green)!important;border-color:#abefc6!important}
+.badge.low,.status-pill.warning{background:var(--jk-amber-bg)!important;color:var(--jk-amber)!important;border-color:#fedf89!important}
+.badge.out,.status-pill.danger{background:var(--jk-red-bg)!important;color:var(--jk-red)!important;border-color:#fecdca!important}
+
+/* Tabs / modals */
+.tabs{gap:4px!important;border-bottom:1px solid var(--jk-line)!important}
+.tab{background:transparent!important;color:#667085!important;border:0!important;border-bottom:2px solid transparent!important;border-radius:8px 8px 0 0!important}
+.tab.active{color:#173b70!important;background:#f3f6fa!important;border-bottom-color:#173b70!important}
+.modal{background:rgba(11,18,32,.58)!important;backdrop-filter:blur(3px)!important}
+.modal-card{background:#fff!important;border-radius:18px!important;border:1px solid rgba(255,255,255,.5)!important;box-shadow:var(--jk-shadow-lg)!important}
+
+/* Toast / operation feedback */
+#jkStoreToast{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(18px,calc(env(safe-area-inset-bottom) + 10px));z-index:20000;min-width:260px;max-width:min(420px,calc(100vw - 32px));display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:10px;padding:11px 12px;background:#101828;color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:12px;box-shadow:0 18px 42px rgba(16,24,40,.26);opacity:0;transform:translateY(12px) scale(.985);pointer-events:none;transition:.18s ease}
+#jkStoreToast.show{opacity:1;transform:translateY(0) scale(1)}
+.jk-toast-icon{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(255,255,255,.11);font-size:14px;font-weight:900}
+.jk-toast-title{font-size:12px;font-weight:850;line-height:1.25}.jk-toast-sub{font-size:10px;color:#cbd5e1;margin-top:2px;line-height:1.35}.jk-toast-time{font-size:9px;color:#98a2b3;font-variant-numeric:tabular-nums}
+#jkStoreToast.success .jk-toast-icon{background:rgba(18,183,106,.18);color:#6ce9a6}
+#jkStoreToast.error .jk-toast-icon{background:rgba(240,68,56,.18);color:#fda29b}
+#jkStoreToast.warning .jk-toast-icon{background:rgba(247,144,9,.18);color:#fec84b}
+
+/* Message boxes should look intentional */
+.message:not(:empty){display:block!important;padding:10px 12px!important;border-radius:10px!important;border:1px solid #e4e7ec!important;background:#f9fafb!important;color:#475467!important;font-size:12px!important;font-weight:650!important}
+
+/* Mobile counter/tablet mode */
+.jk-sidebar-scrim{display:none}
+@media(max-width:900px){
+  .content{padding:16px 13px calc(30px + env(safe-area-inset-bottom))!important}
+  .topbar{min-height:66px!important;padding-left:12px!important;padding-right:12px!important}
+  .topbar h1{font-size:17px!important}.topbar p{font-size:10px!important}
+  .user-name{display:none!important}.role-pill{display:none!important}
+  .page-head{align-items:center!important;margin-bottom:14px!important}.page-head h2{font-size:21px!important}.page-head p{font-size:11px!important}
+  .jk-opsbar{padding:8px;gap:6px;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}.jk-ops-chip{flex:0 0 auto}.jk-ops-spacer{display:none}
+  .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}.kpi-card,.summary-card,.metric-card{min-height:108px!important;padding:14px!important}.kpi-card strong,.summary-card strong,.metric-card strong{font-size:21px!important}
+  .panel{padding:14px!important;border-radius:14px!important}.quick-links{grid-template-columns:repeat(2,minmax(0,1fr))!important}.quick-link{min-height:56px!important;padding:12px!important;font-size:12px!important}
+  button,.primary-btn,.outline-btn,.secondary-btn,.danger-btn,.small-btn,.detail-btn,.menu-btn{min-height:44px!important}
+  .table-wrap,.table-responsive,.report-table-wrap{margin-left:-2px;margin-right:-2px}
+  #jkStoreToast{left:12px;right:12px;bottom:max(12px,calc(env(safe-area-inset-bottom) + 8px));min-width:0;max-width:none}
+  .sidebar.open~.main .jk-sidebar-scrim,.sidebar.open + .jk-sidebar-scrim{display:block}
+}
+@media(max-width:520px){
+  .kpi-grid{grid-template-columns:1fr 1fr!important}.quick-links{grid-template-columns:1fr!important}.page-head{gap:8px!important}.page-head .outline-btn{padding-left:10px!important;padding-right:10px!important}
+}
+
+/* Reduce motion */
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+
+/* ==================== SOURCE: ui-store-v3.22.css ==================== */
+/* JOKJUNG Back Office V3.22 — Store Command Center */
+.jk-command-hero{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-bottom:16px;padding:22px 24px;border-radius:18px;background:linear-gradient(135deg,#101828,#1d2939);color:#fff;box-shadow:0 12px 32px rgba(16,24,40,.16);overflow:hidden;position:relative}
+.jk-command-hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-110px;top:-150px;background:rgba(242,194,87,.12);pointer-events:none}
+.jk-command-eyebrow{display:block;margin-bottom:5px;color:#f2c257;font-size:10px;font-weight:900;letter-spacing:.16em}.jk-command-hero h2{margin:0!important;color:#fff!important;font-size:26px!important;font-weight:900!important;letter-spacing:-.03em!important}.jk-command-hero p{margin:5px 0 0;color:#cbd5e1;font-size:12px}.jk-command-actions{display:flex;gap:9px;flex-wrap:wrap;position:relative;z-index:1}.jk-command-btn{display:inline-flex;align-items:center;justify-content:center;min-height:43px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff!important;text-decoration:none!important;font-size:12px;font-weight:850;transition:.12s ease}.jk-command-btn:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}.jk-command-btn:active{transform:translateY(1px) scale(.98)}.jk-command-btn.primary{background:#e4aa2b;color:#111827!important;border-color:#e4aa2b}.jk-command-btn.primary:hover{background:#f2c257}
+.jk-attention-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-bottom:18px}.jk-attention-card{display:flex;flex-direction:column;gap:3px;padding:14px 16px;background:#fff;border:1px solid #e3e8ef;border-radius:13px;box-shadow:0 1px 2px rgba(16,24,40,.04);position:relative}.jk-attention-card:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:4px;background:#98a2b3}.jk-attention-card.is-ok:before{background:#12b76a}.jk-attention-card.is-warning:before{background:#f79009}.jk-attention-card.is-danger:before{background:#f04438}.jk-attention-label{font-size:10px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:#667085}.jk-attention-card strong{font-size:16px;font-weight:900;color:#1d2939;font-variant-numeric:tabular-nums}.jk-attention-card small{font-size:10px;color:#7b8798}
+.jk-daily-actions{margin-top:16px}.jk-daily-actions .panel-head p{margin:3px 0 0;color:#667085;font-size:11px}.jk-action-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.jk-action-tile{display:grid;grid-template-columns:40px 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;min-height:74px;padding:12px 13px;border:1px solid #e3e8ef;border-radius:12px;background:#fff;text-decoration:none!important;color:#344054!important;transition:.12s ease}.jk-action-tile>span{grid-row:1/3;display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:#f2f4f7;font-size:18px}.jk-action-tile strong{align-self:end;font-size:12px;font-weight:850}.jk-action-tile small{align-self:start;color:#7b8798;font-size:10px}.jk-action-tile:hover{border-color:#b8c2cf;box-shadow:0 7px 20px rgba(16,24,40,.06);transform:translateY(-1px)}.jk-action-tile:active{transform:translateY(1px) scale(.99)}
+#jkNavProgress{position:fixed;left:0;top:0;height:3px;width:0;background:#e4aa2b;z-index:30000;opacity:0;transition:width .35s ease,opacity .18s ease}#jkNavProgress.active{opacity:1;width:72%}#jkNavProgress.done{width:100%;opacity:0;transition:width .15s ease,opacity .3s ease .12s}
+.jk-confirm-mark{position:absolute;right:7px;top:6px;width:17px;height:17px;border-radius:50%;display:grid;place-items:center;background:#067647;color:#fff;font-size:10px;font-weight:900;box-shadow:0 2px 6px rgba(6,118,71,.25);animation:jkConfirmIn .18s ease}@keyframes jkConfirmIn{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@media(max-width:900px){.jk-command-hero{padding:18px;align-items:flex-start}.jk-command-actions{flex-direction:column;min-width:145px}.jk-command-btn{width:100%}.jk-attention-grid{grid-template-columns:1fr}.jk-action-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.jk-command-hero{display:block}.jk-command-hero h2{font-size:22px!important}.jk-command-actions{margin-top:14px;flex-direction:row}.jk-command-btn{width:auto;flex:1}.jk-action-grid{grid-template-columns:1fr}}
+
+
+/* ==================== SOURCE: ui-store-v3.23.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.23 — Operational UX Consistency
+   Interaction clarity only. No business logic changes.
+   ========================================================= */
+:root{
+  --jk-navy:#101828;--jk-ink:#1d2939;--jk-muted:#667085;--jk-border:#e4e7ec;
+  --jk-surface:#fff;--jk-soft:#f8fafc;--jk-gold:#d89b20;--jk-green:#067647;
+  --jk-red:#b42318;--jk-orange:#b54708;--jk-focus:#2e90fa;
+}
+
+/* Professional focus treatment: keyboard + iPhone switch-control friendly */
+:where(button,a,input,select,textarea,[role="button"]):focus-visible{
+  outline:3px solid rgba(46,144,250,.24)!important;outline-offset:2px!important;
+  box-shadow:0 0 0 1px var(--jk-focus)!important;
+}
+
+/* Keep every actionable control visually actionable */
+button,.primary-btn,.outline-btn,.danger-btn,.secondary-btn,[role="button"]{
+  position:relative;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+}
+button:not(:disabled),a.button,[role="button"]:not([aria-disabled="true"]){cursor:pointer}
+button:disabled,[aria-disabled="true"]{cursor:not-allowed!important;filter:saturate(.55);opacity:.58!important}
+
+/* Explicit tap acknowledgement */
+.jk23-tapped{transform:translateY(1px) scale(.985)!important;filter:brightness(.97)}
+.jk23-working{padding-right:34px!important}
+.jk23-working:after{
+  content:"";position:absolute;right:11px;top:50%;width:13px;height:13px;margin-top:-7px;
+  border:2px solid currentColor;border-right-color:transparent;border-radius:50%;
+  animation:jk23spin .65s linear infinite;opacity:.78
+}
+@keyframes jk23spin{to{transform:rotate(360deg)}}
+
+/* Command status strip added to every operational screen */
+.jk23-contextbar{
+  display:flex;align-items:center;gap:8px;min-height:42px;margin:0 0 14px;padding:8px 11px;
+  border:1px solid var(--jk-border);border-radius:12px;background:var(--jk-surface);
+  box-shadow:0 1px 2px rgba(16,24,40,.035);font-size:11px;color:var(--jk-muted)
+}
+.jk23-contextbar .jk23-page{font-weight:850;color:var(--jk-ink)}
+.jk23-contextbar .jk23-divider{width:1px;height:18px;background:var(--jk-border)}
+.jk23-contextbar .jk23-spacer{flex:1}
+.jk23-contextbar .jk23-sync{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.jk23-contextbar .jk23-sync:before{content:"";width:7px;height:7px;border-radius:50%;background:#12b76a;box-shadow:0 0 0 3px rgba(18,183,106,.1)}
+body.jk23-offline .jk23-contextbar .jk23-sync:before{background:#f04438;box-shadow:0 0 0 3px rgba(240,68,56,.1)}
+
+/* Unsaved work indicator */
+.jk23-dirty-badge{
+  display:none;align-items:center;gap:5px;padding:4px 8px;border-radius:999px;
+  background:#fffaeb;color:#93370d;border:1px solid #fedf89;font-weight:800;font-size:10px
+}
+body.jk23-dirty .jk23-dirty-badge{display:inline-flex}
+body.jk23-dirty .jk23-dirty-badge:before{content:"•";font-size:16px;line-height:8px}
+
+/* Better data-table scanability */
+.content table{font-variant-numeric:tabular-nums}
+.content tbody tr{transition:background-color .1s ease,box-shadow .1s ease}
+.content tbody tr:hover{background:#f8fafc}
+.content thead th{position:relative}
+.content td :where(.status,.badge,.pill),.content td[class*="amount"],.content td[class*="total"]{white-space:nowrap}
+
+/* Inputs feel like a production system, not plain HTML */
+.content :where(input,select,textarea):not([type="checkbox"]):not([type="radio"]){
+  transition:border-color .14s ease,box-shadow .14s ease,background-color .14s ease
+}
+.content :where(input,select,textarea):not([type="checkbox"]):not([type="radio"]):focus{
+  border-color:#84adff!important;box-shadow:0 0 0 3px rgba(46,144,250,.10)!important;background:#fff
+}
+.content :where(input,select,textarea):invalid:not(:placeholder-shown){border-color:#fda29b}
+
+/* Uniform feedback center */
+#jk23Feedback{
+  position:fixed;z-index:32000;right:16px;bottom:16px;width:min(390px,calc(100vw - 28px));
+  display:grid;gap:8px;pointer-events:none
+}
+.jk23-note{
+  display:grid;grid-template-columns:30px 1fr auto;gap:9px;align-items:center;padding:11px 12px;
+  background:#fff;border:1px solid var(--jk-border);border-radius:12px;box-shadow:0 12px 34px rgba(16,24,40,.16);
+  animation:jk23note .18s ease;pointer-events:auto
+}
+@keyframes jk23note{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+.jk23-note-icon{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:900;background:#ecfdf3;color:var(--jk-green)}
+.jk23-note.warning .jk23-note-icon{background:#fffaeb;color:var(--jk-orange)}
+.jk23-note.error .jk23-note-icon{background:#fef3f2;color:var(--jk-red)}
+.jk23-note-title{font-size:12px;font-weight:900;color:var(--jk-ink)}
+.jk23-note-sub{margin-top:1px;font-size:10px;color:var(--jk-muted);line-height:1.4}
+.jk23-note-time{font-size:9px;color:#98a2b3;align-self:start;padding-top:2px}
+
+/* Visible feedback on button that was acted upon */
+.jk23-complete{box-shadow:0 0 0 3px rgba(18,183,106,.12)!important}
+.jk23-error{box-shadow:0 0 0 3px rgba(240,68,56,.13)!important}
+
+/* Mobile: keep critical feedback and controls reachable */
+@media(max-width:700px){
+  .jk23-contextbar{overflow-x:auto;scrollbar-width:none;padding:8px 10px;margin-bottom:10px}
+  .jk23-contextbar::-webkit-scrollbar{display:none}
+  .jk23-contextbar .jk23-spacer{min-width:8px}
+  #jk23Feedback{right:10px;bottom:calc(10px + env(safe-area-inset-bottom));width:calc(100vw - 20px)}
+  .content button,.content .primary-btn,.content .outline-btn,.content .danger-btn,.content .secondary-btn{min-height:44px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+
+/* ==================== SOURCE: ui-store-v3.24.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.24 — Formal Action Layout
+   Make operational buttons non-overlapping and more professional.
+   No business logic changes.
+   ========================================================= */
+:root{
+  --jk24-surface:#ffffff;
+  --jk24-soft:#f8fafc;
+  --jk24-border:#d0d5dd;
+  --jk24-text:#1d2939;
+  --jk24-muted:#667085;
+  --jk24-primary:#14213d;
+  --jk24-primary-2:#1f3361;
+}
+
+/* ----- Page header becomes a stable 2-column operations layout ----- */
+.page-head{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(300px,430px) !important;
+  gap:16px 18px !important;
+  align-items:start !important;
+  margin-bottom:18px !important;
+}
+.page-head > :first-child{
+  min-width:0;
+  grid-column:1;
+}
+.page-head > :not(:first-child){
+  grid-column:2;
+  width:100%;
+  min-width:0;
+}
+
+/* Any action container inside page head stacks neatly */
+.page-head > :not(:first-child),
+.page-head > .action-row,
+.page-head > .report-actions,
+.page-head .report-actions.auto-report-actions{
+  display:grid;
+  gap:10px;
+  align-content:start;
+}
+
+/* Standard action block: 2 columns desktop, date/filter full width */
+.page-head > :not(:first-child):not(.action-row):not(.report-actions):not(.auto-report-actions){
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.page-head > :not(:first-child):not(.action-row):not(.report-actions):not(.auto-report-actions) > input,
+.page-head > :not(:first-child):not(.action-row):not(.report-actions):not(.auto-report-actions) > select,
+.page-head > :not(:first-child):not(.action-row):not(.report-actions):not(.auto-report-actions) > .field,
+.page-head > :not(:first-child):not(.action-row):not(.report-actions):not(.auto-report-actions) > .date-range,
+.page-head > :not(:first-child):not(.action-row):not(.report-actions):not(.auto-report-actions) > .toolbar,
+.page-head > :not(:first-child):not(.action-row):not(.report-actions):not(.auto-report-actions) > .filter-bar{
+  grid-column:1 / -1;
+  width:100%;
+}
+
+/* Shared operational buttons */
+.page-head .primary-btn,
+.page-head .outline-btn,
+.page-head .secondary-btn,
+.page-head .danger-btn,
+.page-head .action-row > *,
+.page-head .report-actions > *,
+.page-head .auto-report-actions > *{
+  width:100%;
+  min-height:52px;
+  border-radius:14px !important;
+  font-size:15px !important;
+  font-weight:850 !important;
+  line-height:1.2 !important;
+  justify-content:center;
+  text-align:center;
+  white-space:normal;
+  text-decoration:none;
+  box-sizing:border-box;
+  box-shadow:0 1px 2px rgba(16,24,40,.04);
+}
+
+.page-head .outline-btn,
+.page-head .secondary-btn,
+.page-head .report-actions .outline-btn,
+.page-head .action-row .outline-btn{
+  border:1px solid var(--jk24-border) !important;
+  background:var(--jk24-surface) !important;
+  color:var(--jk24-text) !important;
+}
+.page-head .primary-btn,
+.page-head .action-row .primary-btn,
+.page-head .report-actions .primary-btn{
+  background:linear-gradient(180deg,var(--jk24-primary-2),var(--jk24-primary)) !important;
+  border:1px solid var(--jk24-primary) !important;
+  color:#fff !important;
+}
+.page-head .danger-btn{
+  border:1px solid #f3b5b1 !important;
+  background:#fef3f2 !important;
+  color:#b42318 !important;
+}
+.page-head .primary-btn:hover,
+.page-head .outline-btn:hover,
+.page-head .secondary-btn:hover,
+.page-head .danger-btn:hover{
+  transform:translateY(-1px);
+}
+
+/* Action rows use an intentional grid instead of loose wrapping */
+.page-head .action-row,
+.page-head > .action-row{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.page-head .action-row > :only-child,
+.page-head .action-row > :last-child:nth-child(odd){
+  grid-column:1 / -1;
+}
+
+/* Auto-injected share/print area gets its own tidy block */
+.report-actions.auto-report-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  padding:0;
+  margin:0 !important;
+}
+.report-actions.auto-report-actions .outline-btn,
+.report-actions.auto-report-actions button{
+  background:#fff !important;
+}
+
+/* Inputs in page head look aligned with the buttons */
+.page-head input,
+.page-head select,
+.page-head textarea{
+  min-height:52px;
+  border-radius:14px !important;
+  border:1px solid var(--jk24-border) !important;
+  background:#fff;
+  box-sizing:border-box;
+  width:100%;
+  font-size:15px;
+  padding:0 14px !important;
+}
+
+/* Give the title side breathing room and more formal hierarchy */
+.page-head h2{
+  margin-bottom:6px !important;
+}
+.page-head p{
+  max-width:42ch;
+  color:var(--jk24-muted) !important;
+}
+
+/* Stock / employees / panels with action rows outside page-head */
+.panel .action-row,
+.card .action-row,
+.panel-head .action-row,
+.panel-header .action-row{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px !important;
+}
+.panel .action-row > *,
+.card .action-row > *,
+.panel-head .action-row > *,
+.panel-header .action-row > *{
+  min-height:46px;
+  border-radius:12px !important;
+  justify-content:center;
+  text-align:center;
+  white-space:normal;
+}
+.panel .action-row > :only-child,
+.panel .action-row > :last-child:nth-child(odd),
+.card .action-row > :only-child,
+.card .action-row > :last-child:nth-child(odd),
+.panel-head .action-row > :only-child,
+.panel-head .action-row > :last-child:nth-child(odd),
+.panel-header .action-row > :only-child,
+.panel-header .action-row > :last-child:nth-child(odd){
+  grid-column:1 / -1;
+}
+
+/* Mobile: everything stacks into a clean single-column flow */
+@media (max-width: 760px){
+  .page-head{
+    grid-template-columns:1fr !important;
+    gap:12px !important;
+  }
+  .page-head > *{
+    grid-column:1 !important;
+  }
+  .page-head > :not(:first-child),
+  .page-head .action-row,
+  .report-actions.auto-report-actions,
+  .panel .action-row,
+  .card .action-row,
+  .panel-head .action-row,
+  .panel-header .action-row{
+    grid-template-columns:1fr !important;
+  }
+  .page-head .primary-btn,
+  .page-head .outline-btn,
+  .page-head .secondary-btn,
+  .page-head .danger-btn,
+  .page-head .action-row > *,
+  .page-head .report-actions > *,
+  .panel .action-row > *,
+  .card .action-row > *,
+  .panel-head .action-row > *,
+  .panel-header .action-row > *{
+    width:100% !important;
+  }
+  .page-head p{max-width:none}
+}
+
+@media (min-width: 761px){
+  /* allow a 3-button action row to look balanced on desktop */
+  .page-head > .action-row[data-layout="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+
+/* ==================== SOURCE: ui-store-v3.24.1.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.24.1 — Sticky Action Bar
+   Compact, formal, top-pinned action controls for mobile.
+   No business logic changes.
+   ========================================================= */
+:root{
+  --jk241-border:#d0d5dd;
+  --jk241-surface:rgba(255,255,255,.97);
+  --jk241-text:#1d2939;
+  --jk241-muted:#667085;
+  --jk241-primary:#14213d;
+  --jk241-shadow:0 10px 24px rgba(16,24,40,.10);
+}
+
+.page-head.jk241-page-head{
+  display:block !important;
+  margin-bottom:18px !important;
+}
+.page-head.jk241-page-head > :first-child{
+  margin-bottom:12px;
+}
+
+.jk241-sticky-actions{
+  position:sticky;
+  top:8px;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:nowrap;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  padding:10px;
+  border:1px solid var(--jk241-border);
+  border-radius:16px;
+  background:var(--jk241-surface);
+  backdrop-filter:saturate(160%) blur(10px);
+  box-shadow:var(--jk241-shadow);
+}
+.jk241-sticky-actions::-webkit-scrollbar{display:none}
+
+.jk241-toolbar-group,
+.jk241-sticky-actions > .action-row,
+.jk241-sticky-actions > .report-actions,
+.jk241-sticky-actions > .auto-report-actions,
+.jk241-sticky-actions > div{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:nowrap;
+  min-width:max-content;
+}
+
+.jk241-sticky-actions .outline-btn,
+.jk241-sticky-actions .primary-btn,
+.jk241-sticky-actions .secondary-btn,
+.jk241-sticky-actions .danger-btn,
+.jk241-sticky-actions button,
+.jk241-sticky-actions a{
+  flex:0 0 auto;
+  width:auto !important;
+  min-width:110px;
+  min-height:42px;
+  padding:0 14px !important;
+  border-radius:12px !important;
+  font-size:14px !important;
+  font-weight:850 !important;
+  line-height:1 !important;
+  justify-content:center;
+  white-space:nowrap;
+  box-shadow:none;
+}
+.jk241-sticky-actions .outline-btn,
+.jk241-sticky-actions .secondary-btn,
+.jk241-sticky-actions a,
+.jk241-sticky-actions button:not(.primary-btn):not(.danger-btn){
+  border:1px solid var(--jk241-border) !important;
+  background:#fff !important;
+  color:var(--jk241-text) !important;
+}
+.jk241-sticky-actions .primary-btn{
+  background:linear-gradient(180deg,#213563,var(--jk241-primary)) !important;
+  border:1px solid var(--jk241-primary) !important;
+  color:#fff !important;
+}
+.jk241-sticky-actions .danger-btn{
+  border:1px solid #f3b5b1 !important;
+  background:#fef3f2 !important;
+  color:#b42318 !important;
+}
+
+.jk241-sticky-actions input,
+.jk241-sticky-actions select,
+.jk241-sticky-actions textarea{
+  flex:0 0 auto;
+  min-height:42px;
+  height:42px;
+  min-width:150px;
+  width:auto !important;
+  padding:0 12px !important;
+  border:1px solid var(--jk241-border) !important;
+  border-radius:12px !important;
+  background:#fff;
+  font-size:14px !important;
+  color:var(--jk241-text);
+  box-sizing:border-box;
+}
+.jk241-sticky-actions input[type="date"]{min-width:158px}
+.jk241-sticky-actions select{padding-right:34px !important}
+
+/* separate sticky bar from following KPIs/tables */
+.jk241-page-head + *{scroll-margin-top:72px}
+
+/* Desktop/tablet keep it neat and formal */
+@media (min-width: 761px){
+  .jk241-sticky-actions{
+    top:10px;
+    justify-content:flex-end;
+  }
+}
+
+/* Mobile: compact bar, title remains normal, controls stay pinned */
+@media (max-width: 760px){
+  .page-head.jk241-page-head > :first-child{
+    margin-bottom:10px;
+  }
+  .jk241-sticky-actions{
+    top:8px;
+    margin-left:-2px;
+    margin-right:-2px;
+    padding:8px;
+    border-radius:14px;
+  }
+  .jk241-sticky-actions .outline-btn,
+  .jk241-sticky-actions .primary-btn,
+  .jk241-sticky-actions .secondary-btn,
+  .jk241-sticky-actions .danger-btn,
+  .jk241-sticky-actions button,
+  .jk241-sticky-actions a{
+    min-width:102px;
+    min-height:40px;
+    font-size:13px !important;
+    padding:0 12px !important;
+  }
+  .jk241-sticky-actions input,
+  .jk241-sticky-actions select,
+  .jk241-sticky-actions textarea{
+    min-width:140px;
+    min-height:40px;
+    height:40px;
+    font-size:13px !important;
+  }
+}
+
+
+/* ==================== SOURCE: ui-store-v3.26.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.26 — FULL PROJECT STORE POLISH
+   UI/UX only. No business logic changes.
+   ========================================================= */
+:root{
+  --jk26-navy:#14213d;
+  --jk26-navy-2:#213563;
+  --jk26-ink:#1d2939;
+  --jk26-muted:#667085;
+  --jk26-border:#d0d5dd;
+  --jk26-line:#e4e7ec;
+  --jk26-soft:#f8fafc;
+  --jk26-surface:#ffffff;
+  --jk26-success:#067647;
+  --jk26-danger:#b42318;
+  --jk26-warning:#b54708;
+  --jk26-shadow:0 8px 24px rgba(16,24,40,.08);
+  --jk26-shadow-lg:0 14px 34px rgba(16,24,40,.14);
+}
+
+/* ---------- Global visual polish ---------- */
+html{scroll-behavior:smooth}
+body{background:#f4f7fb!important;color:var(--jk26-ink)!important}
+.content{padding-bottom:40px!important}
+.content > *{min-width:0}
+
+.card,.panel,.summary-card,.kpi-card,.metric-card,.history-card{
+  border-color:var(--jk26-line)!important;
+  box-shadow:0 2px 7px rgba(16,24,40,.035)!important;
+}
+
+/* ---------- Top bar: more compact and formal ---------- */
+.topbar{
+  background:rgba(255,255,255,.97)!important;
+  backdrop-filter:blur(10px) saturate(150%);
+  border-bottom:1px solid var(--jk26-line)!important;
+}
+.topbar h1{letter-spacing:-.035em!important;color:var(--jk26-ink)!important}
+.topbar p{color:var(--jk26-muted)!important}
+.user-box{align-items:center!important}
+.user-box .outline-btn,#logoutBtn{
+  border:1px solid var(--jk26-border)!important;
+  background:#fff!important;
+  color:var(--jk26-ink)!important;
+  box-shadow:0 1px 2px rgba(16,24,40,.035)!important;
+}
+
+/* ---------- Page heading ---------- */
+.page-head.jk26-ready{
+  display:block!important;
+  margin-bottom:18px!important;
+}
+.page-head.jk26-ready > .jk26-title-block{margin-bottom:12px!important}
+.page-head h2{font-weight:900!important;letter-spacing:-.04em!important;color:var(--jk26-ink)!important}
+.page-head p{color:var(--jk26-muted)!important;line-height:1.55!important;max-width:62ch}
+
+/* ---------- In-place action tray ---------- */
+.jk26-action-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  width:100%;
+  padding:9px;
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--jk26-border);
+  border-radius:14px;
+  box-shadow:0 2px 7px rgba(16,24,40,.04);
+  box-sizing:border-box;
+}
+.jk26-action-wrap > *{min-width:0}
+.jk26-action-wrap .action-row,
+.jk26-action-wrap .report-actions,
+.jk26-action-wrap .auto-report-actions,
+.jk26-action-wrap > div{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  flex-wrap:wrap!important;
+  margin:0!important;
+}
+
+/* ---------- Fixed dock: true fixed, physical controls are moved here ---------- */
+#jk26Dock{
+  position:fixed;
+  left:0;right:0;
+  top:calc(env(safe-area-inset-top) + 6px);
+  z-index:30000;
+  display:none;
+  pointer-events:none;
+  padding:0 10px;
+}
+#jk26Dock.jk26-show{display:block}
+#jk26DockInner{
+  pointer-events:auto;
+  width:min(1160px,calc(100vw - 20px));
+  margin:0 auto;
+  padding:8px;
+  border:1px solid rgba(208,213,221,.95);
+  border-radius:15px;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(16px) saturate(165%);
+  box-shadow:var(--jk26-shadow-lg);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+#jk26DockInner::-webkit-scrollbar{display:none}
+#jk26DockInner .jk26-action-wrap{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  width:max-content!important;
+  min-width:100%;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+}
+#jk26DockInner .jk26-action-wrap > *,
+#jk26DockInner .jk26-action-wrap .action-row,
+#jk26DockInner .jk26-action-wrap .report-actions,
+#jk26DockInner .jk26-action-wrap .auto-report-actions,
+#jk26DockInner .jk26-action-wrap > div{
+  flex-wrap:nowrap!important;
+  min-width:max-content!important;
+}
+.jk26-placeholder{display:none}
+.jk26-placeholder.jk26-active{display:block}
+
+/* ---------- Buttons / form controls inside action areas ---------- */
+.jk26-action-wrap :where(button,.primary-btn,.outline-btn,.secondary-btn,.danger-btn,a){
+  width:auto!important;
+  min-width:108px;
+  min-height:42px;
+  padding:0 14px!important;
+  border-radius:11px!important;
+  font-size:13px!important;
+  font-weight:850!important;
+  line-height:1!important;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  text-decoration:none!important;
+  box-sizing:border-box;
+}
+.jk26-action-wrap .primary-btn{
+  background:linear-gradient(180deg,var(--jk26-navy-2),var(--jk26-navy))!important;
+  border:1px solid var(--jk26-navy)!important;
+  color:#fff!important;
+}
+.jk26-action-wrap .outline-btn,
+.jk26-action-wrap .secondary-btn,
+.jk26-action-wrap a:not(.primary-btn):not(.danger-btn){
+  background:#fff!important;
+  border:1px solid var(--jk26-border)!important;
+  color:var(--jk26-ink)!important;
+}
+.jk26-action-wrap .danger-btn{
+  background:#fef3f2!important;
+  border:1px solid #f3b5b1!important;
+  color:var(--jk26-danger)!important;
+}
+.jk26-action-wrap :where(input,select,textarea){
+  flex:0 0 auto;
+  width:auto!important;
+  min-width:148px;
+  height:42px!important;
+  min-height:42px!important;
+  padding:0 12px!important;
+  border:1px solid var(--jk26-border)!important;
+  border-radius:11px!important;
+  background:#fff!important;
+  color:var(--jk26-ink)!important;
+  font-size:13px!important;
+  box-sizing:border-box;
+}
+.jk26-action-wrap input[type="date"]{min-width:154px}
+
+/* ---------- Tables ---------- */
+.table-wrap{border-radius:13px!important;border-color:var(--jk26-line)!important;background:#fff}
+.content table{font-variant-numeric:tabular-nums}
+.content thead th{
+  background:#f8fafc!important;
+  color:#475467!important;
+  font-size:12px!important;
+  font-weight:850!important;
+  border-bottom:1px solid var(--jk26-line)!important;
+}
+.content tbody tr:hover{background:#f9fbfd!important}
+.content td{border-bottom-color:#eef1f4!important}
+
+/* ---------- Forms / toolbars ---------- */
+.toolbar,.filter-bar,.filters,.form-actions{
+  gap:9px!important;
+}
+.content :where(input,select,textarea):not([type="checkbox"]):not([type="radio"]){
+  border-color:var(--jk26-border)!important;
+  border-radius:11px!important;
+  background:#fff!important;
+}
+.content :where(input,select,textarea):focus{
+  border-color:#84adff!important;
+  box-shadow:0 0 0 3px rgba(46,144,250,.10)!important;
+}
+
+/* ---------- Modals ---------- */
+.modal{backdrop-filter:blur(3px)}
+.modal-card{
+  border:1px solid var(--jk26-line)!important;
+  box-shadow:0 24px 60px rgba(16,24,40,.18)!important;
+}
+.modal-head{border-bottom:1px solid #eef1f4;padding-bottom:10px;margin-bottom:12px}
+.close-btn{border:1px solid var(--jk26-border)!important;background:#fff!important}
+
+/* ---------- Tabs ---------- */
+.tabs{gap:6px!important}
+.tab{
+  border-color:var(--jk26-border)!important;
+  background:#fff!important;
+  color:#475467!important;
+  font-weight:800!important;
+}
+.tab.active{
+  background:var(--jk26-navy)!important;
+  border-color:var(--jk26-navy)!important;
+  color:#fff!important;
+}
+
+/* ---------- Status / context strips ---------- */
+.jk23-contextbar{
+  min-height:38px!important;
+  padding:7px 10px!important;
+  border-radius:11px!important;
+  box-shadow:none!important;
+}
+
+/* ---------- Mobile ---------- */
+@media(max-width:760px){
+  body{font-size:15px!important}
+  .content{padding:12px 10px 36px!important}
+  .topbar{padding:10px 12px!important;min-height:auto!important}
+  .topbar h1{font-size:23px!important;line-height:1.15!important}
+  .topbar p{font-size:11px!important;margin-top:3px!important}
+  .user-box{gap:7px!important}
+  .user-box #logoutBtn,.user-box .outline-btn{min-height:40px!important;padding:0 11px!important;font-size:13px!important}
+
+  .page-head.jk26-ready > .jk26-title-block{margin-bottom:9px!important}
+  .page-head h2{font-size:26px!important;line-height:1.15!important}
+  .page-head p{font-size:12px!important;margin-top:6px!important}
+
+  .jk26-action-wrap{
+    flex-wrap:nowrap!important;
+    overflow-x:auto;
+    scrollbar-width:none;
+    padding:8px;
+  }
+  .jk26-action-wrap::-webkit-scrollbar{display:none}
+  .jk26-action-wrap > *,
+  .jk26-action-wrap .action-row,
+  .jk26-action-wrap .report-actions,
+  .jk26-action-wrap .auto-report-actions,
+  .jk26-action-wrap > div{
+    min-width:max-content!important;
+    flex-wrap:nowrap!important;
+  }
+  .jk26-action-wrap :where(button,.primary-btn,.outline-btn,.secondary-btn,.danger-btn,a){
+    min-width:100px;
+    min-height:40px;
+    padding:0 12px!important;
+    font-size:13px!important;
+  }
+  .jk26-action-wrap :where(input,select,textarea){
+    min-width:136px;
+    min-height:40px!important;
+    height:40px!important;
+    font-size:13px!important;
+  }
+  .jk26-action-wrap input[type="date"]{min-width:146px}
+
+  #jk26Dock{top:calc(env(safe-area-inset-top) + 4px);padding:0 8px}
+  #jk26DockInner{width:calc(100vw - 16px);padding:7px;border-radius:14px}
+
+  .summary-grid,.kpi-grid,.metric-grid,.history-grid,.grid{
+    gap:10px!important;
+  }
+  .summary-card,.card,.kpi-card,.metric-card,.history-card{
+    border-radius:15px!important;
+    padding:14px!important;
+  }
+
+  .panel{border-radius:15px!important;padding:12px!important}
+  .toolbar,.filter-bar,.filters{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+  }
+  .toolbar > *, .filter-bar > *, .filters > *{
+    width:100%!important;
+    min-height:44px!important;
+  }
+
+  .table-wrap{overflow-x:auto!important;-webkit-overflow-scrolling:touch}
+}
+
+@media(max-width:420px){
+  .topbar h1{font-size:21px!important}
+  .page-head h2{font-size:24px!important}
+}
+
+@media print{
+  #jk26Dock,.jk26-action-wrap,.jk26-placeholder{display:none!important}
+}
+
+
+/* ==================== SOURCE: ui-store-v3.27.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.27 — Solid Locked Tab Dock
+   Stable, consistent action dock across the whole project.
+   UI/UX only. No business logic changes.
+   ========================================================= */
+:root{
+  --jk27-navy:#13213e;
+  --jk27-navy-2:#1d2f57;
+  --jk27-navy-3:#233862;
+  --jk27-line:#d0d5dd;
+  --jk27-soft:#eef2f7;
+  --jk27-soft-2:#f8fafc;
+  --jk27-ink:#1d2939;
+  --jk27-gold:#f2c94c;
+  --jk27-danger:#fda29b;
+  --jk27-shadow:0 16px 36px rgba(16,24,40,.18);
+}
+
+/* hide previous experimental fixed docks if any remain in DOM */
+#jk26Dock,
+.jk241-sticky-actions{display:none !important;}
+
+.page-head.jk27-ready{
+  display:block !important;
+  margin-bottom:18px !important;
+}
+.page-head.jk27-ready > .jk27-title-block{
+  margin-bottom:10px !important;
+}
+.page-head.jk27-ready > .jk27-title-block h2{
+  margin-bottom:6px !important;
+}
+.page-head.jk27-ready > .jk27-title-block p{
+  color:#667085 !important;
+  max-width:56ch;
+}
+
+.jk27-sentinel{
+  width:100%;
+  height:1px;
+  margin:0;
+  padding:0;
+}
+
+.jk27-placeholder{
+  display:none;
+  width:100%;
+}
+.jk27-placeholder.jk27-active{
+  display:block;
+}
+
+/* in-place dock and fixed dock share same visual language */
+.jk27-action-wrap,
+#jk27DockInner{
+  background:linear-gradient(180deg,var(--jk27-navy-2),var(--jk27-navy)) !important;
+  border:1px solid #0e1930 !important;
+  border-radius:18px !important;
+  box-shadow:var(--jk27-shadow) !important;
+}
+
+.jk27-action-wrap{
+  display:flex !important;
+  align-items:center;
+  gap:8px;
+  flex-wrap:nowrap !important;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  padding:10px !important;
+  box-sizing:border-box;
+}
+.jk27-action-wrap::-webkit-scrollbar,
+#jk27DockInner::-webkit-scrollbar{display:none;}
+
+.jk27-action-wrap > *,
+.jk27-action-wrap .action-row,
+.jk27-action-wrap .report-actions,
+.jk27-action-wrap .auto-report-actions,
+.jk27-action-wrap > div{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  flex-wrap:nowrap !important;
+  min-width:max-content !important;
+  margin:0 !important;
+}
+
+/* buttons/tabs */
+.jk27-action-wrap :where(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn){
+  flex:0 0 auto;
+  width:auto !important;
+  min-width:104px;
+  min-height:42px;
+  height:42px;
+  padding:0 14px !important;
+  border-radius:12px !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  background:rgba(255,255,255,.10) !important;
+  color:#fff !important;
+  box-shadow:none !important;
+  font-size:13px !important;
+  font-weight:850 !important;
+  line-height:1 !important;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  text-align:center;
+  text-decoration:none !important;
+  backdrop-filter:none !important;
+}
+.jk27-action-wrap :where(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn):hover{
+  transform:translateY(-1px);
+}
+.jk27-action-wrap .primary-btn{
+  background:linear-gradient(180deg,#f4d26d,var(--jk27-gold)) !important;
+  border-color:#c9a63a !important;
+  color:var(--jk27-navy) !important;
+}
+.jk27-action-wrap .danger-btn{
+  background:rgba(253,162,155,.16) !important;
+  border-color:rgba(253,162,155,.42) !important;
+  color:#fff !important;
+}
+
+/* inputs keep readable light style inside the solid dock */
+.jk27-action-wrap :where(input,select,textarea){
+  flex:0 0 auto;
+  width:auto !important;
+  min-width:148px;
+  height:42px !important;
+  min-height:42px !important;
+  padding:0 12px !important;
+  border-radius:12px !important;
+  border:1px solid rgba(255,255,255,.18) !important;
+  background:rgba(255,255,255,.96) !important;
+  color:var(--jk27-ink) !important;
+  font-size:13px !important;
+  font-weight:700;
+  box-sizing:border-box;
+}
+.jk27-action-wrap input[type="date"]{min-width:154px;}
+.jk27-action-wrap select{padding-right:34px !important;}
+
+/* fixed dock */
+#jk27Dock{
+  position:fixed;
+  left:0;
+  right:0;
+  top:calc(env(safe-area-inset-top) + 6px);
+  z-index:32000;
+  display:none;
+  pointer-events:none;
+  padding:0 8px;
+}
+#jk27Dock.jk27-show{
+  display:block;
+}
+#jk27DockInner{
+  pointer-events:auto;
+  width:min(1180px,calc(100vw - 16px));
+  margin:0 auto;
+  padding:8px;
+  overflow-x:auto;
+}
+#jk27DockInner .jk27-action-wrap{
+  min-width:max-content;
+  width:max-content !important;
+  padding:0 !important;
+  margin:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+}
+#jk27DockInner .jk27-action-wrap > *,
+#jk27DockInner .jk27-action-wrap .action-row,
+#jk27DockInner .jk27-action-wrap .report-actions,
+#jk27DockInner .jk27-action-wrap .auto-report-actions,
+#jk27DockInner .jk27-action-wrap > div{
+  min-width:max-content !important;
+}
+
+/* make .page-head forms below action dock feel consistent */
+.page-head.jk27-ready + .grid,
+.page-head.jk27-ready + .panel,
+.page-head.jk27-ready + .card,
+.page-head.jk27-ready + .table-wrap{
+  scroll-margin-top:88px;
+}
+
+/* mobile */
+@media (max-width: 760px){
+  .page-head.jk27-ready > .jk27-title-block{
+    margin-bottom:9px !important;
+  }
+  .jk27-action-wrap{
+    padding:8px !important;
+    gap:7px;
+    border-radius:16px !important;
+  }
+  .jk27-action-wrap :where(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn){
+    min-width:98px;
+    min-height:40px;
+    height:40px;
+    padding:0 12px !important;
+    font-size:13px !important;
+  }
+  .jk27-action-wrap :where(input,select,textarea){
+    min-width:140px;
+    height:40px !important;
+    min-height:40px !important;
+    font-size:13px !important;
+  }
+  #jk27Dock{
+    top:calc(env(safe-area-inset-top) + 4px);
+    padding:0 6px;
+  }
+  #jk27DockInner{
+    width:calc(100vw - 12px);
+    padding:7px;
+    border-radius:16px !important;
+  }
+}
+
+
+/* ==================== SOURCE: ui-store-v3.28.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.28 — Light / Dark Theme Toggle
+   UI only. No business logic changes.
+   ========================================================= */
+:root{
+  --jk28-bg:#f4f7fb;
+  --jk28-surface:#ffffff;
+  --jk28-surface-2:#f8fafc;
+  --jk28-text:#1d2939;
+  --jk28-muted:#667085;
+  --jk28-line:#d0d5dd;
+  --jk28-line-soft:#e4e7ec;
+  --jk28-primary:#13213e;
+  --jk28-primary-2:#1d2f57;
+  --jk28-accent:#f2c94c;
+  --jk28-success:#12b76a;
+  --jk28-shadow:0 8px 24px rgba(16,24,40,.08);
+}
+
+/* theme toggle button */
+#jk28ThemeToggle{
+  min-height:40px;
+  padding:0 12px;
+  border-radius:12px;
+  border:1px solid var(--jk28-line);
+  background:var(--jk28-surface);
+  color:var(--jk28-text);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:800;
+  box-shadow:0 1px 2px rgba(16,24,40,.04);
+  cursor:pointer;
+  transition:transform .15s ease, background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+#jk28ThemeToggle:active{transform:scale(.98)}
+#jk28ThemeToggle:hover{transform:translateY(-1px)}
+#jk28ThemeToggle .jk28-theme-dot{
+  width:9px;height:9px;border-radius:999px;background:var(--jk28-accent);display:inline-block;flex:0 0 auto;
+}
+
+/* smoother transition */
+html[data-jk-theme],
+html[data-jk-theme] body,
+html[data-jk-theme] .card,
+html[data-jk-theme] .panel,
+html[data-jk-theme] .table-wrap,
+html[data-jk-theme] .topbar,
+html[data-jk-theme] .sidebar,
+html[data-jk-theme] #jk27DockInner,
+html[data-jk-theme] .jk27-action-wrap{
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+
+/* ===== Dark theme ===== */
+html[data-jk-theme="dark"]{
+  color-scheme:dark;
+}
+html[data-jk-theme="dark"] body{
+  background:#0b1220 !important;
+  color:#e5e7eb !important;
+}
+html[data-jk-theme="dark"] .app,
+html[data-jk-theme="dark"] .main,
+html[data-jk-theme="dark"] .content{
+  background:transparent !important;
+}
+html[data-jk-theme="dark"] .sidebar{
+  background:#0f1728 !important;
+  border-right:1px solid #22314d !important;
+}
+html[data-jk-theme="dark"] .sidebar-brand strong,
+html[data-jk-theme="dark"] .sidebar-brand small,
+html[data-jk-theme="dark"] .nav-title,
+html[data-jk-theme="dark"] .nav-link{
+  color:#dbe4f0 !important;
+}
+html[data-jk-theme="dark"] .nav-link:hover,
+html[data-jk-theme="dark"] .nav-link.active{
+  background:#17233a !important;
+  color:#ffffff !important;
+}
+html[data-jk-theme="dark"] .topbar{
+  background:rgba(9,15,26,.92) !important;
+  border-bottom:1px solid #22314d !important;
+  backdrop-filter:blur(10px) saturate(140%);
+}
+html[data-jk-theme="dark"] .topbar h1,
+html[data-jk-theme="dark"] .topbar p,
+html[data-jk-theme="dark"] .user-box,
+html[data-jk-theme="dark"] .user-name,
+html[data-jk-theme="dark"] #userName,
+html[data-jk-theme="dark"] #roleBadge,
+html[data-jk-theme="dark"] #branchText,
+html[data-jk-theme="dark"] h1,
+html[data-jk-theme="dark"] h2,
+html[data-jk-theme="dark"] h3,
+html[data-jk-theme="dark"] h4,
+html[data-jk-theme="dark"] h5,
+html[data-jk-theme="dark"] p,
+html[data-jk-theme="dark"] label,
+html[data-jk-theme="dark"] small,
+html[data-jk-theme="dark"] span,
+html[data-jk-theme="dark"] strong,
+html[data-jk-theme="dark"] li,
+html[data-jk-theme="dark"] td,
+html[data-jk-theme="dark"] th,
+html[data-jk-theme="dark"] div{
+  color:inherit;
+}
+html[data-jk-theme="dark"] .page-head p,
+html[data-jk-theme="dark"] .topbar p,
+html[data-jk-theme="dark"] small,
+html[data-jk-theme="dark"] .muted,
+html[data-jk-theme="dark"] .subtext{
+  color:#94a3b8 !important;
+}
+html[data-jk-theme="dark"] .card,
+html[data-jk-theme="dark"] .panel,
+html[data-jk-theme="dark"] .summary-card,
+html[data-jk-theme="dark"] .kpi-card,
+html[data-jk-theme="dark"] .metric-card,
+html[data-jk-theme="dark"] .history-card,
+html[data-jk-theme="dark"] .table-wrap,
+html[data-jk-theme="dark"] .modal-card,
+html[data-jk-theme="dark"] .jk23-contextbar,
+html[data-jk-theme="dark"] .tabs,
+html[data-jk-theme="dark"] .content .grid > .card{
+  background:#111b2e !important;
+  border-color:#22314d !important;
+  color:#e5e7eb !important;
+  box-shadow:0 6px 18px rgba(0,0,0,.22) !important;
+}
+html[data-jk-theme="dark"] .table-wrap,
+html[data-jk-theme="dark"] table{
+  background:#111b2e !important;
+}
+html[data-jk-theme="dark"] thead th{
+  background:#0d1728 !important;
+  border-bottom:1px solid #22314d !important;
+  color:#94a3b8 !important;
+}
+html[data-jk-theme="dark"] tbody td{
+  border-bottom:1px solid #1b2941 !important;
+  color:#e5e7eb !important;
+}
+html[data-jk-theme="dark"] tbody tr:hover{
+  background:#16243b !important;
+}
+html[data-jk-theme="dark"] .tab{
+  background:#111b2e !important;
+  border-color:#22314d !important;
+  color:#dbe4f0 !important;
+}
+html[data-jk-theme="dark"] .tab.active{
+  background:var(--jk28-primary) !important;
+  border-color:#35528c !important;
+  color:#fff !important;
+}
+html[data-jk-theme="dark"] input,
+html[data-jk-theme="dark"] select,
+html[data-jk-theme="dark"] textarea,
+html[data-jk-theme="dark"] button.outline-btn,
+html[data-jk-theme="dark"] .outline-btn,
+html[data-jk-theme="dark"] .secondary-btn,
+html[data-jk-theme="dark"] #logoutBtn,
+html[data-jk-theme="dark"] .close-btn,
+html[data-jk-theme="dark"] .menu-btn{
+  background:#0f1728 !important;
+  color:#e5e7eb !important;
+  border-color:#22314d !important;
+}
+html[data-jk-theme="dark"] input::placeholder,
+html[data-jk-theme="dark"] textarea::placeholder{
+  color:#7f8ea3 !important;
+}
+html[data-jk-theme="dark"] .primary-btn{
+  background:linear-gradient(180deg,#21407d,#17305e) !important;
+  border-color:#35528c !important;
+  color:#fff !important;
+}
+html[data-jk-theme="dark"] .danger-btn{
+  background:#3a171c !important;
+  border-color:#7a2630 !important;
+  color:#fecaca !important;
+}
+html[data-jk-theme="dark"] .role-pill,
+html[data-jk-theme="dark"] .pill,
+html[data-jk-theme="dark"] .badge{
+  background:#16243b !important;
+  border-color:#274064 !important;
+  color:#dbe4f0 !important;
+}
+html[data-jk-theme="dark"] .modal{
+  background:rgba(2,6,12,.64) !important;
+}
+html[data-jk-theme="dark"] .modal-card{
+  background:#111b2e !important;
+}
+
+/* dark fixed solid dock */
+html[data-jk-theme="dark"] .jk27-action-wrap,
+html[data-jk-theme="dark"] #jk27DockInner{
+  background:linear-gradient(180deg,#0f1b31,#0a1426) !important;
+  border-color:#22314d !important;
+}
+html[data-jk-theme="dark"] .jk27-action-wrap :where(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn){
+  background:rgba(255,255,255,.08) !important;
+  border-color:rgba(255,255,255,.10) !important;
+  color:#f8fafc !important;
+}
+html[data-jk-theme="dark"] .jk27-action-wrap .primary-btn{
+  background:linear-gradient(180deg,#f1d06f,#d9ab28) !important;
+  border-color:#c59a1f !important;
+  color:#10203a !important;
+}
+html[data-jk-theme="dark"] .jk27-action-wrap :where(input,select,textarea){
+  background:#0f1728 !important;
+  color:#e5e7eb !important;
+  border-color:#22314d !important;
+}
+html[data-jk-theme="dark"] #jk28ThemeToggle{
+  background:#0f1728 !important;
+  color:#e5e7eb !important;
+  border-color:#22314d !important;
+}
+html[data-jk-theme="dark"] #jk28ThemeToggle .jk28-theme-dot{
+  background:#60a5fa;
+}
+
+/* mobile spacing */
+@media (max-width:760px){
+  #jk28ThemeToggle{
+    min-height:38px;
+    padding:0 10px;
+    font-size:12px;
+    gap:6px;
+  }
+}
+
+
+/* ==================== SOURCE: ui-store-v3.28.1.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.28.1 — Dark Contrast Fix
+   Improve readability in dark mode across the whole project.
+   UI only.
+   ========================================================= */
+
+html[data-jk-theme="dark"]{
+  --jk28-dark-bg:#08111f;
+  --jk28-dark-surface:#0f1a2d;
+  --jk28-dark-surface-2:#13223a;
+  --jk28-dark-line:#253652;
+  --jk28-dark-text:#eef4ff;
+  --jk28-dark-text-2:#dbe6f7;
+  --jk28-dark-muted:#a7b5ca;
+  --jk28-dark-soft:#8ea0bb;
+}
+
+html[data-jk-theme="dark"] body,
+html[data-jk-theme="dark"] .main,
+html[data-jk-theme="dark"] .content{
+  color:var(--jk28-dark-text) !important;
+}
+
+/* Stronger text contrast for headings and key numbers */
+html[data-jk-theme="dark"] h1,
+html[data-jk-theme="dark"] h2,
+html[data-jk-theme="dark"] h3,
+html[data-jk-theme="dark"] h4,
+html[data-jk-theme="dark"] .page-head h2,
+html[data-jk-theme="dark"] .panel-head h3,
+html[data-jk-theme="dark"] .section-head strong,
+html[data-jk-theme="dark"] .card strong,
+html[data-jk-theme="dark"] .summary-card strong,
+html[data-jk-theme="dark"] .kpi-card strong,
+html[data-jk-theme="dark"] .metric-card strong,
+html[data-jk-theme="dark"] .cost-kpi strong,
+html[data-jk-theme="dark"] .waste-total strong,
+html[data-jk-theme="dark"] .topbar h1,
+html[data-jk-theme="dark"] .sidebar-brand strong{
+  color:var(--jk28-dark-text) !important;
+}
+
+html[data-jk-theme="dark"] p,
+html[data-jk-theme="dark"] span,
+html[data-jk-theme="dark"] div,
+html[data-jk-theme="dark"] label,
+html[data-jk-theme="dark"] td,
+html[data-jk-theme="dark"] li,
+html[data-jk-theme="dark"] .user-name,
+html[data-jk-theme="dark"] #userName,
+html[data-jk-theme="dark"] #roleBadge,
+html[data-jk-theme="dark"] #branchText,
+html[data-jk-theme="dark"] .field span,
+html[data-jk-theme="dark"] .mini-note,
+html[data-jk-theme="dark"] .message{
+  color:var(--jk28-dark-text-2) !important;
+}
+
+html[data-jk-theme="dark"] small,
+html[data-jk-theme="dark"] .page-head p,
+html[data-jk-theme="dark"] .topbar p,
+html[data-jk-theme="dark"] .muted,
+html[data-jk-theme="dark"] .subtext,
+html[data-jk-theme="dark"] .summary-card small,
+html[data-jk-theme="dark"] .card small,
+html[data-jk-theme="dark"] .mini-note,
+html[data-jk-theme="dark"] .finance-summary-row small,
+html[data-jk-theme="dark"] .finance-alert small,
+html[data-jk-theme="dark"] .finance-summary-row > span,
+html[data-jk-theme="dark"] .finance-note,
+html[data-jk-theme="dark"] .jk23-contextbar .jk23-sync,
+html[data-jk-theme="dark"] .jk-ops-chip{
+  color:var(--jk28-dark-muted) !important;
+}
+
+/* Cards/panels */
+html[data-jk-theme="dark"] .card,
+html[data-jk-theme="dark"] .panel,
+html[data-jk-theme="dark"] .summary-card,
+html[data-jk-theme="dark"] .kpi-card,
+html[data-jk-theme="dark"] .metric-card,
+html[data-jk-theme="dark"] .history-card,
+html[data-jk-theme="dark"] .modal-card,
+html[data-jk-theme="dark"] .table-wrap,
+html[data-jk-theme="dark"] .jk23-contextbar,
+html[data-jk-theme="dark"] .jk-opsbar,
+html[data-jk-theme="dark"] .content .grid > .card{
+  background:var(--jk28-dark-surface) !important;
+  border-color:var(--jk28-dark-line) !important;
+  color:var(--jk28-dark-text) !important;
+}
+
+/* Status/context bars from older UX layers */
+html[data-jk-theme="dark"] .jk-opsbar{
+  background:linear-gradient(180deg,#0e1a2f,#0a1526) !important;
+  border:1px solid var(--jk28-dark-line) !important;
+  box-shadow:0 10px 24px rgba(0,0,0,.28) !important;
+}
+html[data-jk-theme="dark"] .jk-ops-chip{
+  background:#0f1b31 !important;
+  border-color:#243653 !important;
+}
+html[data-jk-theme="dark"] .jk-ops-chip strong,
+html[data-jk-theme="dark"] .jk23-contextbar .jk23-page,
+html[data-jk-theme="dark"] .jk23-dirty-badge{
+  color:var(--jk28-dark-text) !important;
+}
+html[data-jk-theme="dark"] .jk23-contextbar{
+  background:linear-gradient(180deg,#0e1a2f,#0a1526) !important;
+  border-color:#243653 !important;
+}
+html[data-jk-theme="dark"] .jk23-contextbar .jk23-divider{
+  background:#314664 !important;
+}
+
+/* Tables */
+html[data-jk-theme="dark"] table,
+html[data-jk-theme="dark"] .table-wrap{
+  background:var(--jk28-dark-surface) !important;
+}
+html[data-jk-theme="dark"] thead th{
+  background:#0b1424 !important;
+  color:#c8d4e6 !important;
+  border-bottom-color:#243653 !important;
+}
+html[data-jk-theme="dark"] tbody td{
+  color:var(--jk28-dark-text-2) !important;
+  border-bottom-color:#1c2c47 !important;
+}
+html[data-jk-theme="dark"] tbody tr:hover{
+  background:#12223a !important;
+}
+
+/* Finance-specific blocks */
+html[data-jk-theme="dark"] .finance-summary-row{
+  border-bottom-color:#1f304c !important;
+}
+html[data-jk-theme="dark"] .finance-summary-row > div,
+html[data-jk-theme="dark"] .finance-summary-row strong,
+html[data-jk-theme="dark"] .finance-alert > div,
+html[data-jk-theme="dark"] .finance-health,
+html[data-jk-theme="dark"] .status-pill,
+html[data-jk-theme="dark"] .badge{
+  color:var(--jk28-dark-text) !important;
+}
+html[data-jk-theme="dark"] .finance-note.good{
+  background:#12311f !important;
+  color:#b7f7ca !important;
+}
+html[data-jk-theme="dark"] .finance-note.warn{
+  background:#3a2b10 !important;
+  color:#f9df95 !important;
+}
+html[data-jk-theme="dark"] .finance-alert{
+  border-color:#243653 !important;
+  background:#101c30 !important;
+}
+html[data-jk-theme="dark"] .finance-alert.danger{background:#32161b !important;border-color:#6e2833 !important;}
+html[data-jk-theme="dark"] .finance-alert.warn{background:#35290f !important;border-color:#86661d !important;}
+html[data-jk-theme="dark"] .finance-alert.info{background:#11263b !important;border-color:#285a88 !important;}
+
+/* Buttons */
+html[data-jk-theme="dark"] .small-btn,
+html[data-jk-theme="dark"] .outline-btn,
+html[data-jk-theme="dark"] .secondary-btn,
+html[data-jk-theme="dark"] .menu-btn,
+html[data-jk-theme="dark"] #logoutBtn,
+html[data-jk-theme="dark"] button.outline-btn{
+  background:#0f1a2d !important;
+  color:var(--jk28-dark-text) !important;
+  border-color:#243653 !important;
+}
+html[data-jk-theme="dark"] .small-btn:hover,
+html[data-jk-theme="dark"] .outline-btn:hover,
+html[data-jk-theme="dark"] .secondary-btn:hover,
+html[data-jk-theme="dark"] .menu-btn:hover,
+html[data-jk-theme="dark"] #logoutBtn:hover{
+  background:#14233a !important;
+}
+html[data-jk-theme="dark"] .primary-btn{
+  color:#08111f !important;
+}
+
+/* Form fields */
+html[data-jk-theme="dark"] input,
+html[data-jk-theme="dark"] select,
+html[data-jk-theme="dark"] textarea{
+  background:#0d1728 !important;
+  color:var(--jk28-dark-text) !important;
+  border-color:#243653 !important;
+}
+html[data-jk-theme="dark"] input::placeholder,
+html[data-jk-theme="dark"] textarea::placeholder{
+  color:#7f90aa !important;
+}
+
+/* Locked tab dock from V3.27 */
+html[data-jk-theme="dark"] #jk27DockInner,
+html[data-jk-theme="dark"] .jk27-action-wrap{
+  background:linear-gradient(180deg,#0d172a,#091120) !important;
+  border-color:#22314d !important;
+}
+html[data-jk-theme="dark"] .jk27-action-wrap :where(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn){
+  color:#eef4ff !important;
+}
+html[data-jk-theme="dark"] .jk27-action-wrap .primary-btn{
+  color:#10203a !important;
+}
+
+/* Keep success/error readable */
+html[data-jk-theme="dark"] .ok{color:#6ee7a8 !important;}
+html[data-jk-theme="dark"] .bad{color:#fca5a5 !important;}
+html[data-jk-theme="dark"] .warn{color:#fcd34d !important;}
+
+
+/* ==================== SOURCE: ui-store-v3.28.2.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.28.2 — Dark Component Coverage Fix
+   Covers legacy white components that escaped V3.28 dark theme.
+   UI only. No business logic changes.
+   ========================================================= */
+html[data-jk-theme="dark"]{
+  --jk282-surface:#0f1a2d;
+  --jk282-surface-2:#13223a;
+  --jk282-surface-3:#172840;
+  --jk282-line:#273954;
+  --jk282-text:#f3f7ff;
+  --jk282-text-2:#d8e2f1;
+  --jk282-muted:#9eacc1;
+}
+
+/* Dashboard attention cards */
+html[data-jk-theme="dark"] .jk-attention-card{
+  background:var(--jk282-surface) !important;
+  border-color:var(--jk282-line) !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.20) !important;
+}
+html[data-jk-theme="dark"] .jk-attention-label{
+  color:#b8c5d8 !important;
+}
+html[data-jk-theme="dark"] .jk-attention-card strong{
+  color:var(--jk282-text) !important;
+}
+html[data-jk-theme="dark"] .jk-attention-card small{
+  color:var(--jk282-muted) !important;
+}
+
+/* Dashboard quick links and daily action tiles */
+html[data-jk-theme="dark"] .quick-link,
+html[data-jk-theme="dark"] .jk-action-tile{
+  background:var(--jk282-surface-2) !important;
+  border-color:var(--jk282-line) !important;
+  color:var(--jk282-text) !important;
+}
+html[data-jk-theme="dark"] .quick-link:hover,
+html[data-jk-theme="dark"] .jk-action-tile:hover{
+  background:var(--jk282-surface-3) !important;
+}
+html[data-jk-theme="dark"] .jk-action-tile strong{
+  color:var(--jk282-text) !important;
+}
+html[data-jk-theme="dark"] .jk-action-tile small{
+  color:var(--jk282-muted) !important;
+}
+
+/* Legacy white operational components across the project */
+html[data-jk-theme="dark"] .product-item,
+html[data-jk-theme="dark"] .production-card,
+html[data-jk-theme="dark"] .filter-card,
+html[data-jk-theme="dark"] .table-card,
+html[data-jk-theme="dark"] .cost-kpi,
+html[data-jk-theme="dark"] .po-summary-card,
+html[data-jk-theme="dark"] .attachment-row,
+html[data-jk-theme="dark"] .ap-detail-card,
+html[data-jk-theme="dark"] .forecast-card,
+html[data-jk-theme="dark"] .cashflow-card,
+html[data-jk-theme="dark"] .bank-recon-card,
+html[data-jk-theme="dark"] .category-summary-card{
+  background:var(--jk282-surface) !important;
+  border-color:var(--jk282-line) !important;
+  color:var(--jk282-text-2) !important;
+}
+html[data-jk-theme="dark"] .product-item.active{
+  background:#1b2d47 !important;
+  border-color:#5275a8 !important;
+}
+
+/* Generic legacy elements that use inline-ish white styles via classes */
+html[data-jk-theme="dark"] .empty,
+html[data-jk-theme="dark"] .recipe-row,
+html[data-jk-theme="dark"] .line-editor,
+html[data-jk-theme="dark"] .form-grid,
+html[data-jk-theme="dark"] .split-grid{
+  color:var(--jk282-text-2) !important;
+}
+
+/* Make KPI labels and values unambiguous */
+html[data-jk-theme="dark"] .kpi-card,
+html[data-jk-theme="dark"] .summary-card,
+html[data-jk-theme="dark"] .metric-card{
+  background:var(--jk282-surface) !important;
+  border-color:var(--jk282-line) !important;
+}
+html[data-jk-theme="dark"] .kpi-card span,
+html[data-jk-theme="dark"] .summary-card span,
+html[data-jk-theme="dark"] .metric-card span{
+  color:#b2bfd2 !important;
+}
+html[data-jk-theme="dark"] .kpi-card strong,
+html[data-jk-theme="dark"] .summary-card strong,
+html[data-jk-theme="dark"] .metric-card strong{
+  color:var(--jk282-text) !important;
+}
+html[data-jk-theme="dark"] .kpi-card small,
+html[data-jk-theme="dark"] .summary-card small,
+html[data-jk-theme="dark"] .metric-card small{
+  color:var(--jk282-muted) !important;
+}
+
+/* Ensure links inside dark panels do not inherit near-black colors */
+html[data-jk-theme="dark"] .panel a:not(.primary-btn):not(.danger-btn),
+html[data-jk-theme="dark"] .card a:not(.primary-btn):not(.danger-btn){
+  color:#dbeafe;
+}
+
+/* Status cards keep semantic colors but readable foreground */
+html[data-jk-theme="dark"] .status,
+html[data-jk-theme="dark"] .status.ok,
+html[data-jk-theme="dark"] .status.no,
+html[data-jk-theme="dark"] .good,
+html[data-jk-theme="dark"] .warn,
+html[data-jk-theme="dark"] .bad{
+  border-color:var(--jk282-line) !important;
+}
+
+/* Prevent older CSS from forcing black text inside dark surfaces */
+html[data-jk-theme="dark"] .content :where(.jk-attention-card,.jk-action-tile,.quick-link,.kpi-card,.summary-card,.metric-card,.panel,.card) :where(h1,h2,h3,h4,strong,b){
+  color:var(--jk282-text) !important;
+}
+html[data-jk-theme="dark"] .content :where(.jk-attention-card,.jk-action-tile,.quick-link,.kpi-card,.summary-card,.metric-card,.panel,.card) :where(p,small,.mini-note){
+  color:var(--jk282-muted) !important;
+}
+
+
+/* ==================== SOURCE: ui-store-v3.28.3.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.28.3 — Dark Stability + Action Layout
+   Fix remaining dark-mode contrast issues and unify mobile button layout.
+   UI only. No business logic changes.
+   ========================================================= */
+
+html[data-jk-theme="dark"]{
+  --jk283-bg:#091325;
+  --jk283-surface:#0f1b31;
+  --jk283-surface-2:#12213b;
+  --jk283-surface-3:#172845;
+  --jk283-line:#243758;
+  --jk283-line-soft:#31496f;
+  --jk283-text:#f5f8ff;
+  --jk283-text-2:#dbe6f5;
+  --jk283-muted:#9dafc9;
+  --jk283-accent:#e1b84c;
+  --jk283-success:#32c171;
+}
+
+/* ===== Core dark cards and legacy white blocks ===== */
+html[data-jk-theme="dark"] :is(.panel,.card,.summary-card,.kpi-card,.metric-card,.history-card,.table-wrap,.pane,.jk-attention-card,.jk-action-tile,.quick-link,.filter-card,.table-card,.forecast-card,.cashflow-card,.bank-recon-card,.po-summary-card,.category-summary-card,.product-item,.production-card,.attachment-row,.ap-detail-card,.empty-box,.message,.notice,.alert,[id*="message" i],[class*="message" i]){
+  background:var(--jk283-surface) !important;
+  color:var(--jk283-text-2) !important;
+  border-color:var(--jk283-line) !important;
+}
+
+html[data-jk-theme="dark"] .jk-attention-card,
+html[data-jk-theme="dark"] .jk-action-tile,
+html[data-jk-theme="dark"] .quick-link,
+html[data-jk-theme="dark"] .detail-btn,
+html[data-jk-theme="dark"] .tab,
+html[data-jk-theme="dark"] .small-btn,
+html[data-jk-theme="dark"] .outline-btn,
+html[data-jk-theme="dark"] button[type="button"],
+html[data-jk-theme="dark"] .menu-btn,
+html[data-jk-theme="dark"] .close-btn{
+  background:var(--jk283-surface-2) !important;
+  color:var(--jk283-text) !important;
+  border-color:var(--jk283-line) !important;
+}
+
+html[data-jk-theme="dark"] .jk-action-tile:hover,
+html[data-jk-theme="dark"] .quick-link:hover,
+html[data-jk-theme="dark"] .detail-btn:hover,
+html[data-jk-theme="dark"] .small-btn:hover,
+html[data-jk-theme="dark"] .outline-btn:hover,
+html[data-jk-theme="dark"] button[type="button"]:hover{
+  background:var(--jk283-surface-3) !important;
+}
+
+html[data-jk-theme="dark"] .primary-btn{
+  background:linear-gradient(180deg,#2a4d92,#1a3568) !important;
+  color:#ffffff !important;
+  border-color:#3b5fa4 !important;
+}
+html[data-jk-theme="dark"] .jk-command-btn.primary{
+  background:#dfb246 !important;
+  border-color:#dfb246 !important;
+  color:#0f1b31 !important;
+}
+
+/* Strong text correction */
+html[data-jk-theme="dark"] :is(.panel,.card,.summary-card,.kpi-card,.metric-card,.history-card,.jk-attention-card,.jk-action-tile,.quick-link,.table-wrap,.pane,.panel-header,.panel-head) :is(h1,h2,h3,h4,h5,strong,b,.num){
+  color:var(--jk283-text) !important;
+}
+html[data-jk-theme="dark"] :is(.panel,.card,.summary-card,.kpi-card,.metric-card,.history-card,.jk-attention-card,.jk-action-tile,.quick-link,.table-wrap,.pane,.panel-header,.panel-head) :is(p,small,span,label,div,td,th,li,a:not(.primary-btn):not(.danger-btn):not(.jk-command-btn),.mini-note){
+  color:var(--jk283-text-2);
+}
+html[data-jk-theme="dark"] .jk-attention-label,
+html[data-jk-theme="dark"] thead th,
+html[data-jk-theme="dark"] .filter-field label,
+html[data-jk-theme="dark"] .field span,
+html[data-jk-theme="dark"] .page-head p,
+html[data-jk-theme="dark"] .mini-note,
+html[data-jk-theme="dark"] .empty-box{
+  color:var(--jk283-muted) !important;
+}
+
+/* Keep semantic cards readable */
+html[data-jk-theme="dark"] .status.ok,
+html[data-jk-theme="dark"] .good,
+html[data-jk-theme="dark"] .diff-ok{
+  background:rgba(32,143,80,.14) !important;
+  color:#8df0af !important;
+}
+html[data-jk-theme="dark"] .status.no,
+html[data-jk-theme="dark"] .bad,
+html[data-jk-theme="dark"] .diff-bad{
+  background:rgba(180,63,63,.14) !important;
+  color:#ffb5b5 !important;
+}
+html[data-jk-theme="dark"] .warn{
+  background:rgba(181,132,43,.14) !important;
+  color:#ffd987 !important;
+}
+
+/* ===== Inputs / selects / date fields on iPhone Safari ===== */
+html[data-jk-theme="dark"] :is(input,select,textarea),
+html[data-jk-theme="dark"] :is(.field input,.field select,.field textarea,.filter-field input,.filter-field select,.toolbar input,.toolbar select,.toolbar textarea,.filter-bar input,.filter-bar select,.filters input,.filters select,.finance-summary-toolbar input,.finance-summary-toolbar select){
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  background:var(--jk283-surface-2) !important;
+  background-color:var(--jk283-surface-2) !important;
+  color:var(--jk283-text) !important;
+  -webkit-text-fill-color:var(--jk283-text) !important;
+  border:1px solid var(--jk283-line) !important;
+  border-color:var(--jk283-line) !important;
+  box-shadow:none !important;
+}
+html[data-jk-theme="dark"] :is(input,select,textarea)::placeholder{
+  color:var(--jk283-muted) !important;
+  -webkit-text-fill-color:var(--jk283-muted) !important;
+}
+html[data-jk-theme="dark"] :is(input,select,textarea):disabled,
+html[data-jk-theme="dark"] :is(input,select,textarea)[readonly]{
+  opacity:1 !important;
+  color:var(--jk283-text) !important;
+  -webkit-text-fill-color:var(--jk283-text) !important;
+}
+html[data-jk-theme="dark"] input[type="date"],
+html[data-jk-theme="dark"] input[type="month"]{
+  color-scheme:dark;
+}
+html[data-jk-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+html[data-jk-theme="dark"] input[type="month"]::-webkit-calendar-picker-indicator{
+  filter:invert(1) brightness(1.1);
+  opacity:.92;
+}
+
+/* iOS autofill */
+html[data-jk-theme="dark"] input:-webkit-autofill,
+html[data-jk-theme="dark"] textarea:-webkit-autofill,
+html[data-jk-theme="dark"] select:-webkit-autofill{
+  -webkit-box-shadow:0 0 0 1000px var(--jk283-surface-2) inset !important;
+  -webkit-text-fill-color:var(--jk283-text) !important;
+}
+
+/* ===== Toast / status strips ===== */
+html[data-jk-theme="dark"] #jkToast,
+html[data-jk-theme="dark"] .jk-toast,
+html[data-jk-theme="dark"] .message.show,
+html[data-jk-theme="dark"] [role="status"]{
+  background:rgba(14,24,41,.96) !important;
+  color:var(--jk283-text) !important;
+  border-color:var(--jk283-line) !important;
+}
+html[data-jk-theme="dark"] .jk-toast-title,
+html[data-jk-theme="dark"] .jk-toast-sub,
+html[data-jk-theme="dark"] .jk-toast-time{
+  color:var(--jk283-text) !important;
+}
+
+/* ===== Page-head / action layout cleanup ===== */
+.page-head > :not(:first-child){
+  min-width:0;
+}
+.page-head .filter-bar,
+.page-head .toolbar,
+.page-head .filters,
+.page-head .finance-summary-toolbar,
+.page-head .report-actions,
+.page-head .auto-report-actions,
+.page-head > div:last-child{
+  align-items:stretch !important;
+}
+
+/* keep range buttons clean */
+.quick-range{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px !important;
+}
+.quick-range > *{width:100% !important}
+
+.report-actions,
+.auto-report-actions{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px !important;
+}
+.report-actions > *,
+.auto-report-actions > *{
+  width:100% !important;
+}
+
+/* Sales history / report pages with mixed fields and buttons */
+.page-head .filter-bar{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px !important;
+}
+.page-head .filter-bar .report-actions{
+  grid-column:1 / -1;
+}
+.page-head .filter-bar > .primary-btn,
+.page-head .filter-bar > .outline-btn,
+.page-head .filter-bar > .secondary-btn,
+.page-head .filter-bar > .danger-btn{
+  min-height:52px;
+}
+
+/* Daily closing / simple page-head action pair */
+.page-head > :not(:first-child):not(.report-actions):not(.auto-report-actions):not(.filter-bar):not(.toolbar):not(.filters):not(.finance-summary-toolbar){
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px !important;
+}
+.page-head > :not(:first-child):not(.report-actions):not(.auto-report-actions):not(.filter-bar):not(.toolbar):not(.filters):not(.finance-summary-toolbar) > *{
+  width:100% !important;
+}
+
+/* Dashboard command buttons cleaner */
+.jk-command-actions{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px !important;
+}
+.jk-command-actions > *{width:100% !important}
+
+/* Mobile unify: stack fields first, then action buttons neatly */
+@media (max-width:760px){
+  .page-head,
+  .page-head > :not(:first-child),
+  .page-head .filter-bar,
+  .page-head .toolbar,
+  .page-head .filters,
+  .page-head .finance-summary-toolbar,
+  .page-head .report-actions,
+  .page-head .auto-report-actions,
+  .quick-range,
+  .jk-command-actions{
+    grid-template-columns:1fr !important;
+  }
+
+  .page-head .filter-bar > .filter-field,
+  .page-head .filter-bar > .field,
+  .page-head .toolbar > .field,
+  .page-head .finance-summary-toolbar > .field{
+    grid-column:1 / -1;
+  }
+
+  /* page-head buttons become clean full-width rows */
+  .page-head .primary-btn,
+  .page-head .outline-btn,
+  .page-head .secondary-btn,
+  .page-head .danger-btn,
+  .page-head .report-actions > *,
+  .page-head .auto-report-actions > *,
+  .quick-range > *,
+  .jk-command-actions > *{
+    min-height:50px !important;
+    width:100% !important;
+  }
+
+  /* compact top action pair stays balanced if needed */
+  .user-box{
+    gap:10px !important;
+  }
+}
+
+/* Desktop refinement for report actions inside page-head */
+@media (min-width:761px){
+  .page-head .filter-bar{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+  .page-head .filter-bar .report-actions{
+    grid-column:1 / -1;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .finance-summary-toolbar{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px !important;
+  }
+}
+
+
+/* ==================== SOURCE: ui-store-v3.28.4.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.28.4 — Contrast Rescue
+   Make text in dark-theme tabs, buttons, cards, and date controls much clearer.
+   UI only. No business logic changes.
+   ========================================================= */
+
+html[data-jk-theme="dark"]{
+  --jk284-ink:#0f1728;
+  --jk284-ink-soft:#1d2b45;
+  --jk284-white:#ffffff;
+  --jk284-gold:#dfb246;
+  --jk284-gold-deep:#b98e2f;
+  --jk284-surface:#0f1b31;
+  --jk284-surface-2:#15233d;
+  --jk284-border:#294161;
+  --jk284-text:#f8fbff;
+  --jk284-sub:#c7d5ea;
+  --jk284-muted:#9daec8;
+}
+
+/* ===== High-contrast controls ===== */
+html[data-jk-theme="dark"] input[type="date"],
+html[data-jk-theme="dark"] input[type="month"],
+html[data-jk-theme="dark"] .filters input,
+html[data-jk-theme="dark"] .filter-field input,
+html[data-jk-theme="dark"] .page-head input,
+html[data-jk-theme="dark"] .toolbar input,
+html[data-jk-theme="dark"] .toolbar select,
+html[data-jk-theme="dark"] .filters select,
+html[data-jk-theme="dark"] .filter-bar input,
+html[data-jk-theme="dark"] .filter-bar select{
+  background:var(--jk284-white) !important;
+  background-color:var(--jk284-white) !important;
+  color:var(--jk284-ink) !important;
+  -webkit-text-fill-color:var(--jk284-ink) !important;
+  border:1px solid #d7deea !important;
+  box-shadow:0 1px 1px rgba(0,0,0,.04) !important;
+  font-weight:800 !important;
+}
+html[data-jk-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+html[data-jk-theme="dark"] input[type="month"]::-webkit-calendar-picker-indicator{
+  filter:none !important;
+  opacity:.9;
+}
+html[data-jk-theme="dark"] input::placeholder,
+html[data-jk-theme="dark"] textarea::placeholder{
+  color:#667085 !important;
+  -webkit-text-fill-color:#667085 !important;
+}
+
+/* ===== Buttons and tabs ===== */
+html[data-jk-theme="dark"] .outline-btn,
+html[data-jk-theme="dark"] .secondary-btn,
+html[data-jk-theme="dark"] .detail-btn,
+html[data-jk-theme="dark"] .small-btn,
+html[data-jk-theme="dark"] .quick-link,
+html[data-jk-theme="dark"] .jk-action-tile,
+html[data-jk-theme="dark"] .jk-command-btn:not(.primary),
+html[data-jk-theme="dark"] .tab{
+  background:var(--jk284-surface-2) !important;
+  color:var(--jk284-text) !important;
+  border-color:var(--jk284-border) !important;
+  font-weight:800 !important;
+}
+html[data-jk-theme="dark"] .outline-btn *,
+html[data-jk-theme="dark"] .secondary-btn *,
+html[data-jk-theme="dark"] .detail-btn *,
+html[data-jk-theme="dark"] .small-btn *,
+html[data-jk-theme="dark"] .quick-link *,
+html[data-jk-theme="dark"] .jk-action-tile *,
+html[data-jk-theme="dark"] .jk-command-btn:not(.primary) *,
+html[data-jk-theme="dark"] .tab *{
+  color:inherit !important;
+}
+html[data-jk-theme="dark"] .primary-btn,
+html[data-jk-theme="dark"] .tab.active{
+  background:var(--jk284-gold) !important;
+  color:var(--jk284-ink) !important;
+  border-color:var(--jk284-gold-deep) !important;
+  font-weight:900 !important;
+}
+html[data-jk-theme="dark"] .primary-btn *,
+html[data-jk-theme="dark"] .tab.active *{
+  color:inherit !important;
+}
+html[data-jk-theme="dark"] .role-pill,
+html[data-jk-theme="dark"] .pill,
+html[data-jk-theme="dark"] .badge,
+html[data-jk-theme="dark"] .status-pill{
+  font-weight:800 !important;
+}
+
+/* ===== Dark cards with guaranteed readable text ===== */
+html[data-jk-theme="dark"] .k,
+html[data-jk-theme="dark"] .card,
+html[data-jk-theme="dark"] .history-card,
+html[data-jk-theme="dark"] .panel,
+html[data-jk-theme="dark"] .recon,
+html[data-jk-theme="dark"] .table-wrap,
+html[data-jk-theme="dark"] .empty-box,
+html[data-jk-theme="dark"] .pane,
+html[data-jk-theme="dark"] .kpi-card,
+html[data-jk-theme="dark"] .summary-card,
+html[data-jk-theme="dark"] .metric-card,
+html[data-jk-theme="dark"] .jk-attention-card{
+  background:var(--jk284-surface) !important;
+  border-color:var(--jk284-border) !important;
+  color:var(--jk284-sub) !important;
+}
+html[data-jk-theme="dark"] .k span,
+html[data-jk-theme="dark"] .k small,
+html[data-jk-theme="dark"] .card small,
+html[data-jk-theme="dark"] .history-card small,
+html[data-jk-theme="dark"] .empty-box,
+html[data-jk-theme="dark"] .recon small,
+html[data-jk-theme="dark"] .filter-field label,
+html[data-jk-theme="dark"] .page-head p,
+html[data-jk-theme="dark"] .jk-attention-label,
+html[data-jk-theme="dark"] .status-not-closed,
+html[data-jk-theme="dark"] .status-no-data{
+  color:var(--jk284-muted) !important;
+}
+html[data-jk-theme="dark"] .k strong,
+html[data-jk-theme="dark"] .card strong,
+html[data-jk-theme="dark"] .history-card strong,
+html[data-jk-theme="dark"] .card span,
+html[data-jk-theme="dark"] .history-card span,
+html[data-jk-theme="dark"] .recon,
+html[data-jk-theme="dark"] .recon strong,
+html[data-jk-theme="dark"] .page-head h2,
+html[data-jk-theme="dark"] .panel h3,
+html[data-jk-theme="dark"] .panel h4,
+html[data-jk-theme="dark"] .panel h5,
+html[data-jk-theme="dark"] .jk-attention-card strong{
+  color:var(--jk284-text) !important;
+}
+
+/* preserve semantic status readability */
+html[data-jk-theme="dark"] .status-closed{
+  background:rgba(50,193,113,.12) !important;
+  color:#8ef0b2 !important;
+}
+html[data-jk-theme="dark"] .status-open{
+  background:rgba(223,178,70,.16) !important;
+  color:#ffd989 !important;
+}
+html[data-jk-theme="dark"] .okbox{
+  background:rgba(34,90,54,.22) !important;
+  border-color:#2f7e51 !important;
+  color:#dff7e7 !important;
+}
+html[data-jk-theme="dark"] .badbox{
+  background:rgba(109,41,41,.20) !important;
+  border-color:#8b4b4b !important;
+  color:#ffe1de !important;
+}
+
+/* ===== Report/action spacing tune ===== */
+html[data-jk-theme="dark"] .report-actions{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px !important;
+}
+html[data-jk-theme="dark"] .report-actions > *{width:100% !important}
+
+@media (max-width:760px){
+  html[data-jk-theme="dark"] .filters{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+  html[data-jk-theme="dark"] .filter-bar,
+  html[data-jk-theme="dark"] .report-actions{
+    grid-template-columns:1fr !important;
+  }
+  html[data-jk-theme="dark"] .page-head > :not(:first-child){
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+}
+
+
+/* ==================== SOURCE: ui-store-v3.28.5.css ==================== */
+/* =========================================================
+   JOKJUNG Back Office V3.28.5 — Page-by-page polish
+   Focus: dark-mode text clarity, button/tab readability,
+   iPhone/Safari date field visibility, and cleaner mobile layouts.
+   UI only. No SQL / no app logic changes.
+   ========================================================= */
+
+html[data-jk-theme="dark"]{
+  --jk285-bg:#071126;
+  --jk285-surface:#0d1830;
+  --jk285-surface-2:#122140;
+  --jk285-surface-3:#1a2d52;
+  --jk285-border:#284164;
+  --jk285-border-soft:#35537d;
+  --jk285-text:#f7fbff;
+  --jk285-text-soft:#d8e3f3;
+  --jk285-muted:#a6b5cc;
+  --jk285-primary:#dfb246;
+  --jk285-primary-deep:#b88b27;
+  --jk285-success:#2fc06a;
+  --jk285-danger:#ff8e8e;
+  --jk285-white:#ffffff;
+  --jk285-ink:#0f1728;
+}
+
+/* ---------- Strong readable headings / text ---------- */
+html[data-jk-theme="dark"] .page-head h2,
+html[data-jk-theme="dark"] .content h2,
+html[data-jk-theme="dark"] .content h3,
+html[data-jk-theme="dark"] .content h4,
+html[data-jk-theme="dark"] .topbar h1,
+html[data-jk-theme="dark"] .jk-command-hero h2,
+html[data-jk-theme="dark"] .jk-command-eyebrow,
+html[data-jk-theme="dark"] .panel strong,
+html[data-jk-theme="dark"] .card strong,
+html[data-jk-theme="dark"] .history-card strong,
+html[data-jk-theme="dark"] .k strong,
+html[data-jk-theme="dark"] .kpi-card strong,
+html[data-jk-theme="dark"] .metric-card strong,
+html[data-jk-theme="dark"] .summary-card strong,
+html[data-jk-theme="dark"] .quick-link,
+html[data-jk-theme="dark"] .jk-action-tile strong,
+html[data-jk-theme="dark"] .jk-command-btn,
+html[data-jk-theme="dark"] .jk-attention-card strong,
+html[data-jk-theme="dark"] .tab,
+html[data-jk-theme="dark"] .outline-btn,
+html[data-jk-theme="dark"] .small-btn,
+html[data-jk-theme="dark"] .detail-btn,
+html[data-jk-theme="dark"] .primary-btn,
+html[data-jk-theme="dark"] button{
+  color:var(--jk285-text) !important;
+  text-shadow:none !important;
+}
+
+html[data-jk-theme="dark"] .page-head p,
+html[data-jk-theme="dark"] .content p,
+html[data-jk-theme="dark"] .content small,
+html[data-jk-theme="dark"] .content span,
+html[data-jk-theme="dark"] .filter-field label,
+html[data-jk-theme="dark"] .field span,
+html[data-jk-theme="dark"] .mini-note,
+html[data-jk-theme="dark"] .jk-attention-label,
+html[data-jk-theme="dark"] .nav-title,
+html[data-jk-theme="dark"] #branchText,
+html[data-jk-theme="dark"] .role-pill{
+  color:var(--jk285-text-soft) !important;
+}
+html[data-jk-theme="dark"] .empty-box,
+html[data-jk-theme="dark"] .status-not-closed,
+html[data-jk-theme="dark"] .status-no-data{
+  color:var(--jk285-muted) !important;
+}
+
+/* ---------- Dark surfaces ---------- */
+html[data-jk-theme="dark"] .panel,
+html[data-jk-theme="dark"] .card,
+html[data-jk-theme="dark"] .history-card,
+html[data-jk-theme="dark"] .k,
+html[data-jk-theme="dark"] .kpi-card,
+html[data-jk-theme="dark"] .metric-card,
+html[data-jk-theme="dark"] .summary-card,
+html[data-jk-theme="dark"] .pane,
+html[data-jk-theme="dark"] .recon,
+html[data-jk-theme="dark"] .table-wrap,
+html[data-jk-theme="dark"] .empty-box,
+html[data-jk-theme="dark"] .jk-attention-card,
+html[data-jk-theme="dark"] .jk-command-hero,
+html[data-jk-theme="dark"] .quick-link,
+html[data-jk-theme="dark"] .jk-action-tile,
+html[data-jk-theme="dark"] .jk-command-btn,
+html[data-jk-theme="dark"] .status,
+html[data-jk-theme="dark"] .section-head,
+html[data-jk-theme="dark"] .row,
+html[data-jk-theme="dark"] .message,
+html[data-jk-theme="dark"] #message,
+html[data-jk-theme="dark"] #msg,
+html[data-jk-theme="dark"] #pageMessage{
+  background:var(--jk285-surface) !important;
+  border-color:var(--jk285-border) !important;
+  color:var(--jk285-text-soft) !important;
+}
+
+html[data-jk-theme="dark"] .jk-command-hero{
+  background:linear-gradient(135deg,#112246 0%, #1b2b45 100%) !important;
+}
+
+/* ---------- Buttons / tabs / action bars ---------- */
+html[data-jk-theme="dark"] .outline-btn,
+html[data-jk-theme="dark"] .small-btn,
+html[data-jk-theme="dark"] .detail-btn,
+html[data-jk-theme="dark"] .quick-link,
+html[data-jk-theme="dark"] .jk-action-tile,
+html[data-jk-theme="dark"] .jk-command-btn:not(.primary),
+html[data-jk-theme="dark"] .tab,
+html[data-jk-theme="dark"] .menu-btn,
+html[data-jk-theme="dark"] #jk28ThemeToggle,
+html[data-jk-theme="dark"] #logoutBtn,
+html[data-jk-theme="dark"] #globalShareBtn,
+html[data-jk-theme="dark"] #globalPrintBtn,
+html[data-jk-theme="dark"] #shareBtn,
+html[data-jk-theme="dark"] #printBtn,
+html[data-jk-theme="dark"] #todayBtn,
+html[data-jk-theme="dark"] #monthBtn{
+  background:var(--jk285-surface-2) !important;
+  color:var(--jk285-text) !important;
+  border:1px solid var(--jk285-border) !important;
+  box-shadow:none !important;
+  font-weight:800 !important;
+}
+
+html[data-jk-theme="dark"] .outline-btn:hover,
+html[data-jk-theme="dark"] .small-btn:hover,
+html[data-jk-theme="dark"] .detail-btn:hover,
+html[data-jk-theme="dark"] .quick-link:hover,
+html[data-jk-theme="dark"] .jk-action-tile:hover,
+html[data-jk-theme="dark"] .jk-command-btn:not(.primary):hover,
+html[data-jk-theme="dark"] .tab:hover{
+  background:var(--jk285-surface-3) !important;
+  border-color:var(--jk285-border-soft) !important;
+}
+
+html[data-jk-theme="dark"] .primary-btn,
+html[data-jk-theme="dark"] .tab.active,
+html[data-jk-theme="dark"] .jk-command-btn.primary,
+html[data-jk-theme="dark"] #closeBtn,
+html[data-jk-theme="dark"] #loadBtn{
+  background:var(--jk285-primary) !important;
+  color:var(--jk285-ink) !important;
+  border:1px solid var(--jk285-primary-deep) !important;
+  font-weight:900 !important;
+}
+html[data-jk-theme="dark"] .primary-btn *,
+html[data-jk-theme="dark"] .tab.active *,
+html[data-jk-theme="dark"] .jk-command-btn.primary *,
+html[data-jk-theme="dark"] #closeBtn *,
+html[data-jk-theme="dark"] #loadBtn *{
+  color:var(--jk285-ink) !important;
+}
+
+html[data-jk-theme="dark"] .report-actions,
+html[data-jk-theme="dark"] .auto-report-actions{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px !important;
+  width:100%;
+}
+html[data-jk-theme="dark"] .report-actions > *,
+html[data-jk-theme="dark"] .auto-report-actions > *{
+  width:100% !important;
+}
+
+/* ---------- Inputs: especially iPhone Safari date ---------- */
+html[data-jk-theme="dark"] input,
+html[data-jk-theme="dark"] select,
+html[data-jk-theme="dark"] textarea{
+  color:var(--jk285-text) !important;
+}
+
+html[data-jk-theme="dark"] input[type="date"],
+html[data-jk-theme="dark"] input[type="month"],
+html[data-jk-theme="dark"] .filters input,
+html[data-jk-theme="dark"] .filters select,
+html[data-jk-theme="dark"] .filter-bar input,
+html[data-jk-theme="dark"] .filter-bar select,
+html[data-jk-theme="dark"] .toolbar input,
+html[data-jk-theme="dark"] .toolbar select,
+html[data-jk-theme="dark"] .field input,
+html[data-jk-theme="dark"] .field select,
+html[data-jk-theme="dark"] .filter-field input,
+html[data-jk-theme="dark"] .filter-field select,
+html[data-jk-theme="dark"] .page-head input[type="date"],
+html[data-jk-theme="dark"] .page-head select{
+  background:var(--jk285-white) !important;
+  background-color:var(--jk285-white) !important;
+  color:var(--jk285-ink) !important;
+  -webkit-text-fill-color:var(--jk285-ink) !important;
+  border:1px solid #d8dfeb !important;
+  border-radius:14px !important;
+  opacity:1 !important;
+  font-weight:800 !important;
+}
+html[data-jk-theme="dark"] input[type="date"]::-webkit-datetime-edit,
+html[data-jk-theme="dark"] input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+html[data-jk-theme="dark"] input[type="date"]::-webkit-datetime-edit-text,
+html[data-jk-theme="dark"] input[type="date"]::-webkit-datetime-edit-month-field,
+html[data-jk-theme="dark"] input[type="date"]::-webkit-datetime-edit-day-field,
+html[data-jk-theme="dark"] input[type="date"]::-webkit-datetime-edit-year-field,
+html[data-jk-theme="dark"] input[type="month"]::-webkit-datetime-edit,
+html[data-jk-theme="dark"] input[type="month"]::-webkit-datetime-edit-fields-wrapper,
+html[data-jk-theme="dark"] input[type="month"]::-webkit-datetime-edit-text,
+html[data-jk-theme="dark"] input[type="month"]::-webkit-datetime-edit-month-field,
+html[data-jk-theme="dark"] input[type="month"]::-webkit-datetime-edit-year-field{
+  color:var(--jk285-ink) !important;
+  -webkit-text-fill-color:var(--jk285-ink) !important;
+  opacity:1 !important;
+}
+html[data-jk-theme="dark"] input::placeholder,
+html[data-jk-theme="dark"] textarea::placeholder{
+  color:#667085 !important;
+  -webkit-text-fill-color:#667085 !important;
+}
+html[data-jk-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+html[data-jk-theme="dark"] input[type="month"]::-webkit-calendar-picker-indicator{
+  filter:none !important;
+  opacity:.95 !important;
+}
+html[data-jk-theme="dark"] input:-webkit-autofill,
+html[data-jk-theme="dark"] select:-webkit-autofill,
+html[data-jk-theme="dark"] textarea:-webkit-autofill{
+  -webkit-box-shadow:0 0 0 1000px var(--jk285-white) inset !important;
+  -webkit-text-fill-color:var(--jk285-ink) !important;
+}
+
+/* ---------- Table / status readability ---------- */
+html[data-jk-theme="dark"] th,
+html[data-jk-theme="dark"] td{
+  color:var(--jk285-text-soft) !important;
+  border-bottom-color:rgba(255,255,255,.08) !important;
+}
+html[data-jk-theme="dark"] thead th{
+  background:rgba(255,255,255,.03) !important;
+  color:var(--jk285-muted) !important;
+}
+html[data-jk-theme="dark"] .status-closed,
+html[data-jk-theme="dark"] .status.ok,
+html[data-jk-theme="dark"] .good,
+html[data-jk-theme="dark"] .diff-ok{
+  color:#8ef0b2 !important;
+}
+html[data-jk-theme="dark"] .status-open,
+html[data-jk-theme="dark"] .warn{
+  color:#ffd98a !important;
+}
+html[data-jk-theme="dark"] .status.no,
+html[data-jk-theme="dark"] .bad,
+html[data-jk-theme="dark"] .diff-bad{
+  color:#ffb6b6 !important;
+}
+html[data-jk-theme="dark"] .okbox{
+  background:rgba(50,193,113,.16) !important;
+  border-color:rgba(50,193,113,.36) !important;
+  color:#e6fff0 !important;
+}
+html[data-jk-theme="dark"] .badbox{
+  background:rgba(219,80,80,.16) !important;
+  border-color:rgba(219,80,80,.36) !important;
+  color:#ffe4e4 !important;
+}
+
+/* ---------- Page-by-page action layout cleanup ---------- */
+.page-head{
+  gap:14px !important;
+}
+.page-head > div:last-child,
+.page-head .filter-bar,
+.page-head .toolbar,
+.page-head .filters,
+.page-head .finance-summary-toolbar{
+  gap:10px !important;
+}
+
+/* End of day / daily closing action row */
+.page-head > div:last-child{
+  align-items:stretch !important;
+}
+.page-head > div:last-child > input,
+.page-head > div:last-child > select,
+.page-head > div:last-child > button,
+.page-head > div:last-child > a{
+  min-height:50px;
+}
+
+/* Reconciliation filter area */
+.filters{
+  gap:10px !important;
+}
+.filters > input,
+.filters > select,
+.filters > button{
+  min-height:50px;
+}
+
+/* Financial Summary quick range */
+.quick-range{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px !important;
+}
+.quick-range > *{
+  width:100% !important;
+  min-height:48px;
+}
+
+/* Dashboard quick links / command buttons */
+.jk-command-actions,
+.quick-links,
+.jk-action-grid{
+  gap:12px !important;
+}
+
+/* Messages */
+#message:empty,
+#msg:empty,
+#pageMessage:empty{
+  display:none !important;
+}
+html[data-jk-theme="dark"] #message,
+html[data-jk-theme="dark"] #msg,
+html[data-jk-theme="dark"] #pageMessage{
+  border:1px solid var(--jk285-border) !important;
+  border-radius:14px !important;
+  padding:12px 14px !important;
+  font-weight:700 !important;
+}
+
+/* ---------- Mobile polish ---------- */
+@media (max-width:760px){
+  html[data-jk-theme="dark"] .user-box{
+    gap:10px !important;
+  }
+
+  html[data-jk-theme="dark"] .report-actions,
+  html[data-jk-theme="dark"] .auto-report-actions,
+  html[data-jk-theme="dark"] .quick-range,
+  html[data-jk-theme="dark"] .jk-command-actions,
+  html[data-jk-theme="dark"] .quick-links,
+  html[data-jk-theme="dark"] .jk-action-grid,
+  html[data-jk-theme="dark"] .filter-bar,
+  html[data-jk-theme="dark"] .filters,
+  html[data-jk-theme="dark"] .toolbar,
+  html[data-jk-theme="dark"] .finance-summary-toolbar,
+  html[data-jk-theme="dark"] .page-head > div:last-child{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  html[data-jk-theme="dark"] .page-head > div:last-child > *,
+  html[data-jk-theme="dark"] .filter-bar > *,
+  html[data-jk-theme="dark"] .filters > *,
+  html[data-jk-theme="dark"] .toolbar > *,
+  html[data-jk-theme="dark"] .finance-summary-toolbar > *,
+  html[data-jk-theme="dark"] .report-actions > *,
+  html[data-jk-theme="dark"] .auto-report-actions > *,
+  html[data-jk-theme="dark"] .quick-range > *,
+  html[data-jk-theme="dark"] .jk-command-actions > *,
+  html[data-jk-theme="dark"] .quick-links > *,
+  html[data-jk-theme="dark"] .jk-action-grid > *{
+    width:100% !important;
+    min-height:50px !important;
+  }
+
+  html[data-jk-theme="dark"] .page-head .filter-field,
+  html[data-jk-theme="dark"] .toolbar .field,
+  html[data-jk-theme="dark"] .finance-summary-toolbar .field{
+    width:100% !important;
+  }
+}
+
+/* ---------- Desktop tidy-up ---------- */
+@media (min-width:761px){
+  .page-head > div:last-child{display:flex !important;flex-wrap:wrap;gap:10px !important}
+  .page-head > div:last-child > input{min-width:220px}
+  .page-head > div:last-child > button,
+  .page-head > div:last-child > a{min-width:160px}
+}
+
+/* =========================================================
+   V3.30 — MOBILE BOTTOM NAVIGATION SYSTEM
+   Same navigation pattern across the whole Back Office.
+   ========================================================= */
+:root{
+  --jk30-bottom-h:72px;
+  --jk30-bottom-bg:#ffffff;
+  --jk30-bottom-line:#e4e7ec;
+  --jk30-bottom-text:#667085;
+  --jk30-bottom-active:#14213d;
+  --jk30-bottom-accent:#e2b646;
+}
+
+.jk30-bottom-nav,
+.jk30-more-sheet,
+.jk30-more-backdrop{display:none}
+
+@media (max-width:900px){
+  body.jk30-has-bottom-nav{padding-bottom:calc(var(--jk30-bottom-h) + env(safe-area-inset-bottom) + 12px) !important}
+
+  .jk30-bottom-nav{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:calc(8px + env(safe-area-inset-bottom));
+    z-index:39000;
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    height:var(--jk30-bottom-h);
+    padding:7px;
+    border:1px solid var(--jk30-bottom-line);
+    border-radius:20px;
+    background:rgba(255,255,255,.96);
+    box-shadow:0 16px 38px rgba(16,24,40,.18);
+    backdrop-filter:blur(16px) saturate(150%);
+    -webkit-backdrop-filter:blur(16px) saturate(150%);
+  }
+  .jk30-bottom-item{
+    appearance:none;
+    -webkit-appearance:none;
+    border:0;
+    background:transparent;
+    color:var(--jk30-bottom-text);
+    text-decoration:none;
+    border-radius:14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    min-width:0;
+    min-height:56px;
+    padding:4px 2px;
+    font-family:inherit;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .jk30-bottom-item .jk30-icon{font-size:20px;line-height:1}
+  .jk30-bottom-item .jk30-label{font-size:10.5px;line-height:1.1;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .jk30-bottom-item:active{transform:scale(.96)}
+  .jk30-bottom-item.active{
+    color:var(--jk30-bottom-active);
+    background:#eef2f8;
+  }
+  .jk30-bottom-item.active .jk30-icon{
+    width:32px;height:26px;border-radius:11px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--jk30-bottom-accent);
+    color:#13213e;
+  }
+
+  .jk30-more-backdrop{
+    position:fixed;inset:0;z-index:38990;
+    background:rgba(8,15,28,.48);
+    opacity:0;pointer-events:none;
+    display:block;
+    transition:opacity .2s ease;
+  }
+  .jk30-more-sheet{
+    position:fixed;
+    left:10px;right:10px;
+    bottom:calc(var(--jk30-bottom-h) + env(safe-area-inset-bottom) + 18px);
+    z-index:39010;
+    display:block;
+    max-height:min(66vh,620px);
+    overflow:auto;
+    padding:14px;
+    border-radius:22px;
+    border:1px solid #d0d5dd;
+    background:#fff;
+    box-shadow:0 22px 60px rgba(16,24,40,.28);
+    transform:translateY(18px) scale(.98);
+    opacity:0;pointer-events:none;
+    transition:transform .2s ease,opacity .2s ease;
+  }
+  .jk30-more-backdrop.open{opacity:1;pointer-events:auto}
+  .jk30-more-sheet.open{transform:none;opacity:1;pointer-events:auto}
+  .jk30-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .jk30-sheet-head strong{font-size:16px;color:#1d2939}
+  .jk30-sheet-close{width:38px;height:38px;border-radius:12px;border:1px solid #d0d5dd;background:#fff;color:#1d2939;font-size:18px;font-weight:900}
+  .jk30-sheet-section{margin:14px 0 8px;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#667085}
+  .jk30-sheet-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .jk30-sheet-link{
+    min-height:50px;border:1px solid #e0e5ed;border-radius:14px;background:#f8fafc;
+    color:#1d2939;text-decoration:none;padding:10px 12px;
+    display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800;
+  }
+  .jk30-sheet-link:active{transform:scale(.98);background:#eef2f8}
+
+  /* standardized segmented controls for equivalent choices */
+  .quick-range,.tabs.jk30-segmented{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:4px !important;
+    padding:4px !important;
+    border:1px solid #d0d5dd !important;
+    border-radius:14px !important;
+    background:#eef2f6 !important;
+  }
+  .quick-range > button,.tabs.jk30-segmented > .tab{
+    min-height:40px !important;
+    border:0 !important;
+    border-radius:10px !important;
+    background:transparent !important;
+    color:#475467 !important;
+    box-shadow:none !important;
+  }
+  .quick-range > button.active,.quick-range > button[aria-pressed="true"],.tabs.jk30-segmented > .tab.active{
+    background:#fff !important;
+    color:#14213d !important;
+    box-shadow:0 1px 3px rgba(16,24,40,.12) !important;
+  }
+
+  html[data-jk-theme="dark"] .jk30-bottom-nav{
+    --jk30-bottom-bg:#0e1a30;
+    --jk30-bottom-line:#29405f;
+    --jk30-bottom-text:#a8b6cb;
+    --jk30-bottom-active:#fff;
+    background:rgba(12,24,45,.97);
+    border-color:#29405f;
+  }
+  html[data-jk-theme="dark"] .jk30-bottom-item{color:#a8b6cb !important}
+  html[data-jk-theme="dark"] .jk30-bottom-item.active{background:#172846 !important;color:#fff !important}
+  html[data-jk-theme="dark"] .jk30-more-sheet{background:#0e1a30;border-color:#29405f}
+  html[data-jk-theme="dark"] .jk30-sheet-head strong{color:#f7fbff}
+  html[data-jk-theme="dark"] .jk30-sheet-close{background:#142540;color:#f7fbff;border-color:#29405f}
+  html[data-jk-theme="dark"] .jk30-sheet-section{color:#9dafc9}
+  html[data-jk-theme="dark"] .jk30-sheet-link{background:#12213b;border-color:#29405f;color:#f0f5ff}
+  html[data-jk-theme="dark"] .quick-range,
+  html[data-jk-theme="dark"] .tabs.jk30-segmented{background:#0d1930 !important;border-color:#29405f !important}
+  html[data-jk-theme="dark"] .quick-range > button,
+  html[data-jk-theme="dark"] .tabs.jk30-segmented > .tab{color:#b7c4d7 !important}
+  html[data-jk-theme="dark"] .quick-range > button.active,
+  html[data-jk-theme="dark"] .quick-range > button[aria-pressed="true"],
+  html[data-jk-theme="dark"] .tabs.jk30-segmented > .tab.active{
+    background:#1a2d4d !important;color:#fff !important;box-shadow:none !important
+  }
+}
+
+/* =========================================================
+   V3.31 COMPACT WORKSPACE / DATA GRID
+   - One-row non-scrolling action dock
+   - Floating translucent status dock
+   - Compact controls
+   - Scrollable tables with sticky header + visible scrollbars
+   ========================================================= */
+:root{
+  --jk31-navy:#15284d;
+  --jk31-navy-deep:#0d1b35;
+  --jk31-line:#d7dee9;
+  --jk31-float:rgba(255,255,255,.78);
+  --jk31-shadow:0 8px 24px rgba(16,24,40,.12);
+  --jk31-action-h:38px;
+}
+
+/* 1 + 2: compact action row, never horizontal-slide */
+.jk27-action-wrap,
+#jk27DockInner{
+  overflow:hidden!important;
+  scrollbar-width:none!important;
+}
+.jk27-action-wrap::-webkit-scrollbar,
+#jk27DockInner::-webkit-scrollbar{display:none!important}
+
+#jk27Dock{
+  padding:0 8px!important;
+}
+#jk27DockInner{
+  width:min(1400px,calc(100vw - 16px))!important;
+  max-width:calc(100vw - 16px)!important;
+  padding:5px!important;
+  border-radius:12px!important;
+}
+
+.jk27-action-wrap{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  align-items:center!important;
+  gap:5px!important;
+  padding:5px!important;
+  border-radius:11px!important;
+  overflow:hidden!important;
+}
+
+/* flatten old nested action containers so all controls share one row */
+.jk27-action-wrap > .action-row,
+.jk27-action-wrap > .report-actions,
+.jk27-action-wrap > .auto-report-actions,
+.jk27-action-wrap > .filter-bar,
+.jk27-action-wrap > .filters,
+.jk27-action-wrap > .toolbar,
+.jk27-action-wrap > .finance-summary-toolbar,
+.jk27-action-wrap > div:not(.jk27-title-block),
+.jk27-action-wrap .action-row,
+.jk27-action-wrap .report-actions,
+.jk27-action-wrap .auto-report-actions{
+  display:contents!important;
+}
+.jk27-action-wrap .filter-field,
+.jk27-action-wrap .field{
+  display:contents!important;
+}
+.jk27-action-wrap .filter-field>label,
+.jk27-action-wrap .field>span,
+.jk27-action-wrap .mini-note{
+  display:none!important;
+}
+
+.jk27-action-wrap :is(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn,input,select){
+  flex:1 1 0!important;
+  min-width:0!important;
+  max-width:none!important;
+  width:auto!important;
+  height:var(--jk31-action-h)!important;
+  min-height:var(--jk31-action-h)!important;
+  padding:0 7px!important;
+  border-radius:9px!important;
+  font-size:11px!important;
+  line-height:1!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  box-sizing:border-box!important;
+}
+.jk27-action-wrap input[type="date"]{font-size:10.5px!important}
+.jk27-action-wrap select{padding-right:18px!important}
+.jk27-action-wrap :is(button,a) :is(span,strong,small){font-size:inherit!important}
+
+/* Compact regular toolbar buttons too */
+.toolbar :is(button,.outline-btn,.primary-btn,.small-btn),
+.filter-bar :is(button,.outline-btn,.primary-btn,.small-btn),
+.filters :is(button,.outline-btn,.primary-btn,.small-btn),
+.report-actions :is(button,.outline-btn,.primary-btn){
+  min-height:34px!important;
+  padding:0 10px!important;
+  font-size:11px!important;
+  border-radius:8px!important;
+}
+
+/* 3: status widgets move to a small floating translucent corner */
+#jk31StatusDock{
+  position:fixed;
+  top:68px;
+  right:12px;
+  z-index:30950;
+  width:min(410px,calc(100vw - 24px));
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:4px;
+  opacity:.88;
+  transition:opacity .16s ease,transform .16s ease;
+  pointer-events:none;
+}
+body.jk31-scrolled #jk31StatusDock{opacity:.58}
+#jk31StatusDock:hover,
+#jk31StatusDock:focus-within{opacity:.98!important}
+
+#jk31StatusDock :is(.jk-opsbar,.jk23-contextbar){
+  pointer-events:auto;
+  width:auto!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:4px 6px!important;
+  gap:4px!important;
+  flex-wrap:nowrap!important;
+  overflow:hidden!important;
+  border-radius:9px!important;
+  border:1px solid rgba(180,190,205,.58)!important;
+  background:var(--jk31-float)!important;
+  backdrop-filter:blur(10px) saturate(135%);
+  -webkit-backdrop-filter:blur(10px) saturate(135%);
+  box-shadow:0 5px 16px rgba(16,24,40,.10)!important;
+}
+#jk31StatusDock :is(.jk-ops-chip,.jk23-page,.jk23-sync){
+  min-height:22px!important;
+  padding:2px 5px!important;
+  font-size:9px!important;
+  line-height:1.1!important;
+  white-space:nowrap!important;
+}
+#jk31StatusDock .jk-ops-spacer,
+#jk31StatusDock .jk23-spacer{display:none!important}
+#jk31StatusDock .jk23-divider{height:14px!important}
+
+html[data-jk-theme="dark"]{
+  --jk31-float:rgba(13,27,53,.76);
+}
+html[data-jk-theme="dark"] #jk31StatusDock :is(.jk-opsbar,.jk23-contextbar){
+  border-color:rgba(72,96,136,.72)!important;
+  background:var(--jk31-float)!important;
+}
+
+/* hide original space once bars have been moved to floating dock */
+body.jk31-status-floating main.content>.jk-opsbar,
+body.jk31-status-floating main.content>.jk23-contextbar{display:none!important}
+
+/* 4: professional long data-grid behavior */
+#table .table-wrap,
+.jk31-data-grid{
+  position:relative!important;
+  width:100%!important;
+  max-width:100%!important;
+  max-height:calc(100dvh - 235px)!important;
+  min-height:260px;
+  overflow:auto!important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-gutter:stable both-edges;
+  border:1px solid var(--jk-line,#d7dee9)!important;
+  border-radius:10px!important;
+  background:var(--jk-surface,#fff)!important;
+}
+#table .table-wrap table,
+.jk31-data-grid table{
+  width:max-content!important;
+  min-width:100%!important;
+  table-layout:auto!important;
+  border-collapse:separate!important;
+  border-spacing:0!important;
+}
+#table .table-wrap thead th,
+.jk31-data-grid thead th{
+  position:sticky!important;
+  top:0!important;
+  z-index:8!important;
+  background:#f6f8fb!important;
+  box-shadow:0 1px 0 #dfe5ee!important;
+  white-space:nowrap!important;
+}
+html[data-jk-theme="dark"] #table .table-wrap thead th,
+html[data-jk-theme="dark"] .jk31-data-grid thead th{
+  background:#101d35!important;
+  box-shadow:0 1px 0 #2c4265!important;
+}
+#table .table-wrap th,
+#table .table-wrap td,
+.jk31-data-grid th,
+.jk31-data-grid td{
+  padding:8px 9px!important;
+  font-size:11px!important;
+  line-height:1.25!important;
+  vertical-align:middle!important;
+}
+#table .table-wrap tbody tr,
+.jk31-data-grid tbody tr{height:44px!important}
+
+/* sticky first + action columns make long rows easier to track */
+#table .table-wrap thead th:first-child,
+#table .table-wrap tbody td:first-child,
+.jk31-data-grid thead th:first-child,
+.jk31-data-grid tbody td:first-child{
+  position:sticky!important;
+  left:0!important;
+  z-index:6!important;
+  background:var(--jk-surface,#fff)!important;
+}
+#table .table-wrap thead th:first-child,
+.jk31-data-grid thead th:first-child{z-index:10!important;background:#f6f8fb!important}
+html[data-jk-theme="dark"] #table .table-wrap tbody td:first-child,
+html[data-jk-theme="dark"] .jk31-data-grid tbody td:first-child{background:#0f1b31!important}
+html[data-jk-theme="dark"] #table .table-wrap thead th:first-child,
+html[data-jk-theme="dark"] .jk31-data-grid thead th:first-child{background:#101d35!important}
+
+/* visible native scrollbars */
+#table .table-wrap::-webkit-scrollbar,
+.jk31-data-grid::-webkit-scrollbar{width:12px;height:12px}
+#table .table-wrap::-webkit-scrollbar-track,
+.jk31-data-grid::-webkit-scrollbar-track{background:#edf1f6;border-radius:999px}
+#table .table-wrap::-webkit-scrollbar-thumb,
+.jk31-data-grid::-webkit-scrollbar-thumb{background:#97a6ba;border:3px solid #edf1f6;border-radius:999px}
+html[data-jk-theme="dark"] #table .table-wrap::-webkit-scrollbar-track,
+html[data-jk-theme="dark"] .jk31-data-grid::-webkit-scrollbar-track{background:#0d1830}
+html[data-jk-theme="dark"] #table .table-wrap::-webkit-scrollbar-thumb,
+html[data-jk-theme="dark"] .jk31-data-grid::-webkit-scrollbar-thumb{background:#506889;border-color:#0d1830}
+
+/* Ingredients filter row: one compact line on desktop */
+#table{min-width:0}
+body.jk31-ingredients .panel>.toolbar{
+  display:grid!important;
+  grid-template-columns:minmax(150px,1.8fr) repeat(4,minmax(95px,1fr)) auto!important;
+  gap:6px!important;
+  align-items:center!important;
+  margin-bottom:8px!important;
+}
+body.jk31-ingredients .panel>.toolbar :is(input,select,button){
+  width:100%!important;
+  min-width:0!important;
+  min-height:34px!important;
+  height:34px!important;
+  padding:0 8px!important;
+  font-size:10.5px!important;
+  border-radius:8px!important;
+}
+
+/* General layout compaction */
+.content{padding-top:12px!important}
+.summary-grid{gap:8px!important;margin-bottom:10px!important}
+.summary-card{padding:10px 12px!important;min-height:72px!important}
+.panel{padding:12px!important}
+.page-head{margin-bottom:10px!important}
+.page-head h2{font-size:22px!important}
+.page-head p{font-size:11px!important}
+
+@media(max-width:760px){
+  :root{--jk31-action-h:34px}
+  #jk27Dock{padding:0 4px!important}
+  #jk27DockInner{width:calc(100vw - 8px)!important;max-width:calc(100vw - 8px)!important;padding:4px!important}
+  .jk27-action-wrap{gap:3px!important;padding:4px!important}
+  .jk27-action-wrap :is(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn,input,select){
+    padding:0 4px!important;
+    font-size:9.5px!important;
+    border-radius:7px!important;
+  }
+  #jk31StatusDock{top:58px;right:6px;width:min(330px,calc(100vw - 12px))}
+  #jk31StatusDock :is(.jk-ops-chip,.jk23-page,.jk23-sync){font-size:8px!important;padding:2px 4px!important}
+  #table .table-wrap,.jk31-data-grid{max-height:calc(100dvh - 205px)!important;min-height:240px}
+  body.jk31-ingredients .panel>.toolbar{
+    grid-template-columns:minmax(125px,1.5fr) repeat(4,minmax(72px,1fr)) 64px!important;
+    overflow:hidden!important;
+  }
+  body.jk31-ingredients .panel>.toolbar :is(input,select,button){font-size:9px!important;padding:0 5px!important}
+}
