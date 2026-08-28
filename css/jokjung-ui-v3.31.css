@@ -3456,3 +3456,163 @@ html[data-jk-theme="dark"] .jk31-top-status .jk-ops-chip strong{
     text-overflow:ellipsis!important;
   }
 }
+
+/* =========================================================
+   V3.31.2 — Compact Top Bar + Floating Refresh FAB
+   - Shrink sticky top bar ~30% on mobile
+   - Replace large refresh rows with a small translucent floating icon button
+   ========================================================= */
+
+.topbar-left{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important}
+.topbar-left > div{min-width:0!important}
+.topbar-left h1{margin:0!important;line-height:1.08!important}
+.topbar-left p{margin:2px 0 0!important;line-height:1.2!important}
+.user-box{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:wrap!important;justify-content:flex-end!important}
+.user-box .user-name{font-weight:780!important}
+#jk28ThemeToggle,
+#logoutBtn,
+.user-box .outline-btn{
+  min-height:38px!important;
+  padding:0 12px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+}
+.menu-btn{
+  min-height:40px!important;
+  width:40px!important;
+  min-width:40px!important;
+  border-radius:12px!important;
+  padding:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:18px!important;
+}
+
+.topbar{
+  padding:10px 12px!important;
+  min-height:auto!important;
+  gap:8px!important;
+}
+.topbar h1{font-size:19px!important}
+.topbar p{font-size:11px!important}
+
+.jk31-top-status{
+  gap:6px!important;
+}
+.jk31-top-status .jk-ops-chip{
+  min-height:26px!important;
+  padding:3px 7px!important;
+  border-radius:8px!important;
+  font-size:10px!important;
+}
+.jk31-top-status .jk-ops-chip strong{font-size:10px!important}
+
+@media(max-width:760px){
+  .topbar{
+    padding:7px 10px!important;
+    gap:6px!important;
+  }
+  .topbar-left{gap:8px!important}
+  .topbar h1{
+    font-size:16px!important;
+    letter-spacing:-.025em!important;
+  }
+  .topbar p{font-size:10px!important}
+  .menu-btn{
+    min-height:36px!important;
+    width:36px!important;
+    min-width:36px!important;
+    border-radius:11px!important;
+    font-size:16px!important;
+  }
+  .user-box{
+    gap:6px!important;
+    margin-left:auto!important;
+  }
+  #jk28ThemeToggle,
+  #logoutBtn,
+  .user-box .outline-btn{
+    min-height:34px!important;
+    padding:0 10px!important;
+    border-radius:11px!important;
+    font-size:12px!important;
+  }
+  .jk31-top-status{
+    width:100%!important;
+    order:3!important;
+    gap:5px!important;
+    margin-top:1px!important;
+  }
+  .jk31-top-status .jk-ops-chip{
+    min-height:22px!important;
+    padding:2px 6px!important;
+    border-radius:7px!important;
+    font-size:9px!important;
+  }
+  .jk31-top-status .jk-ops-chip strong{font-size:9px!important}
+}
+
+/* translucent floating refresh button */
+.jk32-fab-refresh{
+  position:fixed!important;
+  right:16px!important;
+  bottom:20px!important;
+  z-index:32750!important;
+  width:48px!important;
+  min-width:48px!important;
+  height:48px!important;
+  min-height:48px!important;
+  padding:0!important;
+  border-radius:16px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  overflow:hidden!important;
+  font-size:0!important;
+  color:transparent!important;
+  border:1px solid rgba(207,216,228,.92)!important;
+  background:rgba(255,255,255,.72)!important;
+  box-shadow:0 10px 28px rgba(15,23,42,.16)!important;
+  backdrop-filter:blur(14px) saturate(155%)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(155%)!important;
+}
+.body.jk30-has-bottom-nav .jk32-fab-refresh,
+body.jk30-has-bottom-nav .jk32-fab-refresh{
+  bottom:calc(104px + env(safe-area-inset-bottom))!important;
+}
+.jk32-fab-refresh .jk32-fab-icon{
+  font-size:22px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  color:#16345e!important;
+  transform:translateY(-.5px);
+}
+.jk32-fab-refresh:hover{
+  transform:translateY(-1px)!important;
+  box-shadow:0 14px 34px rgba(15,23,42,.20)!important;
+}
+.jk32-fab-refresh:active{
+  transform:scale(.97)!important;
+}
+html[data-jk-theme="dark"] .jk32-fab-refresh{
+  border-color:rgba(60,89,132,.9)!important;
+  background:rgba(10,22,43,.74)!important;
+  box-shadow:0 14px 32px rgba(0,0,0,.32)!important;
+}
+html[data-jk-theme="dark"] .jk32-fab-refresh .jk32-fab-icon{
+  color:#eaf2ff!important;
+}
+
+@media(min-width:761px){
+  .jk32-fab-refresh{
+    right:22px!important;
+    bottom:22px!important;
+  }
+}
+
+/* remove wasted vertical space when an action row only contained refresh */
+.jk32-collapse-empty{
+  display:none!important;
+}
