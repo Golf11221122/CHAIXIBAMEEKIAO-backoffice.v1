@@ -754,6 +754,56 @@
     document.body.classList.add('jk31-status-in-topbar');
   }
 
+
+
+  function installFloatingRefreshButtons(){
+    const seen=new Set();
+    const buttons=[...document.querySelectorAll('#refreshBtn,button,a')].filter(el=>{
+      if(!(el instanceof HTMLElement)) return false;
+      if(seen.has(el)) return false;
+      seen.add(el);
+      if(el.closest('dialog,.modal,[aria-hidden="true"]')) return false;
+      const idMatch=el.id==='refreshBtn';
+      const txt=(el.textContent||'').replace(/\s+/g,' ').trim();
+      const txtMatch=/รีเฟรช|โหลดรายงาน|refresh/i.test(txt);
+      return idMatch || txtMatch;
+    });
+
+    buttons.forEach((btn,index)=>{
+      if(btn.dataset.jk32Fab==='1') return;
+      const raw=(btn.dataset.jk31FullLabel || btn.getAttribute('aria-label') || btn.title || btn.textContent || 'รีเฟรช').replace(/\s+/g,' ').trim();
+      btn.dataset.jk32Fab='1';
+      btn.dataset.jk32SourceLabel=raw;
+      btn.classList.add('jk32-fab-refresh','no-print');
+      btn.innerHTML='<span class="jk32-fab-icon" aria-hidden="true">↻</span>';
+      btn.title=raw;
+      btn.setAttribute('aria-label', raw);
+      btn.setAttribute('type', btn.getAttribute('type') || 'button');
+      btn.style.setProperty('--jk32-fab-index', String(index));
+
+      const origin = btn.parentElement;
+      document.body.appendChild(btn);
+
+      if(origin){
+        const collapseTargets=[origin, origin.parentElement].filter(Boolean);
+        collapseTargets.forEach(node=>{
+          if(!(node instanceof HTMLElement)) return;
+          const interactive=[...node.querySelectorAll('button,a,input,select,textarea,[role="button"]')]
+            .filter(el=>el!==btn && !el.classList.contains('jk32-fab-refresh'));
+          const meaningfulText=(node.textContent||'').replace(/\s+/g,' ').trim();
+          const hasOtherVisuals=[...node.children].some(child=>{
+            if(child===btn) return false;
+            const tag=(child.tagName||'').toLowerCase();
+            return ['table','thead','tbody','tr','td','th','canvas','svg','img'].includes(tag) || child.classList.contains('field');
+          });
+          if(interactive.length===0 && !hasOtherVisuals && meaningfulText===''){
+            node.classList.add('jk32-collapse-empty');
+          }
+        });
+      }
+    });
+  }
+
   function enhanceTables(){
     const path=location.pathname.toLowerCase();
     if(path.endsWith('/stock/ingredients.html') || path.endsWith('stock/ingredients.html')){
@@ -780,6 +830,7 @@
     compactActionLabels();
     integrateStatusIntoTopbar();
     enhanceTables();
+    installFloatingRefreshButtons();
   }
 
   function init(){
