@@ -3616,3 +3616,285 @@ html[data-jk-theme="dark"] .jk32-fab-refresh .jk32-fab-icon{
 .jk32-collapse-empty{
   display:none!important;
 }
+
+/* =========================================================
+   V3.31.3 — Ribbon Command Bar + Stock Dark Contrast
+   Standardize page actions as compact ribbon buttons.
+   ========================================================= */
+
+/* 1) Compact Ribbon Command Bar */
+.jk27-action-wrap,
+#jk27DockInner{
+  background:rgba(17,36,70,.96)!important;
+  border:1px solid rgba(54,82,126,.85)!important;
+  border-radius:16px!important;
+  box-shadow:0 8px 22px rgba(15,23,42,.12)!important;
+}
+.jk27-action-wrap{
+  display:grid!important;
+  grid-auto-flow:column!important;
+  grid-auto-columns:minmax(54px,1fr)!important;
+  gap:6px!important;
+  width:100%!important;
+  min-width:0!important;
+  padding:7px!important;
+  overflow:visible!important;
+}
+#jk27DockInner{
+  overflow:visible!important;
+  padding:7px!important;
+}
+#jk27DockInner .jk27-action-wrap{
+  width:100%!important;
+  min-width:0!important;
+  display:grid!important;
+  grid-auto-flow:column!important;
+  grid-auto-columns:minmax(54px,1fr)!important;
+  gap:6px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+.jk27-action-wrap > *,
+.jk27-action-wrap .action-row,
+.jk27-action-wrap .report-actions,
+.jk27-action-wrap .auto-report-actions,
+#jk27DockInner .jk27-action-wrap > *,
+#jk27DockInner .jk27-action-wrap .action-row,
+#jk27DockInner .jk27-action-wrap .report-actions,
+#jk27DockInner .jk27-action-wrap .auto-report-actions{
+  display:contents!important;
+  min-width:0!important;
+}
+
+.jk27-action-wrap :is(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn),
+#jk27DockInner .jk27-action-wrap :is(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn){
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:54px!important;
+  min-height:54px!important;
+  padding:5px 4px!important;
+  border-radius:11px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  font-size:10px!important;
+  line-height:1.05!important;
+  font-weight:800!important;
+  background:rgba(255,255,255,.08)!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  color:#eef4ff!important;
+  box-shadow:none!important;
+}
+.jk27-action-wrap :is(button,a) .jk31-ribbon-icon,
+#jk27DockInner .jk27-action-wrap :is(button,a) .jk31-ribbon-icon{
+  font-size:17px!important;
+  line-height:1!important;
+  color:inherit!important;
+}
+.jk27-action-wrap :is(button,a) .jk31-ribbon-label,
+#jk27DockInner .jk27-action-wrap :is(button,a) .jk31-ribbon-label{
+  display:block!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  color:inherit!important;
+  font-size:10px!important;
+  line-height:1.1!important;
+}
+.jk27-action-wrap .primary-btn,
+#jk27DockInner .jk27-action-wrap .primary-btn{
+  background:linear-gradient(180deg,#f0c95a,#dfad32)!important;
+  border-color:#c79222!important;
+  color:#13213e!important;
+}
+.jk27-action-wrap .danger-btn,
+#jk27DockInner .jk27-action-wrap .danger-btn{
+  background:rgba(202,57,57,.22)!important;
+  border-color:rgba(255,151,151,.42)!important;
+  color:#ffe8e8!important;
+}
+
+/* Inputs/selects in a mixed ribbon stay readable and do not become tiny */
+.jk27-action-wrap :is(input,select,textarea),
+#jk27DockInner .jk27-action-wrap :is(input,select,textarea){
+  min-width:125px!important;
+  height:54px!important;
+  min-height:54px!important;
+  border-radius:11px!important;
+}
+
+@media(max-width:760px){
+  .jk27-action-wrap,
+  #jk27DockInner .jk27-action-wrap{
+    grid-auto-columns:minmax(48px,1fr)!important;
+    gap:5px!important;
+  }
+  .jk27-action-wrap :is(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn),
+  #jk27DockInner .jk27-action-wrap :is(button,a,.primary-btn,.outline-btn,.secondary-btn,.danger-btn){
+    height:50px!important;
+    min-height:50px!important;
+    padding:4px 2px!important;
+  }
+  .jk27-action-wrap :is(button,a) .jk31-ribbon-icon,
+  #jk27DockInner .jk27-action-wrap :is(button,a) .jk31-ribbon-icon{font-size:16px!important}
+  .jk27-action-wrap :is(button,a) .jk31-ribbon-label,
+  #jk27DockInner .jk27-action-wrap :is(button,a) .jk31-ribbon-label{font-size:9px!important}
+}
+
+/* If there are many actions, fit them in one row rather than horizontal swipe */
+@media(max-width:420px){
+  .jk27-action-wrap:has(> :nth-child(6)),
+  #jk27DockInner .jk27-action-wrap:has(> :nth-child(6)){
+    grid-auto-columns:minmax(44px,1fr)!important;
+  }
+}
+
+/* 2) Stock ingredients dark-mode contrast rescue */
+html[data-jk-theme="dark"] body.jk31-ingredients .panel,
+html[data-jk-theme="dark"] body.jk31-ingredients .summary-card,
+html[data-jk-theme="dark"] body.jk31-ingredients .table-wrap{
+  background:#0d1b33!important;
+  border-color:#315078!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients table{
+  background:#0d1b33!important;
+  color:#f5f8ff!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients thead th{
+  background:#112342!important;
+  color:#dce7f7!important;
+  border-bottom:1px solid #34537b!important;
+  font-weight:850!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients tbody td{
+  color:#eef4ff!important;
+  border-bottom:1px solid #213959!important;
+  background:#0d1b33!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients tbody tr:nth-child(even) td{
+  background:#10203a!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients tbody td:first-child,
+html[data-jk-theme="dark"] body.jk31-ingredients thead th:first-child{
+  background:#0a172c!important;
+  color:#ffffff!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients tbody strong{
+  color:#ffffff!important;
+}
+
+/* Type/category/frequency pills: no pale text on pale pills */
+html[data-jk-theme="dark"] body.jk31-ingredients .ingredient-type,
+html[data-jk-theme="dark"] body.jk31-ingredients .category-chip,
+html[data-jk-theme="dark"] body.jk31-ingredients .freq-chip,
+html[data-jk-theme="dark"] body.jk31-ingredients .badge{
+  border:1px solid transparent!important;
+  font-weight:900!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .type-raw{
+  background:#193a66!important;
+  color:#d9ecff!important;
+  border-color:#2e5f99!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .type-prep{
+  background:#173f2b!important;
+  color:#c6f6d5!important;
+  border-color:#2f6f4d!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .type-beverage{
+  background:#123d49!important;
+  color:#c8f5ff!important;
+  border-color:#286c7c!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .type-packaging{
+  background:#3b285a!important;
+  color:#eadcff!important;
+  border-color:#64478a!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .type-consumable{
+  background:#553517!important;
+  color:#ffe5bd!important;
+  border-color:#8a5b28!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .category-chip{
+  background:#26354d!important;
+  color:#edf3fb!important;
+  border-color:#3b506e!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .freq-chip{
+  background:#1a3762!important;
+  color:#dcecff!important;
+  border-color:#315d96!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .badge.ok{
+  background:#143c29!important;
+  color:#bdf4d2!important;
+  border-color:#2e6c4c!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .badge.low{
+  background:#503b13!important;
+  color:#ffe3a1!important;
+  border-color:#876425!important;
+}
+html[data-jk-theme="dark"] body.jk31-ingredients .badge.out{
+  background:#4c2027!important;
+  color:#ffc8c8!important;
+  border-color:#85404a!important;
+}
+
+/* table row action buttons remain compact */
+body.jk31-ingredients .table-wrap td .action-row{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  gap:5px!important;
+}
+body.jk31-ingredients .table-wrap td .small-btn{
+  min-height:32px!important;
+  height:32px!important;
+  padding:0 8px!important;
+  border-radius:9px!important;
+  font-size:10px!important;
+  white-space:nowrap!important;
+}
+
+/* Compact toolbar above ingredient data grid */
+body.jk31-ingredients .panel>.toolbar{
+  display:grid!important;
+  grid-template-columns:minmax(150px,1.45fr) repeat(4,minmax(92px,1fr))!important;
+  gap:7px!important;
+  padding:8px!important;
+}
+body.jk31-ingredients .panel>.toolbar :is(input,select){
+  min-height:38px!important;
+  height:38px!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+  font-size:11px!important;
+}
+@media(max-width:760px){
+  body.jk31-ingredients .panel>.toolbar{
+    display:grid!important;
+    grid-template-columns:minmax(120px,1.4fr) repeat(3,minmax(78px,1fr))!important;
+    gap:6px!important;
+    overflow-x:auto!important;
+  }
+  body.jk31-ingredients .panel>.toolbar #status{display:none!important}
+  body.jk31-ingredients .panel>.toolbar :is(input,select){
+    min-width:0!important;
+    width:100%!important;
+    height:36px!important;
+    min-height:36px!important;
+    font-size:10px!important;
+  }
+}
