@@ -1128,6 +1128,67 @@
     })
   }
 
+
+  function ensureDateFieldShell(box, input, shortLabel){
+    const field = input.closest('label.field')
+    if(field && box.contains(field)){
+      field.classList.add('jk33-date-field')
+      return field
+    }
+    const wrap = document.createElement('label')
+    wrap.className = 'jk33-date-field'
+    const span = document.createElement('span')
+    span.textContent = shortLabel
+    wrap.appendChild(span)
+    wrap.appendChild(input)
+    return wrap
+  }
+
+  function enhanceCompactDateRanges(){
+    if(!isMobile()) return
+    document.querySelectorAll('.toolbar,.filters,.finance-summary-toolbar').forEach(box => {
+      if(!(box instanceof HTMLElement)) return
+      if(box.dataset.jk33DateReady === '1') return
+
+      const dateInputs = [...box.querySelectorAll('input[type="date"]')].filter(el => el instanceof HTMLElement && visible(el))
+      if(dateInputs.length < 2) return
+
+      const fromInput = dateInputs[0]
+      const toInput = dateInputs[1]
+      const fromShell = ensureDateFieldShell(box, fromInput, 'ตั้งแต่')
+      const toShell = ensureDateFieldShell(box, toInput, 'ถึง')
+
+      const bar = document.createElement('div')
+      bar.className = 'jk33-date-bar'
+      const sep = document.createElement('div')
+      sep.className = 'jk33-date-sep'
+      sep.textContent = 'ถึง'
+
+      const insertBefore = box.contains(fromShell) ? fromShell : fromInput
+      box.insertBefore(bar, insertBefore)
+      bar.appendChild(fromShell)
+      bar.appendChild(sep)
+      bar.appendChild(toShell)
+
+      box.classList.add('jk33-date-compact')
+      box.dataset.jk33DateReady = '1'
+    })
+  }
+
+  function normalizeDuoActions(){
+    if(!isMobile()) return
+    document.querySelectorAll('.page-head .action-row,.jk33-segment-scroll').forEach(box => {
+      if(!(box instanceof HTMLElement)) return
+      const items = [...box.children].filter(child => child instanceof HTMLElement && visible(child))
+      const isCategoryProductionPair = items.length === 2 && items.every(el => /หมวด|category|prep|production/i.test(sourceLabel(el)))
+      if(isCategoryProductionPair || items.length === 2){
+        box.classList.add('jk33-duo-actions')
+      }else{
+        box.classList.remove('jk33-duo-actions')
+      }
+    })
+  }
+
   function cleanupDesktopArtifacts(){
     if(isMobile()) return
     document.body.classList.remove('jk33-has-primary-fab')
@@ -1135,12 +1196,15 @@
       if(!(el instanceof HTMLElement)) return
       el.classList.remove('jk33-fab-add','jk33-icon-btn','jk33-segment-item')
     })
+    document.querySelectorAll('.jk33-duo-actions').forEach(el => el.classList.remove('jk33-duo-actions'))
   }
 
   function run(){
     if(!isMobile()) { cleanupDesktopArtifacts(); return }
     normalizeQuickRanges()
     document.querySelectorAll('.page-head').forEach(enhancePageHead)
+    enhanceCompactDateRanges()
+    normalizeDuoActions()
   }
 
   function start(){
