@@ -960,3 +960,199 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once:true })
   else start()
 })()
+
+;
+(() => {
+  'use strict'
+
+  const MOBILE_WIDTH = 760
+  const isMobile = () => window.innerWidth <= MOBILE_WIDTH
+  const ACTION_SELECTOR = 'button,a'
+
+  function visible(el){
+    if(!(el instanceof HTMLElement)) return false
+    if(el.hidden) return false
+    if(el.classList.contains('hidden')) return false
+    if(el.closest('[hidden],.hidden')) return false
+    if(el.id === 'logoutBtn' || el.id === 'jk28ThemeToggle') return false
+    return true
+  }
+
+  function sourceLabel(el){
+    return (el.dataset.jk31FullLabel || el.getAttribute('aria-label') || el.title || el.textContent || '')
+      .replace(/\s+/g,' ')
+      .trim()
+  }
+
+  function getRole(el){
+    const t = sourceLabel(el)
+    const id = (el.id || '').toLowerCase()
+    const href = (el.getAttribute('href') || '').toLowerCase()
+    const key = `${id} ${href} ${t}`.toLowerCase()
+
+    if(/แชร์|share/.test(key)) return 'share'
+    if(/พิมพ์|print/.test(key)) return 'print'
+    if(/refreshbtn|รีเฟรช|refresh/.test(key)) return 'refresh'
+    if(/(^|\s)(add|create|new)(\s|$)|เพิ่ม|สร้าง|เริ่มนับ|newbtn|addbtn|createbtn/.test(key)) return 'add'
+    return 'segment'
+  }
+
+  function makeIcon(role, label){
+    if(role === 'share') return '↥'
+    if(role === 'print') return '🖨'
+    if(role === 'refresh') return '↻'
+    if(role === 'add') return '+'
+    if(/หมวด|category/.test(label)) return '🗂'
+    if(/prep|production/i.test(label)) return '🏭'
+    if(/วันนี้/.test(label)) return 'วันนี้'
+    if(/7\s*วัน/.test(label)) return '7 วัน'
+    if(/เดือนนี้|month/i.test(label)) return 'เดือนนี้'
+    return ''
+  }
+
+  function ensureTitleTools(head, titleBlock){
+    let box = head.querySelector('.jk33-title-tools')
+    if(!box){
+      box = document.createElement('div')
+      box.className = 'jk33-title-tools no-print'
+      titleBlock.appendChild(box)
+    }
+    return box
+  }
+
+  function ensureSegments(head, titleBlock){
+    let box = head.querySelector('.jk33-segment-scroll')
+    if(!box){
+      box = document.createElement('div')
+      box.className = 'jk33-segment-scroll no-print'
+      titleBlock.insertAdjacentElement('afterend', box)
+    }
+    return box
+  }
+
+  function applyIconOnly(el, role){
+    const label = sourceLabel(el)
+    const icon = makeIcon(role, label) || (role === 'share' ? '↥' : role === 'print' ? '🖨' : '•')
+    el.classList.add('jk33-icon-btn')
+    el.innerHTML = `<span class="jk33-tool-icon" aria-hidden="true">${icon}</span>`
+    el.title = label
+    el.setAttribute('aria-label', label)
+  }
+
+  function applyFab(el){
+    const label = sourceLabel(el)
+    el.classList.add('jk33-fab-add')
+    el.innerHTML = `<span class="jk33-fab-icon" aria-hidden="true">+</span><span class="jk33-fab-label">${label || 'เพิ่ม'}</span>`
+    el.title = label || 'เพิ่ม'
+    el.setAttribute('aria-label', label || 'เพิ่ม')
+    document.body.classList.add('jk33-has-primary-fab')
+    document.body.appendChild(el)
+  }
+
+  function applySegment(el){
+    const label = sourceLabel(el)
+    el.classList.add('jk33-segment-item')
+    el.innerHTML = label
+    el.title = label
+    el.setAttribute('aria-label', label)
+  }
+
+  function normalizeQuickRanges(){
+    if(!isMobile()) return
+    document.querySelectorAll('.quick-range,.jk314-range-actions,.tabs.jk30-segmented,body.jk314-pnl .tabs').forEach(box => {
+      if(!(box instanceof HTMLElement)) return
+      box.classList.add('jk33-touch-scroll')
+    })
+  }
+
+  function enhancePageHead(head){
+    if(!(head instanceof HTMLElement)) return
+    const titleBlock = head.querySelector('.jk27-title-block') || head.firstElementChild
+    if(!(titleBlock instanceof HTMLElement)) return
+    head.classList.add('jk33-mobile-enhanced')
+
+    const wrappers = [...head.querySelectorAll('.jk27-action-wrap, .action-row, .report-actions, .auto-report-actions')]
+    const controls = wrappers.flatMap(w => [...w.querySelectorAll(ACTION_SELECTOR)]).filter(visible)
+    if(!controls.length) return
+
+    const used = new Set()
+    const titleTools = ensureTitleTools(head, titleBlock)
+    const segments = ensureSegments(head, titleBlock)
+
+    for(const el of controls){
+      if(used.has(el)) continue
+      const role = getRole(el)
+      if(role === 'share' || role === 'print'){
+        applyIconOnly(el, role)
+        titleTools.appendChild(el)
+        used.add(el)
+      }
+    }
+
+    const addCandidates = controls.filter(el => !used.has(el) && getRole(el) === 'add')
+    const addButton = addCandidates.sort((a,b) => {
+      const score = (el) => {
+        const label = sourceLabel(el)
+        let n = 0
+        if((el.id || '').match(/^(add|new|create)btn$/i)) n += 5
+        if(el.classList.contains('primary-btn')) n += 4
+        if(el.classList.contains('outline-btn')) n += 2
+        if(/เพิ่ม/.test(label)) n += 3
+        if(/สร้าง|create|new/i.test(label)) n += 2
+        return n
+      }
+      return score(b) - score(a)
+    })[0]
+    if(addButton){
+      applyFab(addButton)
+      used.add(addButton)
+    }
+
+    for(const el of controls){
+      if(used.has(el)) continue
+      const role = getRole(el)
+      if(role === 'segment'){
+        applySegment(el)
+        segments.appendChild(el)
+        used.add(el)
+      }
+    }
+
+    wrappers.forEach(wrap => {
+      if(!(wrap instanceof HTMLElement)) return
+      const remainingActions = [...wrap.querySelectorAll(ACTION_SELECTOR)].filter(visible)
+      const remainingFields = [...wrap.querySelectorAll('input,select,textarea,label.field,.field')].filter(visible)
+      if(remainingActions.length === 0 && remainingFields.length === 0) {
+        wrap.classList.add('jk32-collapse-empty','jk315-empty-actions')
+      }
+    })
+  }
+
+  function cleanupDesktopArtifacts(){
+    if(isMobile()) return
+    document.body.classList.remove('jk33-has-primary-fab')
+    document.querySelectorAll('.jk33-fab-add,.jk33-icon-btn,.jk33-segment-item').forEach(el => {
+      if(!(el instanceof HTMLElement)) return
+      el.classList.remove('jk33-fab-add','jk33-icon-btn','jk33-segment-item')
+    })
+  }
+
+  function run(){
+    if(!isMobile()) { cleanupDesktopArtifacts(); return }
+    normalizeQuickRanges()
+    document.querySelectorAll('.page-head').forEach(enhancePageHead)
+  }
+
+  function start(){
+    run()
+    const mo = new MutationObserver(() => requestAnimationFrame(run))
+    mo.observe(document.body, {childList:true, subtree:true})
+    window.addEventListener('resize', () => requestAnimationFrame(run), {passive:true})
+    window.addEventListener('orientationchange', () => setTimeout(run, 120), {passive:true})
+    setTimeout(run, 200)
+    setTimeout(run, 900)
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, {once:true})
+  else start()
+})()
