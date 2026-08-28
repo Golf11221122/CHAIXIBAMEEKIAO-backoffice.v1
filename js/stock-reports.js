@@ -115,88 +115,54 @@ function printItemCell(x) {
 function renderPrintTables(list) {
     const box=document.getElementById('printDetail')
     if(!box) return
-    if(!list.length){
-        box.innerHTML='<div class="empty">ไม่พบข้อมูล</div>'
-        return
-    }
+    if(!list.length){box.innerHTML='<div class="empty">ไม่พบข้อมูล</div>';return}
 
-    const baseRows=list.map(x=>`<tr>
-        <td>${printItemCell(x)}</td>
-        <td>${esc(typeText(x.ingredient_type))}</td>
-        <td>${esc(x.category_name)}</td>
-        <td class="num">${number(x.current_stock)}</td>
-        <td class="num">${money(x.stock_value)}</td>
-        <td class="num">${number(x.stock_in_qty)}</td>
-        <td class="num">${money(x.stock_in_value)}</td>
-    </tr>`).join('')
+    const PAGE_ROWS=20
+    const chunks=[]
+    for(let i=0;i<list.length;i+=PAGE_ROWS) chunks.push(list.slice(i,i+PAGE_ROWS))
 
-    const flowRows=list.map(x=>`<tr>
-        <td>${printItemCell(x)}</td>
-        <td class="num">${number(x.production_in_qty)}</td>
-        <td class="num">${money(x.production_in_value)}</td>
-        <td class="num">${number(x.production_out_qty)}</td>
-        <td class="num">${money(x.production_out_value)}</td>
-        <td class="num">${number(x.sale_qty)}</td>
-        <td class="num">${money(x.sale_value)}</td>
-    </tr>`).join('')
+    const defs=[
+      {
+        title:'รายละเอียด Stock และรับเข้า',
+        head:'<th>วัตถุดิบ</th><th>ประเภท</th><th>หมวด</th><th class="num">คงเหลือ</th><th class="num">Stock ฿</th><th class="num">รับเข้า Qty</th><th class="num">รับเข้า ฿</th>',
+        row:x=>`<td>${printItemCell(x)}</td><td>${esc(typeText(x.ingredient_type))}</td><td>${esc(x.category_name)}</td><td class="num">${number(x.current_stock)}</td><td class="num">${money(x.stock_value)}</td><td class="num">${number(x.stock_in_qty)}</td><td class="num">${money(x.stock_in_value)}</td>`
+      },
+      {
+        title:'Production และการใช้จากขาย',
+        head:'<th>วัตถุดิบ</th><th class="num">Prod In Qty</th><th class="num">Prod In ฿</th><th class="num">Prod Out Qty</th><th class="num">Prod Out ฿</th><th class="num">ขาย Qty</th><th class="num">ขาย ฿</th>',
+        row:x=>`<td>${printItemCell(x)}</td><td class="num">${number(x.production_in_qty)}</td><td class="num">${money(x.production_in_value)}</td><td class="num">${number(x.production_out_qty)}</td><td class="num">${money(x.production_out_value)}</td><td class="num">${number(x.sale_qty)}</td><td class="num">${money(x.sale_value)}</td>`
+      },
+      {
+        title:'Waste / Adjustment / สถานะ',
+        head:'<th>วัตถุดิบ</th><th class="num">Waste Qty</th><th class="num">Waste ฿</th><th class="num">ปรับ+ ฿</th><th class="num">ปรับ- ฿</th><th>สถานะ</th>',
+        row:x=>`<td>${printItemCell(x)}</td><td class="num">${number(x.waste_qty)}</td><td class="num loss">${money(x.waste_value)}</td><td class="num">${money(x.adjust_in_value)}</td><td class="num">${money(x.adjust_out_value)}</td><td>${statusText(x)}</td>`
+      }
+    ]
 
-    const controlRows=list.map(x=>`<tr>
-        <td>${printItemCell(x)}</td>
-        <td class="num">${number(x.waste_qty)}</td>
-        <td class="num loss">${money(x.waste_value)}</td>
-        <td class="num">${money(x.adjust_in_value)}</td>
-        <td class="num">${money(x.adjust_out_value)}</td>
-        <td>${statusText(x)}</td>
-    </tr>`).join('')
+    let page=0
+    const pages=[]
+    defs.forEach((def,sectionIndex)=>{
+      chunks.forEach((chunk,chunkIndex)=>{
+        page++
+        pages.push(`<section class="print-report-section ${page>1?'print-page-break':''}">
+          <div class="print-section-title"><h3>${def.title}</h3><span>ชุด ${sectionIndex+1}/3 • หน้า ${chunkIndex+1}/${chunks.length}</span></div>
+          <table class="print-report-table"><thead><tr>${def.head}</tr></thead><tbody>${chunk.map(x=>`<tr>${def.row(x)}</tr>`).join('')}</tbody></table>
+        </section>`)
+      })
+    })
 
-    box.innerHTML=`
-      <section class="print-report-section">
-        <div class="print-section-title">
-          <h3>รายละเอียด Stock และรับเข้า</h3>
-          <span>ตาราง 1/3</span>
-        </div>
-        <table class="print-report-table">
-          <thead><tr>
-            <th>วัตถุดิบ</th><th>ประเภท</th><th>หมวด</th>
-            <th class="num">คงเหลือ</th><th class="num">Stock ฿</th>
-            <th class="num">รับเข้า Qty</th><th class="num">รับเข้า ฿</th>
-          </tr></thead><tbody>${baseRows}</tbody>
-        </table>
-      </section>
-
-      <section class="print-report-section print-page-break">
-        <div class="print-section-title">
-          <h3>Production และการใช้จากขาย</h3>
-          <span>ตาราง 2/3</span>
-        </div>
-        <table class="print-report-table">
-          <thead><tr>
-            <th>วัตถุดิบ</th>
-            <th class="num">Prod In Qty</th><th class="num">Prod In ฿</th>
-            <th class="num">Prod Out Qty</th><th class="num">Prod Out ฿</th>
-            <th class="num">ขาย Qty</th><th class="num">ขาย ฿</th>
-          </tr></thead><tbody>${flowRows}</tbody>
-        </table>
-      </section>
-
-      <section class="print-report-section print-page-break">
-        <div class="print-section-title">
-          <h3>Waste / Adjustment / สถานะ</h3>
-          <span>ตาราง 3/3</span>
-        </div>
-        <table class="print-report-table">
-          <thead><tr>
-            <th>วัตถุดิบ</th>
-            <th class="num">Waste Qty</th><th class="num">Waste ฿</th>
-            <th class="num">ปรับ+ ฿</th><th class="num">ปรับ- ฿</th><th>สถานะ</th>
-          </tr></thead><tbody>${controlRows}</tbody>
-        </table>
-        <div class="print-flow-summary">
-          <div><span>Production In รวม</span><strong>${money(sum('production_in_value'))}</strong></div>
-          <div><span>Production Out รวม</span><strong>${money(sum('production_out_value'))}</strong></div>
-          <div><span>Sale Usage รวม</span><strong>${money(sum('sale_value'))}</strong></div>
-        </div>
-      </section>`
+    pages.push(`<section class="print-report-section print-page-break print-summary-section">
+      <div class="print-section-title"><h3>สรุปมูลค่ารายงาน</h3><span>สรุปท้ายรายงาน</span></div>
+      <table class="print-report-table"><thead><tr><th>รายการ</th><th class="num">มูลค่ารวม</th></tr></thead><tbody>
+        <tr><td>มูลค่า Stock</td><td class="num">${money(sum('stock_value'))}</td></tr>
+        <tr><td>รับเข้า</td><td class="num">${money(sum('stock_in_value'))}</td></tr>
+        <tr><td>Production In</td><td class="num">${money(sum('production_in_value'))}</td></tr>
+        <tr><td>Production Out</td><td class="num">${money(sum('production_out_value'))}</td></tr>
+        <tr><td>ใช้จากขาย</td><td class="num">${money(sum('sale_value'))}</td></tr>
+        <tr><td>Waste</td><td class="num">${money(sum('waste_value'))}</td></tr>
+      </tbody></table>
+    </section>`)
+    box.innerHTML=pages.join('')
 }
 
 document.getElementById('applyBtn').onclick=load

@@ -93,18 +93,9 @@
   function setupSidebar(){
     const sidebar=document.getElementById('sidebar'), btn=document.getElementById('menuBtn'); if(!sidebar)return
     let scrim=document.querySelector('.jk-sidebar-scrim'); if(!scrim){scrim=document.createElement('div');scrim.className='jk-sidebar-scrim';document.body.appendChild(scrim)}
-    let closeBtn=sidebar.querySelector('.jk314-sidebar-close');
-    if(!closeBtn){
-      closeBtn=document.createElement('button');
-      closeBtn.type='button';closeBtn.className='jk314-sidebar-close no-print';closeBtn.setAttribute('aria-label','ปิดเมนู');closeBtn.textContent='×';
-      sidebar.prepend(closeBtn);
-    }
-    const close=()=>{sidebar.classList.remove('open');sync()}
     const sync=()=>{const open=sidebar.classList.contains('open');document.body.classList.toggle('sidebar-open',open);scrim.style.display=open&&innerWidth<=900?'block':''}
-    btn?.addEventListener('click',()=>setTimeout(sync,0)); scrim.addEventListener('click',close); closeBtn.addEventListener('click',close)
-    sidebar.querySelectorAll('a.nav-link').forEach(a=>a.addEventListener('click',()=>{ if(innerWidth<=900) close() }))
-    const mo=new MutationObserver(sync);mo.observe(sidebar,{attributes:true,attributeFilter:['class']})
-    addEventListener('resize',sync); sync()
+    btn?.addEventListener('click',()=>setTimeout(sync,0)); scrim.addEventListener('click',()=>{sidebar.classList.remove('open');sync()})
+    addEventListener('resize',sync)
   }
 
   function normalizeButtons(){
@@ -843,62 +834,6 @@
     });
   }
 
-
-
-  function markWorkspacePage(){
-    const path=location.pathname.toLowerCase();
-    if(path.endsWith('/stock/count.html')) document.body.classList.add('jk314-stock-count-page');
-    if(path.endsWith('/finance/bulk-cost-sync.html')) document.body.classList.add('jk314-bulk-sync-page');
-    if(path.endsWith('/stock/reports.html')) document.body.classList.add('jk314-stock-report-page');
-  }
-
-  function standardizeDateFilters(){
-    const candidates=[...document.querySelectorAll('.filters,.filter-bar,.toolbar,.report-filter-grid,.finance-summary-toolbar,.formgrid,.page-head > div:last-child')];
-    candidates.forEach(box=>{
-      if(!(box instanceof HTMLElement)) return;
-      const dates=box.querySelectorAll('input[type="date"],input[type="month"]');
-      if(dates.length<1) return;
-      box.classList.add('jk314-date-filter');
-      dates.forEach((input,i)=>{
-        input.classList.add('jk314-date-input');
-        if(!input.getAttribute('aria-label')) input.setAttribute('aria-label',i===0?'จากวันที่':'ถึงวันที่');
-      });
-      [...box.querySelectorAll('button')].forEach(btn=>{
-        const t=(btn.dataset.jk31FullLabel||btn.textContent||'').replace(/\s+/g,' ').trim();
-        if(/วันนี้|7\s*วัน|เดือน|แสดงผล|ตรวจสอบ|คำนวณ/i.test(t)) btn.classList.add('jk314-date-action');
-      });
-    });
-  }
-
-  function standardizeNavigationLanguage(){
-    const map=[
-      [/^📦\s*วัตถุดิบ\s*\/\s*Stock$/i,'📦 วัตถุดิบ / Stock'],
-      [/^🔄\s*Stock Movement$/i,'🔄 การเคลื่อนไหว Stock'],
-      [/^🗑️\s*Waste\s*\/\s*Loss$/i,'🗑️ ของเสีย / Waste'],
-      [/^[🍳🧾]\s*Recipe\s*\/\s*BOM$/i,'🍳 สูตร / BOM'],
-      [/^🏭\s*Production\s*\/\s*Prep$/i,'🏭 ผลิต / Prep'],
-      [/^🧮\s*Stock Count$/i,'🧮 ตรวจนับ Stock'],
-      [/^📈\s*Stock Report$/i,'📈 รายงาน Stock'],
-      [/^💰\s*Cost Control$/i,'💰 ควบคุมต้นทุน'],
-      [/^🚚\s*Supplier$/i,'🚚 ผู้ขาย / Supplier'],
-      [/^🛒\s*Purchase Orders$/i,'🛒 ใบสั่งซื้อ / PO'],
-      [/^🧾\s*Purchase Documents$/i,'🧾 เอกสารซื้อ'],
-      [/^↩️\s*Purchase Returns$/i,'↩️ คืนสินค้า'],
-      [/^📊\s*Dashboard$/i,'📊 หน้าหลัก / Dashboard']
-    ];
-    document.querySelectorAll('.sidebar .nav-link').forEach(a=>{
-      let txt=(a.textContent||'').replace(/\s+/g,' ').trim();
-      for(const [re,label] of map){if(re.test(txt)){a.textContent=label;break}}
-    });
-    const seen=new Set();
-    document.querySelectorAll('.sidebar .nav-link[href]').forEach(a=>{
-      try{
-        const u=new URL(a.getAttribute('href'),location.href).pathname.replace(/\/+$/,'');
-        if(seen.has(u)){a.remove();return} seen.add(u);
-      }catch{}
-    });
-  }
-
   function enhanceTables(){
     const path=location.pathname.toLowerCase();
     if(path.endsWith('/stock/ingredients.html') || path.endsWith('stock/ingredients.html')){
@@ -927,9 +862,6 @@
     integrateStatusIntoTopbar();
     enhanceTables();
     installFloatingRefreshButtons();
-    markWorkspacePage();
-    standardizeDateFilters();
-    standardizeNavigationLanguage();
   }
 
   function init(){
@@ -952,3 +884,79 @@
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
   else init();
 })();
+
+;
+(() => {
+  'use strict'
+
+  const isMobile = () => window.innerWidth <= 760
+  const controlSelector = 'button,a,input,select,textarea,[role="button"]'
+
+  function controlsIn(wrap){
+    return [...wrap.querySelectorAll(controlSelector)].filter(el => {
+      if (!(el instanceof HTMLElement)) return false
+      if (el.classList.contains('jk32-fab-refresh')) return false
+      if (el.closest('.hidden,[hidden],[aria-hidden="true"]')) return false
+      return true
+    })
+  }
+
+  function cleanWrap(wrap){
+    const count = controlsIn(wrap).length
+    wrap.classList.toggle('jk315-empty-actions', count === 0)
+    wrap.classList.toggle('jk32-collapse-empty', count === 0)
+    const head = wrap.closest('.page-head')
+    if (head) head.classList.toggle('jk315-actions-empty', count === 0)
+    return count
+  }
+
+  function restoreInlineActionsOnMobile(){
+    if (!isMobile()) return
+    const dockInner = document.getElementById('jk27DockInner')
+    const pageHead = document.querySelector('.page-head.jk27-ready')
+    if (!dockInner || !pageHead) return
+
+    dockInner.querySelectorAll('.jk27-action-wrap').forEach((wrap) => {
+      if (!(wrap instanceof HTMLElement)) return
+      pageHead.appendChild(wrap)
+      const placeholder = pageHead.querySelector('.jk27-placeholder')
+      if (placeholder instanceof HTMLElement) {
+        placeholder.classList.remove('jk27-active')
+        placeholder.style.height = ''
+      }
+    })
+
+    document.getElementById('jk27Dock')?.classList.remove('jk27-show')
+  }
+
+  function cleanup(){
+    restoreInlineActionsOnMobile()
+    document.querySelectorAll('.jk27-action-wrap').forEach((wrap) => cleanWrap(wrap))
+
+    const dock = document.getElementById('jk27Dock')
+    const dockInner = document.getElementById('jk27DockInner')
+    if (dock && dockInner) {
+      const hasVisibleWrap = dockInner.querySelector('.jk27-action-wrap:not(.jk32-collapse-empty):not(.jk315-empty-actions)')
+      if (!hasVisibleWrap || isMobile()) dock.classList.remove('jk27-show')
+    }
+  }
+
+  function scheduleCleanup(){
+    requestAnimationFrame(cleanup)
+  }
+
+  function start(){
+    cleanup()
+    const mo = new MutationObserver(scheduleCleanup)
+    mo.observe(document.body, { childList:true, subtree:true, attributes:true, attributeFilter:['class','style'] })
+    window.addEventListener('resize', scheduleCleanup, { passive:true })
+    window.addEventListener('orientationchange', () => setTimeout(cleanup, 80), { passive:true })
+    window.addEventListener('scroll', scheduleCleanup, { passive:true })
+    setTimeout(cleanup, 220)
+    setTimeout(cleanup, 900)
+    setTimeout(cleanup, 1800)
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once:true })
+  else start()
+})()
