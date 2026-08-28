@@ -191,6 +191,11 @@ function renderPrintTables(list) {
             <th class="num">ปรับ+ ฿</th><th class="num">ปรับ- ฿</th><th>สถานะ</th>
           </tr></thead><tbody>${controlRows}</tbody>
         </table>
+        <div class="print-flow-summary">
+          <div><span>Production In รวม</span><strong>${money(sum('production_in_value'))}</strong></div>
+          <div><span>Production Out รวม</span><strong>${money(sum('production_out_value'))}</strong></div>
+          <div><span>Sale Usage รวม</span><strong>${money(sum('sale_value'))}</strong></div>
+        </div>
       </section>`
 }
 
