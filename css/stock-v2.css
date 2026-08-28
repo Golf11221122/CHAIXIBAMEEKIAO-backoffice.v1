@@ -1,0 +1,244 @@
+
+/* JOKJUNG STOCK V2 - เพิ่มต่อท้าย app.css หรือ link หลัง app.css */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.kpi-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px}
+.kpi-card span{display:block;color:var(--muted);font-size:12px}.kpi-card strong{display:block;font-size:22px;margin:4px 0}.kpi-card small{color:var(--muted)}
+.split-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(320px,.7fr);gap:14px}
+.form-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:15px}
+.form-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px}
+.status-pill{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900}
+.status-pill.draft{background:#f1f3f4;color:#5f6368}.status-pill.ordered{background:#e8f0fe;color:#174ea6}
+.status-pill.partial{background:#fff3cd;color:#805700}.status-pill.received,.status-pill.completed{background:#e6f4ea;color:#137333}
+.status-pill.cancelled{background:#fde8e7;color:#b3261e}.status-pill.counting{background:#e8f0fe;color:#174ea6}
+.line-editor{display:grid;grid-template-columns:minmax(200px,1.4fr) 130px 130px 120px auto;gap:8px;align-items:end;margin-bottom:8px}
+.line-total{min-height:44px;display:flex;align-items:center;justify-content:flex-end;font-weight:900}
+.mini-note{color:var(--muted);font-size:12px}
+.table-input{width:120px;min-height:36px;padding:6px 8px;border:1px solid var(--border);border-radius:8px}
+.variance-plus{color:#137333;font-weight:900}.variance-minus{color:#b3261e;font-weight:900}
+.report-good{color:#137333}.report-warn{color:#805700}.report-danger{color:#b3261e}
+.po-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.po-summary div{padding:10px;border:1px solid var(--border);border-radius:10px;background:#fafafa}
+.po-summary span{display:block;color:var(--muted);font-size:11px}.po-summary strong{font-size:16px}
+.inline-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.quick-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.quick-link{padding:14px;border:1px solid var(--border);border-radius:12px;background:#fff;font-weight:900}
+.quick-link:hover{border-color:var(--primary-dark);background:#fff8dd}
+@media(max-width:1000px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.split-grid{grid-template-columns:1fr}.line-editor{grid-template-columns:1fr 120px 120px auto}.line-total{display:none}.quick-links{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.kpi-grid{grid-template-columns:1fr 1fr}.inline-fields{grid-template-columns:1fr}.line-editor{grid-template-columns:1fr 1fr}.line-editor .field:first-child{grid-column:1/-1}.line-editor .danger-btn{align-self:end}.po-summary{grid-template-columns:1fr 1fr}.quick-links{grid-template-columns:1fr 1fr}}
+
+/* ===== STOCK V3 / COST CONTROL ===== */
+.category-chip,.freq-chip{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}.category-chip{background:#f1f3f4}.freq-chip{background:#e8f0fe;color:#174ea6}
+.report-filter-grid{display:grid;grid-template-columns:1fr 160px 160px 210px auto;gap:8px;align-items:end}.kpi-grid-6{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.cost-kpi{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;min-width:0}.cost-kpi span{font-size:11px;color:var(--muted);display:block}.cost-kpi strong{font-size:20px;display:block;margin-top:5px}.cost-kpi small{font-size:11px;color:var(--muted)}.cost-danger strong,.loss{color:#b3261e!important}.cost-good strong,.gain{color:#137333!important}.cost-warn strong{color:#805700}
+.category-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.category-cost-card{border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff}.category-cost-card h4{margin:0 0 8px}.category-cost-row{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin:5px 0}
+.closing-status{display:inline-flex;padding:6px 10px;border-radius:999px;font-weight:900;font-size:12px}.closing-status.draft{background:#fff3cd;color:#805700}.closing-status.closed{background:#e6f4ea;color:#137333}.raw-table th,.raw-table td{white-space:nowrap}.raw-table td:first-child,.raw-table th:first-child{position:sticky;left:0;background:#fff;z-index:1}
+.stack{display:flex;flex-direction:column;gap:8px}.audit-row{padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}.chart-bars{display:flex;align-items:flex-end;gap:9px;height:220px;padding:14px 0 0;overflow-x:auto}.chart-bar-col{min-width:64px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px}.chart-bar-pair{height:160px;display:flex;align-items:flex-end;gap:3px}.bar-a,.bar-b{width:15px;border-radius:5px 5px 0 0;background:#d7d9dd}.bar-b{background:#f9ab00}.chart-label{font-size:10px;text-align:center}.chart-value{font-size:9px}
+@media(max-width:1200px){.kpi-grid-6{grid-template-columns:repeat(3,1fr)}.report-filter-grid{grid-template-columns:1fr 1fr 1fr}.category-summary-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.kpi-grid-6{grid-template-columns:repeat(2,1fr)}.report-filter-grid{grid-template-columns:1fr 1fr}.report-filter-grid .wide{grid-column:1/-1}.category-summary-grid{grid-template-columns:1fr}.cost-kpi strong{font-size:17px}}
+
+
+/* V3.1 Production / Raw Ingredient */
+.ingredient-type{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:900}
+.type-raw{background:#e8f0fe;color:#174ea6}.type-prep{background:#e6f4ea;color:#137333}
+.type-beverage{background:#e0f7fa;color:#006064}.type-packaging{background:#f3e5f5;color:#6a1b9a}.type-consumable{background:#fff3e0;color:#e65100}
+.production-card{border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;background:#fff}
+.production-card strong,.production-card small{display:block}.production-card small{color:var(--muted);margin-top:3px}
+.production-input-row{display:grid;grid-template-columns:minmax(220px,1.5fr) 140px 120px minmax(150px,.7fr) auto;gap:8px;align-items:end;margin-bottom:8px;padding:8px;border:1px solid var(--border);border-radius:10px}
+.yield-basis{min-height:42px;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800}
+.production-estimate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.production-estimate>div,.production-result{border:1px solid var(--border);border-radius:10px;padding:10px;background:#fafafa}
+.production-estimate span,.production-result span{display:block;color:var(--muted);font-size:11px}.production-estimate strong,.production-result strong{font-size:16px}
+@media(max-width:900px){.production-input-row{grid-template-columns:1fr 1fr}.production-input-row .field:first-child{grid-column:1/-1}.production-estimate{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.production-input-row{grid-template-columns:1fr}.production-input-row .field:first-child{grid-column:auto}.production-estimate{grid-template-columns:1fr 1fr}}
+
+
+/* V3.2 Go-Live */
+.golive-preview{margin:12px 0}
+.golive-preview-card{border:1px solid var(--border);border-radius:12px;padding:12px}
+.golive-preview-card.good{background:#e6f4ea;color:#137333}
+.golive-preview-card.bad{background:#fce8e6;color:#b3261e}
+.golive-preview-card strong,.golive-preview-card small{display:block}
+.golive-preview-card div{margin:6px 0}
+.golive-total{display:flex;justify-content:flex-end;gap:14px;align-items:center;padding:14px 0;font-weight:900}
+.golive-total strong{font-size:22px}
+.golive-ok{padding:12px;border-radius:10px;background:#e6f4ea;color:#137333;font-weight:800}
+
+
+/* RAW YIELD COST CONTROL V1.2 */
+.summary-list{display:grid;gap:8px}.summary-list>div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #eee}
+.cost-chart-row{display:grid;grid-template-columns:minmax(115px,160px) 1fr;gap:12px;align-items:center;margin:10px 0}
+.cost-chart-label{display:flex;flex-direction:column}.cost-chart-label small{color:#777}
+.cost-chart-bars{display:grid;gap:7px}.cost-chart-line{position:relative;min-height:25px;background:#f3f3f3;border-radius:7px;overflow:hidden}
+.cost-chart-line i{display:block;position:absolute;inset:0 auto 0 0;background:rgba(251,188,4,.45);border-radius:7px}
+.cost-chart-line.actual i{background:rgba(217,48,37,.25)}.cost-chart-line span{position:relative;z-index:1;display:block;padding:4px 8px;font-size:12px;font-weight:700}
+@media(max-width:760px){.cost-chart-row{grid-template-columns:1fr}.summary-list>div{align-items:flex-start}}
+
+
+/* SUPPLIER INGREDIENT GROUP V1.3 */
+.supplier-ing-toolbar{margin-bottom:12px}
+.supplier-ing-list{max-height:58vh;overflow:auto;padding-right:4px}
+.supplier-ing-group{border:1px solid #e5e7eb;border-radius:12px;margin-bottom:12px;overflow:hidden}
+.supplier-ing-group-title{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#f8fafc;border-bottom:1px solid #e5e7eb}
+.supplier-ing-group-title span{font-size:12px;color:#6b7280}
+.supplier-ing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+.supplier-ing-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-bottom:1px solid #f1f5f9;cursor:pointer}
+.supplier-ing-item:hover{background:#fffaf0}.supplier-ing-item input{margin-top:3px;width:18px;height:18px}
+.supplier-ing-item span{display:flex;flex-direction:column;min-width:0}.supplier-ing-item small{color:#6b7280;margin-top:2px}
+.supplier-po-hint{margin:10px 0;padding:9px 11px;border-radius:9px;background:#fff8dc;border:1px solid #f6d77b}
+.po-supplier-empty{margin:8px 0 12px}
+@media(max-width:760px){.supplier-ing-grid{grid-template-columns:1fr}.supplier-ing-toolbar{align-items:stretch}.supplier-ing-toolbar>*{width:100%}}
+
+
+/* PURCHASE DOCUMENTS V1.4 */
+.purchase-doc-modal{width:min(980px,calc(100vw - 28px));max-height:92vh;overflow:auto}
+.document-toolbar{display:grid;grid-template-columns:minmax(220px,1.5fr) repeat(5,minmax(130px,1fr));gap:8px}
+.doc-total-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.doc-total-preview>div{padding:12px;border:1px solid #e5e7eb;border-radius:10px;background:#fafafa;display:flex;flex-direction:column;gap:4px}
+.doc-total-preview span{font-size:12px;color:#6b7280}.doc-total-preview strong{font-size:18px}
+.attachment-panel{border-top:1px solid #e5e7eb;padding-top:12px;margin-top:12px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.attachment-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+.attachment-row>div:first-child{display:flex;flex-direction:column;min-width:0}
+.attachment-row strong{overflow-wrap:anywhere}.attachment-row small{color:#6b7280;margin-top:3px}
+.upload-box{padding:12px;border:1px dashed #cbd5e1;border-radius:10px;background:#fafafa}
+.doc-status{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700;background:#f3f4f6}
+.doc-status.paid{background:#dcfce7;color:#166534}.doc-status.partial{background:#fef3c7;color:#92400e}
+.doc-status.unpaid{background:#fee2e2;color:#991b1b}.doc-status.void{background:#e5e7eb;color:#4b5563}
+@media(max-width:1000px){.document-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.document-toolbar{grid-template-columns:1fr}.doc-total-preview{grid-template-columns:1fr}.attachment-row{align-items:flex-start;flex-direction:column}}
+
+
+/* PURCHASE DOCUMENT RECONCILIATION V1.5 */
+.reconcile-panel{margin:14px 0;padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+.reconcile-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.reconcile-grid>div{padding:10px;border-radius:9px;background:#f8fafc;display:flex;flex-direction:column;gap:4px}
+.reconcile-grid span{font-size:12px;color:#6b7280}.reconcile-grid strong{font-size:16px}
+.reconcile-badge{display:inline-flex;align-items:center;width:max-content;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800;background:#e5e7eb;color:#4b5563}
+.reconcile-badge.matched{background:#dcfce7;color:#166534}
+.reconcile-badge.over,.reconcile-badge.under{background:#fef3c7;color:#92400e}
+.reconcile-badge.no-po{background:#e5e7eb;color:#4b5563}
+@media(max-width:760px){.reconcile-grid{grid-template-columns:1fr 1fr}}
+
+
+/* PURCHASE 3-WAY MATCH V1.6 */
+.document-items-panel{margin:14px 0;padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+.document-item-row{display:grid;grid-template-columns:minmax(220px,2fr) minmax(125px,.8fr) minmax(125px,.8fr) minmax(100px,.7fr) auto;gap:8px;align-items:end;padding:10px 0;border-bottom:1px solid #eef2f7}
+.document-item-total{display:flex;flex-direction:column;gap:5px;padding-bottom:7px}.document-item-total span{font-size:12px;color:#6b7280}
+.reconcile-badge.items_missing,.reconcile-badge.item_mismatch,.reconcile-badge.not_fully_received,.reconcile-badge.quantity_difference,.reconcile-badge.price_difference,.reconcile-badge.amount_difference{background:#fef3c7;color:#92400e}
+.three-way-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:760px){.document-item-row{grid-template-columns:1fr}.three-way-grid{grid-template-columns:1fr 1fr}.document-item-total{padding-bottom:0}}
+
+
+/* ACCOUNTS PAYABLE V1.7 */
+.ap-toolbar{display:grid;grid-template-columns:minmax(220px,1.5fr) repeat(4,minmax(140px,1fr));gap:8px}
+.ap-modal{width:min(900px,calc(100vw - 28px));max-height:92vh;overflow:auto}
+.ap-detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.ap-detail-grid>div{display:flex;flex-direction:column;gap:4px;padding:11px;border:1px solid #e5e7eb;border-radius:10px;background:#fafafa}
+.ap-detail-grid span{font-size:12px;color:#6b7280}.ap-detail-grid strong{font-size:16px}
+.ap-approval-box,.ap-payment-box,.ap-history{margin-top:14px;padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+.ap-badge{display:inline-flex;width:max-content;padding:4px 9px;border-radius:999px;background:#e5e7eb;color:#4b5563;font-size:12px;font-weight:800}
+.ap-badge.pending,.ap-badge.unpaid{background:#fef3c7;color:#92400e}
+.ap-badge.approved,.ap-badge.paid{background:#dcfce7;color:#166534}
+.ap-badge.hold,.ap-badge.partial,.ap-badge.due{background:#ffedd5;color:#9a3412}
+.ap-badge.rejected,.ap-badge.overdue{background:#fee2e2;color:#991b1b}
+.ap-overdue-row{background:#fff7f7}
+.ap-history-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+.ap-history-row>div{display:flex;flex-direction:column;gap:3px}
+.ap-history-row small{color:#6b7280}.ap-history-row.reversed{opacity:.55;text-decoration:line-through}
+@media(max-width:900px){.ap-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.ap-toolbar{grid-template-columns:1fr}.ap-detail-grid{grid-template-columns:1fr 1fr}.ap-history-row{align-items:flex-start;flex-direction:column}}
+
+
+/* PURCHASE RETURNS V1.8 */
+.purchase-return-modal{width:min(900px,calc(100vw - 28px));max-height:92vh;overflow:auto}
+.return-items-panel{margin-top:14px;padding:14px;border:1px solid #e5e7eb;border-radius:12px}
+.return-item-row{display:grid;grid-template-columns:minmax(240px,2fr) minmax(130px,.8fr) minmax(110px,.7fr) minmax(110px,.7fr);gap:10px;align-items:end;padding:10px 0;border-bottom:1px solid #eef2f7}
+.return-item-row>div:first-child{display:flex;flex-direction:column;gap:3px}
+.return-item-row small{color:#6b7280}
+.return-cost{display:flex;flex-direction:column;gap:4px;padding-bottom:7px}.return-cost span{font-size:12px;color:#6b7280}
+.return-warning{margin-top:12px;padding:10px 12px;border:1px solid #f6d77b;background:#fff8dc;border-radius:10px;font-size:13px}
+@media(max-width:760px){.return-item-row{grid-template-columns:1fr 1fr}.return-item-row>div:first-child{grid-column:1/-1}}
+
+
+/* PAYMENT FORECAST V1.9 */
+.forecast-toolbar{display:grid;grid-template-columns:minmax(240px,1fr) minmax(180px,.5fr) minmax(160px,.4fr);gap:8px}
+.forecast-bars{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.forecast-row{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center}
+.forecast-date{font-size:12px;color:#475569}
+.forecast-track{display:flex;flex-direction:column;gap:4px;min-width:0}
+.forecast-line{min-height:24px;border-radius:7px;padding:4px 7px;font-size:11px;font-weight:800;white-space:nowrap;overflow:visible}
+.due-line{background:#fee2e2;color:#991b1b}
+.plan-line{background:#dcfce7;color:#166534}
+@media(max-width:760px){.forecast-toolbar{grid-template-columns:1fr}.forecast-row{grid-template-columns:90px 1fr}}
+
+
+/* CASH FLOW DASHBOARD V2.0 */
+.cashflow-toolbar{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.cashflow-toolbar .field{min-width:170px}.quick-range{display:flex;gap:6px;padding-bottom:1px}
+.cash-in{border-left:4px solid #86efac}.cash-out{border-left:4px solid #fca5a5}.cash-plan{border-left:4px solid #93c5fd}
+.cash-positive{border-left:4px solid #22c55e}.cash-negative{border-left:4px solid #ef4444}
+.cash-text-positive{color:#166534}.cash-text-negative{color:#991b1b}
+.cashflow-chart{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.cashflow-chart-row{display:grid;grid-template-columns:105px 1fr;gap:10px;align-items:center}
+.cashflow-date{font-size:12px;color:#475569}.cashflow-tracks{display:flex;flex-direction:column;gap:4px;min-width:0}
+.cashflow-bar{min-height:23px;padding:4px 7px;border-radius:7px;font-size:11px;font-weight:800;white-space:nowrap}
+.cashflow-bar.inflow{background:#dcfce7;color:#166534}.cashflow-bar.outflow{background:#fee2e2;color:#991b1b}.cashflow-bar.planned{background:#dbeafe;color:#1e40af}
+@media(max-width:760px){.cashflow-chart-row{grid-template-columns:85px 1fr}.cashflow-toolbar{align-items:stretch}.cashflow-toolbar .field{width:100%}.quick-range{width:100%}}
+
+
+/* BANK & CASH RECONCILIATION V2.1 */
+.bank-recon-toolbar{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.bank-recon-toolbar .field{min-width:170px}
+.bank-recon-help p{margin:5px 0}
+.bank-recon-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.bank-recon-card{border:1px solid #e2e8f0;border-radius:14px;padding:14px;background:#fff}
+.bank-recon-card-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.bank-recon-card-head>div{display:flex;flex-direction:column;gap:3px}
+.bank-recon-card-head>div>span{font-size:12px;color:#64748b}
+.bank-recon-values{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:12px 0}
+.bank-recon-values>div{background:#f8fafc;border-radius:9px;padding:8px}
+.bank-recon-values span{display:block;font-size:11px;color:#64748b}
+.bank-recon-values strong{display:block;margin-top:3px;font-size:14px}
+.bank-recon-open{width:100%;margin-top:10px}
+.recon-status{display:inline-flex;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800}
+.recon-status.pending{background:#f1f5f9;color:#475569}
+.recon-status.matched{background:#dcfce7;color:#166534}
+.recon-status.short,.recon-status.over{background:#fee2e2;color:#991b1b}
+.bank-recon-modal{width:min(720px,calc(100vw - 28px));max-height:92vh;overflow:auto}
+.bank-recon-preview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.bank-recon-preview>div{padding:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px}
+.bank-recon-preview span{display:block;font-size:11px;color:#64748b}
+.bank-recon-preview strong{display:block;margin-top:4px}
+.bank-recon-result{margin:14px 0;padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:3px}
+.bank-recon-result.matched{background:#dcfce7;color:#166534}
+.bank-recon-result.short,.bank-recon-result.over{background:#fee2e2;color:#991b1b}
+@media(max-width:760px){
+  .bank-recon-toolbar{align-items:stretch}
+  .bank-recon-toolbar .field{width:100%}
+  .bank-recon-list{grid-template-columns:1fr}
+  .bank-recon-values{grid-template-columns:1fr 1fr}
+  .bank-recon-preview{grid-template-columns:1fr 1fr}
+}
+
+
+/* FINANCIAL SUMMARY V2.2 */
+.finance-summary-toolbar{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.finance-summary-toolbar .field{min-width:170px}
+.finance-health-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0}
+.finance-summary-row{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:9px 0;border-bottom:1px solid #eef2f7}
+.finance-summary-row>span{color:#475569}.finance-summary-row>div{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.finance-summary-row small{margin-top:2px;color:#64748b}
+.finance-note{margin-top:10px;padding:10px 12px;border-radius:10px;font-size:13px}
+.finance-note.good{background:#dcfce7;color:#166534}.finance-note.warn{background:#fef3c7;color:#92400e}
+.finance-alert{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px;margin-bottom:8px;border-radius:10px;text-decoration:none;color:inherit;border:1px solid #e5e7eb}
+.finance-alert>div{display:flex;flex-direction:column;gap:3px}.finance-alert small{color:#64748b}
+.finance-alert.danger{background:#fff7f7;border-color:#fecaca}.finance-alert.warn{background:#fffbeb;border-color:#fde68a}.finance-alert.info{background:#eff6ff;border-color:#bfdbfe}
+.finance-health{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:800}
+@media(max-width:900px){.finance-health-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.finance-summary-toolbar{align-items:stretch}.finance-summary-toolbar .field{width:100%}.quick-range{width:100%}}
+\n/* WASTE & INVENTORY LOSS CONTROL V2.3 */
+.waste-toolbar{display:flex;gap:10px;align-items:end;flex-wrap:wrap}
+.waste-toolbar .field{min-width:150px}.waste-add-row{display:grid;grid-template-columns:minmax(260px,1fr) 160px auto;gap:10px;align-items:end;margin:12px 0}
+.waste-total{display:flex;justify-content:flex-end;align-items:center;gap:16px;padding:12px 0;font-size:14px}.waste-total strong{font-size:20px}
+.status-pill.pending{background:#fef3c7;color:#92400e}.status-pill.approved{background:#dcfce7;color:#166534}.status-pill.cancelled{background:#f1f5f9;color:#475569}.status-pill.reversed{background:#e0e7ff;color:#3730a3}
+.danger-btn.tiny{padding:5px 8px;font-size:11px}
+@media(max-width:760px){.waste-toolbar{align-items:stretch}.waste-toolbar .field{width:100%}.waste-add-row{grid-template-columns:1fr}.waste-add-row .field{width:100%}}
