@@ -721,6 +721,36 @@
     document.querySelectorAll('.jk27-action-wrap button,.jk27-action-wrap a').forEach(shortLabel);
   }
 
+  function decorateRibbonActions(){
+    const iconMap=[
+      [/หมวด/i,'🗂','หมวด'],
+      [/Prep|Production/i,'🏭','Prep'],
+      [/เพิ่ม/i,'＋','เพิ่ม'],
+      [/แชร์/i,'↥','แชร์'],
+      [/พิมพ์/i,'🖨','พิมพ์'],
+      [/รายงาน/i,'▤','รายงาน'],
+      [/ข้อมูล/i,'◉','ข้อมูล'],
+      [/ปิด/i,'🔒','ปิด'],
+      [/บันทึก/i,'✓','บันทึก'],
+      [/สร้าง/i,'＋','สร้าง'],
+      [/แก้ไข/i,'✎','แก้ไข'],
+      [/ลบ/i,'⌫','ลบ'],
+      [/ตรวจ/i,'✓','ตรวจ'],
+      [/ย้อน/i,'↶','ย้อน'],
+      [/รับของ/i,'↓','รับของ']
+    ];
+    document.querySelectorAll('.jk27-action-wrap button,.jk27-action-wrap a').forEach(el=>{
+      if(el.dataset.jk31Ribbon==='1') return;
+      const source=(el.dataset.jk31FullLabel || el.getAttribute('aria-label') || el.title || el.textContent || '').replace(/\s+/g,' ').trim();
+      let icon='•', label=source;
+      for(const [re,i,l] of iconMap){if(re.test(source)){icon=i;label=l;break;}}
+      if(label.length>8) label=label.slice(0,8);
+      el.innerHTML=`<span class="jk31-ribbon-icon" aria-hidden="true">${icon}</span><span class="jk31-ribbon-label">${label}</span>`;
+      el.dataset.jk31Ribbon='1';
+      if(source){el.title=source;el.setAttribute('aria-label',source);}
+    });
+  }
+
   function integrateStatusIntoTopbar(){
     const topbar=document.querySelector('.topbar');
     if(!topbar) return;
@@ -828,6 +858,7 @@
 
   function pass(){
     compactActionLabels();
+    decorateRibbonActions();
     integrateStatusIntoTopbar();
     enhanceTables();
     installFloatingRefreshButtons();
