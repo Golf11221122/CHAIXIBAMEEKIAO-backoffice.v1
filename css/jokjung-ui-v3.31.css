@@ -4386,3 +4386,93 @@ body.jk314-costfix .filters{display:grid!important;grid-template-columns:repeat(
     color:#111b2e!important;
   }
 }
+
+/* V3.31.7 — compact mobile date range + dual action row */
+@media (max-width:760px){
+  .toolbar.jk33-date-compact,
+  .filters.jk33-date-compact,
+  .finance-summary-toolbar.jk33-date-compact{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+    align-items:stretch!important;
+  }
+
+  .jk33-date-bar{
+    grid-column:1/-1!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;
+    align-items:end!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+  .jk33-date-field{
+    min-width:0!important;
+    width:100%!important;
+    margin:0!important;
+  }
+  .jk33-date-field > span{
+    display:block!important;
+    margin:0 0 6px!important;
+    font-size:11px!important;
+    font-weight:800!important;
+    line-height:1.2!important;
+    color:#667085!important;
+  }
+  .jk33-date-field > input[type="date"]{
+    width:100%!important;
+    min-width:0!important;
+  }
+  .jk33-date-sep{
+    min-width:30px!important;
+    height:44px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:0 2px!important;
+    font-size:12px!important;
+    font-weight:900!important;
+    line-height:1!important;
+    color:#667085!important;
+    white-space:nowrap!important;
+  }
+
+  .toolbar.jk33-date-compact > :not(.jk33-date-bar),
+  .filters.jk33-date-compact > :not(.jk33-date-bar),
+  .finance-summary-toolbar.jk33-date-compact > :not(.jk33-date-bar){
+    grid-column:1/-1!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+
+  .toolbar.jk33-date-compact .quick-range,
+  .toolbar.jk33-date-compact .jk314-range-actions,
+  .filters.jk33-date-compact .quick-range,
+  .filters.jk33-date-compact .jk314-range-actions,
+  .finance-summary-toolbar.jk33-date-compact .quick-range,
+  .finance-summary-toolbar.jk33-date-compact .jk314-range-actions{
+    margin-top:0!important;
+  }
+
+  .action-row.jk33-duo-actions,
+  .jk33-segment-scroll.jk33-duo-actions{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+    width:100%!important;
+    overflow:visible!important;
+  }
+  .action-row.jk33-duo-actions > *,
+  .jk33-segment-scroll.jk33-duo-actions > *{
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    justify-content:center!important;
+    text-align:center!important;
+  }
+
+  html[data-jk-theme="dark"] .jk33-date-field > span,
+  html[data-jk-theme="dark"] .jk33-date-sep{
+    color:#c8d1de!important;
+  }
+}
