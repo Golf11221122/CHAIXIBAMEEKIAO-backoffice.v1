@@ -6,6 +6,7 @@ let recipes = []
 let batches = []
 let recipeInputs = []
 let batchInputs = []
+let currentBatchDetail = null
 
 function typeText(value) {
     return ({ raw:'Raw', prep:'Prep', beverage:'เครื่องดื่ม', packaging:'Packaging', consumable:'Consumable' })[value] || value
@@ -258,7 +259,6 @@ async function postBatch() {
         p_inputs: clean
     })
     if (error) return bmsg(error.message.includes('INSUFFICIENT_STOCK') ? 'Stock วัตถุดิบไม่พอ' : error.message)
-    await supabase.rpc('backoffice_bulk_cost_sync_apply', { p_product_ids: null })
     document.getElementById('batchModal').classList.add('hidden')
     await loadIngredients()
     await loadBatches()
@@ -269,6 +269,7 @@ function bmsg(text) { document.getElementById('batchFormMessage').textContent = 
 async function viewBatch(id) {
     const { data, error } = await supabase.rpc('backoffice_get_production_batch', { p_batch_id:id })
     if (error) return document.getElementById('batchMessage').textContent = error.message
+    currentBatchDetail = data
     document.getElementById('detailTitle').textContent = `${data.batch_no} • ${data.output_name}`
     document.getElementById('detailSub').textContent = new Date(data.created_at).toLocaleString('th-TH')
     document.getElementById('detailKpis').innerHTML = `
@@ -281,11 +282,60 @@ async function viewBatch(id) {
     document.getElementById('detailModal').classList.remove('hidden')
 }
 
+function openBatchCorrection() {
+    if (!currentBatchDetail) return
+    document.getElementById('correctBatchId').value = currentBatchDetail.id
+    document.getElementById('correctBatchNo').textContent = currentBatchDetail.batch_no
+    document.getElementById('correctOldOutput').textContent = `${number(currentBatchDetail.actual_output_qty)} ${currentBatchDetail.output_unit || ''}`
+    document.getElementById('correctOutputQty').value = currentBatchDetail.actual_output_qty
+    document.getElementById('stockAlreadyAdjusted').checked = true
+    document.getElementById('correctBatchMessage').textContent = ''
+    document.getElementById('detailModal').classList.add('hidden')
+    document.getElementById('correctBatchModal').classList.remove('hidden')
+}
+
+async function saveBatchCorrection() {
+    const id = document.getElementById('correctBatchId').value
+    const qty = Number(document.getElementById('correctOutputQty').value || 0)
+    const stockAlreadyAdjusted = document.getElementById('stockAlreadyAdjusted').checked
+    if (!id || qty <= 0) {
+        document.getElementById('correctBatchMessage').textContent = 'จำนวน Output ใหม่ต้องมากกว่า 0'
+        return
+    }
+    const oldQty = Number(currentBatchDetail?.actual_output_qty || 0)
+    const delta = qty - oldQty
+    const warning = stockAlreadyAdjusted
+        ? `ยืนยันแก้ Output ${number(oldQty)} → ${number(qty)} โดยไม่ปรับ Stock ซ้ำ?`
+        : `ยืนยันแก้ Output ${number(oldQty)} → ${number(qty)} และสร้าง Stock Correction ${number(delta)} หน่วย?`
+    if (!confirm(warning)) return
+
+    const btn = document.getElementById('saveBatchCorrectionBtn')
+    btn.disabled = true
+    document.getElementById('correctBatchMessage').textContent = 'กำลังแก้ไข...'
+    const { error } = await supabase.rpc('backoffice_correct_production_batch_output_v1', {
+        p_batch_id: id,
+        p_actual_output_qty: qty,
+        p_stock_already_adjusted: stockAlreadyAdjusted
+    })
+    btn.disabled = false
+    if (error) {
+        document.getElementById('correctBatchMessage').textContent = error.message || 'แก้ Production Batch ไม่สำเร็จ'
+        return
+    }
+    document.getElementById('correctBatchModal').classList.add('hidden')
+    await loadIngredients()
+    await loadBatches()
+    await viewBatch(id)
+}
+
 document.getElementById('newRecipeBtn').onclick = openNewRecipe
 document.getElementById('newBatchBtn').onclick = openNewBatch
 document.getElementById('closeRecipe').onclick = () => document.getElementById('recipeModal').classList.add('hidden')
 document.getElementById('closeBatch').onclick = () => document.getElementById('batchModal').classList.add('hidden')
 document.getElementById('closeDetail').onclick = () => document.getElementById('detailModal').classList.add('hidden')
+document.getElementById('editBatchOutputBtn').onclick = openBatchCorrection
+document.getElementById('closeBatchCorrection').onclick = () => document.getElementById('correctBatchModal').classList.add('hidden')
+document.getElementById('saveBatchCorrectionBtn').onclick = saveBatchCorrection
 document.getElementById('saveRecipeBtn').onclick = saveRecipe
 document.getElementById('postBatchBtn').onclick = postBatch
 document.getElementById('addRecipeInput').onclick = () => { recipeInputs.push({ingredient_id:'',input_qty:1,is_yield_basis:false}); renderRecipeInputs() }
