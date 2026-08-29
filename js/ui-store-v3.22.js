@@ -1,4 +1,4 @@
-/* JOKJUNG Back Office V3.22 — Command Center interaction layer */
+/* CHAIXI BAMEEKIAO Back Office V3.22 — Command Center interaction layer */
 (() => {
   'use strict'
 

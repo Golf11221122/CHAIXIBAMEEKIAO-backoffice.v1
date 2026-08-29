@@ -1,5 +1,5 @@
 /* =========================================================
-   JOKJUNG BACK OFFICE V3.21 — STORE OPERATIONS UX
+   CHAIXI BAMEEKIAO BACK OFFICE V3.21 — STORE OPERATIONS UX
    Visual / interaction feedback only. Does not change business logic.
    ========================================================= */
 (() => {
@@ -38,7 +38,7 @@
   function setupOpsBar(){
     const main=document.querySelector('.content'); if(!main || document.querySelector('.jk-opsbar')) return
     const bar=document.createElement('div'); bar.className='jk-opsbar'; bar.setAttribute('aria-label','สถานะระบบ')
-    bar.innerHTML=`<span class="jk-ops-chip"><span class="jk-status-dot" id="jkNetDot"></span><strong id="jkNetText">ออนไลน์</strong></span><span class="jk-ops-chip">วันที่ <strong id="jkDateText"></strong></span><span class="jk-ops-chip">เวลา <strong id="jkClock"></strong></span><span class="jk-ops-spacer"></span><span class="jk-ops-chip">JOKJUNG Back Office</span>`
+    bar.innerHTML=`<span class="jk-ops-chip"><span class="jk-status-dot" id="jkNetDot"></span><strong id="jkNetText">ออนไลน์</strong></span><span class="jk-ops-chip">วันที่ <strong id="jkDateText"></strong></span><span class="jk-ops-chip">เวลา <strong id="jkClock"></strong></span><span class="jk-ops-spacer"></span><span class="jk-ops-chip">CHAIXI BAMEEKIAO Back Office</span>`
     main.prepend(bar)
     const tick=()=>{ const c=document.getElementById('jkClock'),d=document.getElementById('jkDateText'); if(c)c.textContent=nowTime(); if(d)d.textContent=dateText() }
     tick(); setInterval(tick,1000)

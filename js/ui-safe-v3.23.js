@@ -1,5 +1,5 @@
 /* =========================================================
-   JOKJUNG Back Office V3.23 — SAFE UI interaction layer
+   CHAIXI BAMEEKIAO Back Office V3.23 — SAFE UI interaction layer
    Base: V3.22. Moves existing actions only; no business logic rewrite.
    ========================================================= */
 (() => {

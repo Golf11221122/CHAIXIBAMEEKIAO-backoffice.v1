@@ -1,5 +1,5 @@
 /* =========================================================
-   JOKJUNG Back Office V3.23 — Operational UX Consistency
+   CHAIXI BAMEEKIAO Back Office V3.23 — Operational UX Consistency
    Visual / interaction feedback only; business logic untouched.
    ========================================================= */
 (() => {

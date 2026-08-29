@@ -2,7 +2,7 @@ import { supabase } from './supabase.js'
 
 /*
 =========================================================
-JOKJUNG BACK OFFICE AUTH / SHELL RECOVERY V3.14
+CHAIXI BAMEEKIAO BACK OFFICE AUTH / SHELL RECOVERY V3.14
 
 This file serves BOTH:
 1) Login page

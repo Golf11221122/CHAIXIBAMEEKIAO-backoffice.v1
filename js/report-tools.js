@@ -6,7 +6,7 @@ export async function shareReport(options = {}) {
     const title =
         options.title ||
         document.title ||
-        'JOKJUNG Back Office';
+        'CHAIXI BAMEEKIAO Back Office';
 
     const text =
         options.text ||

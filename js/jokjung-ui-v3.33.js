@@ -1,4 +1,4 @@
-/* JOKJUNG Back Office V3.33 — stable DOM normalizer, mobile only */
+/* CHAIXI BAMEEKIAO Back Office V3.33 — stable DOM normalizer, mobile only */
 (() => {
   'use strict';
   const MOBILE = 760;

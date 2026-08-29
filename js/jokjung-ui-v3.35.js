@@ -1,4 +1,4 @@
-/* JOKJUNG Back Office V3.35 — unified component cleanup (mobile + desktop) */
+/* CHAIXI BAMEEKIAO Back Office V3.35 — unified component cleanup (mobile + desktop) */
 (() => {
   'use strict';
 
