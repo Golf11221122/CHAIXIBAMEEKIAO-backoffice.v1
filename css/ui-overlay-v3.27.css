@@ -1,0 +1,97 @@
+/* JOKJUNG V3.27 — Facebook-style sidebar layering + popup focus mode */
+
+@media (max-width: 900px){
+  /* Sidebar behaves like a real mobile app drawer: always above page/header/nav. */
+  #sidebar.sidebar,
+  .sidebar{
+    position:fixed!important;
+    top:0!important;
+    bottom:0!important;
+    left:0!important;
+    width:min(88vw,420px)!important;
+    max-width:88vw!important;
+    height:100dvh!important;
+    margin:0!important;
+    z-index:70020!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    box-shadow:18px 0 44px rgba(15,23,42,.24)!important;
+    transform:translate3d(-102%,0,0)!important;
+    transition:transform .22s cubic-bezier(.2,.8,.2,1)!important;
+  }
+  #sidebar.sidebar.open,
+  .sidebar.open{
+    transform:translate3d(0,0,0)!important;
+  }
+
+  /* Facebook-like dimmed page behind the open drawer. */
+  .jk-sidebar-scrim{
+    display:block!important;
+    position:fixed!important;
+    inset:0!important;
+    z-index:70010!important;
+    background:rgba(15,23,42,.42)!important;
+    backdrop-filter:blur(1px)!important;
+    -webkit-backdrop-filter:blur(1px)!important;
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    transition:opacity .18s ease,visibility .18s ease!important;
+  }
+  body.sidebar-open .jk-sidebar-scrim{
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+  }
+  body.sidebar-open{overflow:hidden!important;touch-action:none}
+
+  /* Nothing from the page is allowed to sit on top of the drawer. */
+  body.sidebar-open .topbar,
+  body.sidebar-open .jk26-bottom-nav,
+  body.sidebar-open .jk23-date-dialog,
+  body.sidebar-open .jk26-more-sheet{
+    pointer-events:none!important;
+  }
+
+  /* Popup focus mode: the sticky header disappears completely while a popup is open. */
+  body.jk27-popup-open .topbar{
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    transform:translateY(-8px)!important;
+  }
+  body.jk27-popup-open .jk26-bottom-nav{
+    transform:translateY(110%)!important;
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+
+  /* All real dialogs must sit above every sticky/fixed application control. */
+  .modal:not(.hidden),
+  dialog[open],
+  [role="dialog"][aria-modal="true"],
+  .jk23-date-dialog:not([hidden]),
+  .jk26-more-sheet.open,
+  .drawer.open:not(.sidebar),
+  .offcanvas.open,
+  .sheet.open:not(.jk26-more-sheet){
+    z-index:71000!important;
+  }
+
+  /* Keep modal cards usable on iPhone; header controls can never cover confirm buttons. */
+  .modal:not(.hidden){
+    padding:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom))!important;
+  }
+  .modal:not(.hidden) .modal-card{
+    max-height:calc(100dvh - max(20px,env(safe-area-inset-top)) - max(20px,env(safe-area-inset-bottom)))!important;
+    overflow:auto!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+}
+
+@media print{
+  .jk-sidebar-scrim{display:none!important}
+}
