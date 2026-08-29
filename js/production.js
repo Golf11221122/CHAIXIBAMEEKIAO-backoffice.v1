@@ -259,6 +259,7 @@ async function postBatch() {
         p_inputs: clean
     })
     if (error) return bmsg(error.message.includes('INSUFFICIENT_STOCK') ? 'Stock วัตถุดิบไม่พอ' : error.message)
+    await supabase.rpc('backoffice_bulk_cost_sync_apply', { p_product_ids: null })
     document.getElementById('batchModal').classList.add('hidden')
     await loadIngredients()
     await loadBatches()
@@ -282,12 +283,14 @@ async function viewBatch(id) {
     document.getElementById('detailModal').classList.remove('hidden')
 }
 
+
+
 function openBatchCorrection() {
     if (!currentBatchDetail) return
     document.getElementById('correctBatchId').value = currentBatchDetail.id
-    document.getElementById('correctBatchNo').textContent = currentBatchDetail.batch_no
+    document.getElementById('correctBatchNo').textContent = currentBatchDetail.batch_no || '-'
     document.getElementById('correctOldOutput').textContent = `${number(currentBatchDetail.actual_output_qty)} ${currentBatchDetail.output_unit || ''}`
-    document.getElementById('correctOutputQty').value = currentBatchDetail.actual_output_qty
+    document.getElementById('correctOutputQty').value = currentBatchDetail.actual_output_qty || ''
     document.getElementById('stockAlreadyAdjusted').checked = true
     document.getElementById('correctBatchMessage').textContent = ''
     document.getElementById('detailModal').classList.add('hidden')
