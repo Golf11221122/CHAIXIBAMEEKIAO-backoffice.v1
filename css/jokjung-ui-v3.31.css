@@ -1,5 +1,5 @@
 /* =========================================================
-   JOKJUNG Back Office — Unified UI V3.29
+   CHAIXI BAMEEKIAO Back Office — Unified UI V3.29
    Consolidated from UI Pro V3.20 + Store UI V3.21–V3.28.5.
    Keep this file loaded AFTER page/base CSS so the latest UI overrides win.
    Generated without changing application / Supabase / business logic.
@@ -8,7 +8,7 @@
 
 /* ==================== SOURCE: ui-pro-v3.20.css ==================== */
 /* =========================================================
-   JOKJUNG BACK OFFICE — PROFESSIONAL UI V3.20
+   CHAIXI BAMEEKIAO BACK OFFICE — PROFESSIONAL UI V3.20
    Formal shell + clear interactive states + mobile polish
    Loaded last so it safely enhances existing pages.
    ========================================================= */
@@ -298,7 +298,7 @@ body:has(.page-heading) .page{max-width:1400px;margin:0 auto;padding:22px 18px}
 
 /* ==================== SOURCE: ui-store-v3.21.css ==================== */
 /* =========================================================
-   JOKJUNG BACK OFFICE V3.21 — STORE OPERATIONS UI
+   CHAIXI BAMEEKIAO BACK OFFICE V3.21 — STORE OPERATIONS UI
    Production-grade visual layer. Loaded last.
    ========================================================= */
 :root{
@@ -450,7 +450,7 @@ tbody tr:hover{background:#fbfcfe!important}
 
 
 /* ==================== SOURCE: ui-store-v3.22.css ==================== */
-/* JOKJUNG Back Office V3.22 — Store Command Center */
+/* CHAIXI BAMEEKIAO Back Office V3.22 — Store Command Center */
 .jk-command-hero{display:flex;align-items:center;justify-content:space-between;gap:22px;margin-bottom:16px;padding:22px 24px;border-radius:18px;background:linear-gradient(135deg,#101828,#1d2939);color:#fff;box-shadow:0 12px 32px rgba(16,24,40,.16);overflow:hidden;position:relative}
 .jk-command-hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-110px;top:-150px;background:rgba(242,194,87,.12);pointer-events:none}
 .jk-command-eyebrow{display:block;margin-bottom:5px;color:#f2c257;font-size:10px;font-weight:900;letter-spacing:.16em}.jk-command-hero h2{margin:0!important;color:#fff!important;font-size:26px!important;font-weight:900!important;letter-spacing:-.03em!important}.jk-command-hero p{margin:5px 0 0;color:#cbd5e1;font-size:12px}.jk-command-actions{display:flex;gap:9px;flex-wrap:wrap;position:relative;z-index:1}.jk-command-btn{display:inline-flex;align-items:center;justify-content:center;min-height:43px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff!important;text-decoration:none!important;font-size:12px;font-weight:850;transition:.12s ease}.jk-command-btn:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}.jk-command-btn:active{transform:translateY(1px) scale(.98)}.jk-command-btn.primary{background:#e4aa2b;color:#111827!important;border-color:#e4aa2b}.jk-command-btn.primary:hover{background:#f2c257}
@@ -464,7 +464,7 @@ tbody tr:hover{background:#fbfcfe!important}
 
 /* ==================== SOURCE: ui-store-v3.23.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.23 — Operational UX Consistency
+   CHAIXI BAMEEKIAO Back Office V3.23 — Operational UX Consistency
    Interaction clarity only. No business logic changes.
    ========================================================= */
 :root{
@@ -571,7 +571,7 @@ body.jk23-dirty .jk23-dirty-badge:before{content:"•";font-size:16px;line-heigh
 
 /* ==================== SOURCE: ui-store-v3.24.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.24 — Formal Action Layout
+   CHAIXI BAMEEKIAO Back Office V3.24 — Formal Action Layout
    Make operational buttons non-overlapping and more professional.
    No business logic changes.
    ========================================================= */
@@ -791,7 +791,7 @@ body.jk23-dirty .jk23-dirty-badge:before{content:"•";font-size:16px;line-heigh
 
 /* ==================== SOURCE: ui-store-v3.24.1.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.24.1 — Sticky Action Bar
+   CHAIXI BAMEEKIAO Back Office V3.24.1 — Sticky Action Bar
    Compact, formal, top-pinned action controls for mobile.
    No business logic changes.
    ========================================================= */
@@ -948,7 +948,7 @@ body.jk23-dirty .jk23-dirty-badge:before{content:"•";font-size:16px;line-heigh
 
 /* ==================== SOURCE: ui-store-v3.26.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.26 — FULL PROJECT STORE POLISH
+   CHAIXI BAMEEKIAO Back Office V3.26 — FULL PROJECT STORE POLISH
    UI/UX only. No business logic changes.
    ========================================================= */
 :root{
@@ -1263,7 +1263,7 @@ body{background:#f4f7fb!important;color:var(--jk26-ink)!important}
 
 /* ==================== SOURCE: ui-store-v3.27.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.27 — Solid Locked Tab Dock
+   CHAIXI BAMEEKIAO Back Office V3.27 — Solid Locked Tab Dock
    Stable, consistent action dock across the whole project.
    UI/UX only. No business logic changes.
    ========================================================= */
@@ -1491,7 +1491,7 @@ body{background:#f4f7fb!important;color:var(--jk26-ink)!important}
 
 /* ==================== SOURCE: ui-store-v3.28.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.28 — Light / Dark Theme Toggle
+   CHAIXI BAMEEKIAO Back Office V3.28 — Light / Dark Theme Toggle
    UI only. No business logic changes.
    ========================================================= */
 :root{
@@ -1735,7 +1735,7 @@ html[data-jk-theme="dark"] #jk28ThemeToggle .jk28-theme-dot{
 
 /* ==================== SOURCE: ui-store-v3.28.1.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.28.1 — Dark Contrast Fix
+   CHAIXI BAMEEKIAO Back Office V3.28.1 — Dark Contrast Fix
    Improve readability in dark mode across the whole project.
    UI only.
    ========================================================= */
@@ -1951,7 +1951,7 @@ html[data-jk-theme="dark"] .warn{color:#fcd34d !important;}
 
 /* ==================== SOURCE: ui-store-v3.28.2.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.28.2 — Dark Component Coverage Fix
+   CHAIXI BAMEEKIAO Back Office V3.28.2 — Dark Component Coverage Fix
    Covers legacy white components that escaped V3.28 dark theme.
    UI only. No business logic changes.
    ========================================================= */
@@ -2080,7 +2080,7 @@ html[data-jk-theme="dark"] .content :where(.jk-attention-card,.jk-action-tile,.q
 
 /* ==================== SOURCE: ui-store-v3.28.3.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.28.3 — Dark Stability + Action Layout
+   CHAIXI BAMEEKIAO Back Office V3.28.3 — Dark Stability + Action Layout
    Fix remaining dark-mode contrast issues and unify mobile button layout.
    UI only. No business logic changes.
    ========================================================= */
@@ -2359,7 +2359,7 @@ html[data-jk-theme="dark"] .jk-toast-time{
 
 /* ==================== SOURCE: ui-store-v3.28.4.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.28.4 — Contrast Rescue
+   CHAIXI BAMEEKIAO Back Office V3.28.4 — Contrast Rescue
    Make text in dark-theme tabs, buttons, cards, and date controls much clearer.
    UI only. No business logic changes.
    ========================================================= */
@@ -2543,7 +2543,7 @@ html[data-jk-theme="dark"] .report-actions > *{width:100% !important}
 
 /* ==================== SOURCE: ui-store-v3.28.5.css ==================== */
 /* =========================================================
-   JOKJUNG Back Office V3.28.5 — Page-by-page polish
+   CHAIXI BAMEEKIAO Back Office V3.28.5 — Page-by-page polish
    Focus: dark-mode text clarity, button/tab readability,
    iPhone/Safari date field visibility, and cleaner mobile layouts.
    UI only. No SQL / no app logic changes.

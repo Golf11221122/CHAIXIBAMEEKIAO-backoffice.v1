@@ -1,4 +1,4 @@
-/* JOKJUNG Back Office V3.24 — Mobile Bottom Navigation (Menu style #17) */
+/* CHAIXI BAMEEKIAO Back Office V3.24 — Mobile Bottom Navigation (Menu style #17) */
 :root{--jk24-nav-h:72px;--jk24-nav-bg:rgba(255,255,255,.97);--jk24-nav-line:#e2e8f0;--jk24-nav-text:#667085;--jk24-nav-active:#14213d;--jk24-nav-accent:#efbd3e}
 .jk24-bottom-nav,.jk24-more-sheet,.jk24-more-backdrop{display:none}
 @media (max-width:900px){
