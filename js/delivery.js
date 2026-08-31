@@ -224,7 +224,15 @@ function renderOrders() {
         if (order.sale_id) {
             actionHtml = badge('เสร็จแล้ว', 'ok')
         } else if (order.restaurant_order_id) {
-            actionHtml = `<span class="delivery-status status-info">รอ Phase 2.3B</span>`
+            actionHtml = `
+                <button
+                    class="delivery-action primary finalize-delivery-btn"
+                    data-id="${esc(order.id)}"
+                    data-label="${esc(order.external_display_id || order.external_order_id)}"
+                >
+                    บันทึกขาย / ตัด Stock
+                </button>
+            `
         } else if (blocked) {
             actionHtml = badge('ส่งไม่ได้', 'bad')
         } else {
@@ -276,6 +284,16 @@ function renderOrders() {
     document.querySelectorAll('.dispatch-delivery-btn').forEach(button => {
         button.addEventListener('click', () => {
             dispatchDeliveryOrder(
+                button.dataset.id,
+                button.dataset.label,
+                button
+            )
+        })
+    })
+
+    document.querySelectorAll('.finalize-delivery-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            finalizeDeliverySale(
                 button.dataset.id,
                 button.dataset.label,
                 button
@@ -372,6 +390,106 @@ async function dispatchDeliveryOrder(id, label, button) {
             DELIVERY_MODIFIER_MAPPING_NOT_READY: 'ออเดอร์มี Modifier จาก Delivery ที่ยังไม่ได้ Mapping',
             SHIFT_REQUIRED: 'ยังไม่มีกะเปิดอยู่ กรุณาเปิดกะใน POS ก่อน',
             SHIFT_BRANCH_MISMATCH: 'กะที่เลือกเป็นคนละสาขา'
+        }
+
+        for (const [code, text] of Object.entries(map)) {
+            if (message.includes(code)) {
+                message = text
+                break
+            }
+        }
+
+        setMessage(message, 'bad')
+        button.disabled = false
+        button.textContent = oldText
+    }
+}
+
+
+async function finalizeDeliverySale(id, label, button) {
+    if (!id || !button) return
+
+    const confirmed = window.confirm(
+        `บันทึกขายและตัด Stock สำหรับ ${label || 'Delivery Order'} ?\n\n` +
+        'ระบบจะตรวจว่ารายการในครัวเสิร์ฟครบแล้ว\n' +
+        'จากนั้นจะสร้าง Sale ด้วยราคา Delivery จริงและตัด Stock ตาม BOM + กฎ Takeaway'
+    )
+
+    if (!confirmed) return
+
+    const oldText = button.textContent
+    button.disabled = true
+    button.textContent = 'กำลังบันทึก...'
+    setMessage('กำลังตรวจ Kitchen, สร้าง Sale และตัด Stock...')
+
+    try {
+        const shift = await getCurrentShiftForDelivery()
+
+        const { data, error } = await supabase.rpc(
+            'backoffice_delivery_finalize_sale_v1',
+            {
+                p_delivery_order_id: id,
+                p_shift_id: shift.id
+            }
+        )
+
+        if (error) throw error
+
+        const result =
+            Array.isArray(data)
+                ? (data[0] || {})
+                : (data || {})
+
+        if (!result?.ok) {
+            throw new Error(
+                result?.message || 'บันทึก Delivery Sale ไม่สำเร็จ'
+            )
+        }
+
+        setMessage(
+            result.already_finalized
+                ? 'ออเดอร์นี้บันทึก Sale ไปแล้ว — ระบบไม่ตัด Stock ซ้ำ'
+                : `สำเร็จ ${result.invoice_no || ''} • Sale ${money(result.total)} • ตัด Stock แล้ว`,
+            'ok'
+        )
+
+        await loadOrders()
+        await loadReconciliation()
+
+    } catch (error) {
+        console.error('Finalize delivery sale error:', error)
+
+        let message =
+            error?.message ||
+            'บันทึก Delivery Sale ไม่สำเร็จ'
+
+        const map = {
+            DELIVERY_ORDER_NOT_FOUND:
+                'ไม่พบ Delivery Order',
+            DELIVERY_NOT_DISPATCHED_TO_KITCHEN:
+                'ออเดอร์นี้ยังไม่ได้ส่งเข้าครัว',
+            DELIVERY_KITCHEN_NOT_SERVED:
+                'ครัวยังทำ/เสิร์ฟรายการไม่ครบ กรุณาให้ครัวกดเสิร์ฟครบก่อน',
+            DELIVERY_KITCHEN_ITEM_CANCELLED:
+                'มีรายการในครัวถูกยกเลิก ต้องตรวจออเดอร์ก่อนบันทึกขาย',
+            DELIVERY_ITEM_UNMAPPED:
+                'มีเมนู Delivery ที่ยังไม่ได้ Mapping กับสินค้าใน POS',
+            DELIVERY_MODIFIER_MAPPING_NOT_READY:
+                'มี Modifier จาก Delivery ที่ยังไม่ได้ Mapping',
+            DELIVERY_TOTAL_MISMATCH:
+                'ยอด Delivery ไม่ตรงกับผลรวมรายการ กรุณาตรวจสอบก่อน',
+            PRODUCT_RECIPE_NOT_FOUND:
+                'มีสินค้าที่ยังไม่มี Recipe / BOM',
+            INSUFFICIENT_INGREDIENT_STOCK:
+                'Stock วัตถุดิบไม่พอ',
+            EXTRA_STOCK_INSUFFICIENT:
+                'Stock สำหรับกฎ Takeaway / Modifier ไม่พอ',
+            SHIFT_REQUIRED:
+                'ยังไม่มีกะเปิดอยู่ กรุณาเปิดกะใน POS ก่อน',
+            SHIFT_BRANCH_MISMATCH:
+                'กะที่เปิดอยู่เป็นคนละสาขา',
+            INVALID_DELIVERY_PAYMENT_METHOD:
+                'ฐานข้อมูลยังไม่รองรับ payment_method = delivery'
         }
 
         for (const [code, text] of Object.entries(map)) {
