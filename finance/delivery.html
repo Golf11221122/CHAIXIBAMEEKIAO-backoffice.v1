@@ -139,6 +139,15 @@
             font-weight:700;
         }
         .delivery-action:hover{background:#f9fafb}
+        .delivery-action.primary{
+            background:#ffc21a;
+            border-color:#ffc21a;
+            color:#111827;
+        }
+        .delivery-action:disabled{
+            opacity:.55;
+            cursor:not-allowed;
+        }
 
         .delivery-edit{
             width:150px;
@@ -339,7 +348,7 @@
                 </div>
 
                 <div class="delivery-note">
-                    Phase 2.2 ยังเป็น Back Office เท่านั้น — หน้านี้ไม่ส่ง Order เข้า POS/Kitchen และไม่ตัด Stock
+                    Phase 2.3A — ส่ง Delivery เข้า Restaurant Order / Kitchen เดิมได้แล้ว • ขั้นนี้ยังไม่สร้าง Sale และยังไม่ตัด Stock
                 </div>
 
                 <div class="delivery-table-wrap" style="margin-top:12px">
@@ -355,12 +364,13 @@
                             <th class="num">ส่วนลด Platform</th>
                             <th class="num">Commission</th>
                             <th class="num">Expected</th>
-                            <th>POS</th>
+                            <th>POS / Kitchen</th>
+                            <th>ดำเนินการ</th>
                             <th>รายละเอียด</th>
                         </tr>
                         </thead>
                         <tbody id="orderRows">
-                        <tr><td colspan="11">กำลังโหลด...</td></tr>
+                        <tr><td colspan="12">กำลังโหลด...</td></tr>
                         </tbody>
                     </table>
                 </div>
