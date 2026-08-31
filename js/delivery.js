@@ -9,7 +9,10 @@ const state = {
     platforms: [],
     orders: [],
     mappings: [],
-    settlements: []
+    settlements: [],
+    modifierMappings: [],
+    modifierSourceRows: [],
+    modifierChoices: new Map()
 }
 
 function localDate(value = new Date()) {
@@ -505,6 +508,384 @@ async function finalizeDeliverySale(id, label, button) {
     }
 }
 
+
+function deliveryModifierKey(modifier) {
+    if (!modifier || typeof modifier !== 'object') return ''
+
+    const raw =
+        modifier.id ??
+        modifier.external_id ??
+        modifier.option_id ??
+        modifier.sku ??
+        modifier.code ??
+        modifier.name ??
+        ''
+
+    return String(raw).trim().toLowerCase()
+}
+
+function deliveryModifierName(modifier) {
+    if (!modifier || typeof modifier !== 'object') return '-'
+
+    return String(
+        modifier.name ??
+        modifier.option_name ??
+        modifier.label ??
+        modifier.id ??
+        '-'
+    )
+}
+
+function deliveryModifierPrice(modifier) {
+    if (!modifier || typeof modifier !== 'object') return 0
+
+    const n = Number(
+        modifier.price ??
+        modifier.price_adjustment ??
+        modifier.amount ??
+        0
+    )
+
+    return Number.isFinite(n) ? n : 0
+}
+
+async function loadProductModifierChoices(productIds) {
+    const ids = [...new Set((productIds || []).filter(Boolean))]
+
+    state.modifierChoices = new Map()
+
+    if (!ids.length) return
+
+    const { data: links, error: linkError } = await supabase
+        .from('product_modifier_groups')
+        .select('product_id,modifier_group_id,display_order')
+        .in('product_id', ids)
+        .order('display_order', { ascending: true })
+
+    if (linkError) throw linkError
+
+    const groupIds = [
+        ...new Set((links || []).map(x => x.modifier_group_id).filter(Boolean))
+    ]
+
+    if (!groupIds.length) return
+
+    const [{ data: groups, error: groupError }, { data: options, error: optionError }] =
+        await Promise.all([
+            supabase
+                .from('modifier_groups')
+                .select('id,name,branch_id,is_active,display_order')
+                .in('id', groupIds)
+                .eq('branch_id', state.branchId)
+                .eq('is_active', true),
+
+            supabase
+                .from('modifier_options')
+                .select('id,modifier_group_id,name,price_adjustment,is_active,display_order')
+                .in('modifier_group_id', groupIds)
+                .eq('is_active', true)
+        ])
+
+    if (groupError) throw groupError
+    if (optionError) throw optionError
+
+    const groupMap = new Map((groups || []).map(g => [g.id, g]))
+    const linksByProduct = new Map()
+
+    for (const link of links || []) {
+        if (!linksByProduct.has(link.product_id)) {
+            linksByProduct.set(link.product_id, [])
+        }
+        linksByProduct.get(link.product_id).push(link)
+    }
+
+    for (const productId of ids) {
+        const choices = []
+
+        for (const link of linksByProduct.get(productId) || []) {
+            const group = groupMap.get(link.modifier_group_id)
+            if (!group) continue
+
+            const groupOptions = (options || [])
+                .filter(o => o.modifier_group_id === group.id)
+                .sort((a, b) =>
+                    Number(a.display_order || 0) - Number(b.display_order || 0)
+                )
+
+            for (const option of groupOptions) {
+                choices.push({
+                    group_id: group.id,
+                    group_name: group.name,
+                    option_id: option.id,
+                    option_name: option.name,
+                    price_adjustment: num(option.price_adjustment)
+                })
+            }
+        }
+
+        state.modifierChoices.set(productId, choices)
+    }
+}
+
+async function loadModifierMappings() {
+    setMessage('กำลังโหลด Modifier Mapping...')
+
+    const platformCodeFilter = $('modifierPlatformFilter')?.value || ''
+    const platformIdFilter = getPlatformId(platformCodeFilter)
+
+    let itemQuery = supabase
+        .from('delivery_order_items')
+        .select(`
+            id,
+            delivery_order_id,
+            platform_id,
+            product_id,
+            product_name,
+            modifiers,
+            created_at,
+            delivery_platforms (
+                id,
+                code,
+                name
+            )
+        `)
+        .eq('branch_id', state.branchId)
+        .order('created_at', { ascending: false })
+        .limit(500)
+
+    if (platformIdFilter) {
+        itemQuery = itemQuery.eq('platform_id', platformIdFilter)
+    }
+
+    const [{ data: items, error: itemsError }, { data: mappings, error: mappingError }] =
+        await Promise.all([
+            itemQuery,
+            supabase
+                .from('delivery_modifier_mappings')
+                .select(`
+                    id,
+                    branch_id,
+                    platform_id,
+                    product_id,
+                    external_modifier_key,
+                    external_modifier_name,
+                    modifier_group_id,
+                    modifier_option_id,
+                    is_active,
+                    delivery_platforms (
+                        id,
+                        code,
+                        name
+                    ),
+                    modifier_groups (
+                        id,
+                        name
+                    ),
+                    modifier_options (
+                        id,
+                        name,
+                        price_adjustment
+                    )
+                `)
+                .eq('branch_id', state.branchId)
+                .eq('is_active', true)
+        ])
+
+    if (itemsError) throw itemsError
+    if (mappingError) throw mappingError
+
+    state.modifierMappings = mappings || []
+
+    const seen = new Set()
+    const rows = []
+
+    for (const item of items || []) {
+        const rawModifiers =
+            Array.isArray(item.modifiers)
+                ? item.modifiers
+                : []
+
+        for (const modifier of rawModifiers) {
+            const key = deliveryModifierKey(modifier)
+            if (!key) continue
+
+            const compound =
+                `${item.platform_id}|${item.product_id}|${key}`
+
+            if (seen.has(compound)) continue
+            seen.add(compound)
+
+            rows.push({
+                platform_id: item.platform_id,
+                platform_name: item.delivery_platforms?.name || '-',
+                product_id: item.product_id,
+                product_name: item.product_name || '-',
+                external_modifier_key: key,
+                external_modifier_name: deliveryModifierName(modifier),
+                external_price: deliveryModifierPrice(modifier)
+            })
+        }
+    }
+
+    state.modifierSourceRows = rows
+
+    await loadProductModifierChoices(
+        rows.map(x => x.product_id)
+    )
+
+    renderModifierMappings()
+    setMessage(
+        `โหลด ${rows.length.toLocaleString('th-TH')} Modifier จาก Delivery แล้ว`,
+        'ok'
+    )
+}
+
+function renderModifierMappings() {
+    const mappingMap = new Map(
+        (state.modifierMappings || []).map(m => [
+            `${m.platform_id}|${m.product_id}|${String(m.external_modifier_key || '').toLowerCase()}`,
+            m
+        ])
+    )
+
+    const rows = (state.modifierSourceRows || []).map((row, index) => {
+        const compound =
+            `${row.platform_id}|${row.product_id}|${row.external_modifier_key}`
+
+        const current = mappingMap.get(compound)
+        const choices = state.modifierChoices.get(row.product_id) || []
+
+        const selectedValue = current
+            ? `${current.modifier_group_id}|${current.modifier_option_id}`
+            : ''
+
+        const optionsHtml = [
+            '<option value="">-- เลือก Modifier ใน POS --</option>',
+            ...choices.map(choice => {
+                const value = `${choice.group_id}|${choice.option_id}`
+                const selected = value === selectedValue ? 'selected' : ''
+                const priceText =
+                    choice.price_adjustment === 0
+                        ? ''
+                        : ` (${choice.price_adjustment > 0 ? '+' : ''}${money(choice.price_adjustment)})`
+
+                return `
+                    <option value="${esc(value)}" ${selected}>
+                        ${esc(choice.group_name)} → ${esc(choice.option_name)}${esc(priceText)}
+                    </option>
+                `
+            })
+        ].join('')
+
+        const status = current
+            ? badge('Mapped', 'ok')
+            : badge('ยังไม่ Mapping', 'warn')
+
+        return `
+            <tr
+                data-modifier-row="${index}"
+                data-platform-id="${esc(row.platform_id)}"
+                data-product-id="${esc(row.product_id)}"
+                data-key="${esc(row.external_modifier_key)}"
+                data-name="${esc(row.external_modifier_name)}"
+            >
+                <td>${esc(row.platform_name)}</td>
+                <td>
+                    <strong>${esc(row.product_name)}</strong>
+                    <br><small>${esc(row.product_id)}</small>
+                </td>
+                <td>
+                    <strong>${esc(row.external_modifier_name)}</strong>
+                    <br><small>key: ${esc(row.external_modifier_key)}</small>
+                </td>
+                <td class="num">${money(row.external_price)}</td>
+                <td>
+                    <select class="delivery-edit modifier-pos-select">
+                        ${optionsHtml}
+                    </select>
+                    ${
+                        choices.length
+                            ? ''
+                            : '<br><small>สินค้านี้ยังไม่มี Modifier ใน POS</small>'
+                    }
+                </td>
+                <td>${status}</td>
+                <td>
+                    <button
+                        class="delivery-action save-modifier-mapping-btn"
+                        data-index="${index}"
+                        ${choices.length ? '' : 'disabled'}
+                    >
+                        บันทึก
+                    </button>
+                </td>
+            </tr>
+        `
+    }).join('')
+
+    $('modifierMappingRows').innerHTML =
+        rows ||
+        '<tr><td colspan="7">ยังไม่พบ Modifier จาก Delivery</td></tr>'
+
+    document
+        .querySelectorAll('.save-modifier-mapping-btn')
+        .forEach(button => {
+            button.addEventListener('click', () => {
+                saveModifierMapping(Number(button.dataset.index))
+            })
+        })
+}
+
+async function saveModifierMapping(index) {
+    const rowData = state.modifierSourceRows[index]
+    const tr = document.querySelector(
+        `tr[data-modifier-row="${CSS.escape(String(index))}"]`
+    )
+
+    if (!rowData || !tr) return
+
+    const select = tr.querySelector('.modifier-pos-select')
+    const value = select?.value || ''
+
+    if (!value || !value.includes('|')) {
+        setMessage('กรุณาเลือก Modifier ใน POS ก่อน', 'bad')
+        return
+    }
+
+    const [groupId, optionId] = value.split('|')
+
+    const { error } = await supabase
+        .from('delivery_modifier_mappings')
+        .upsert(
+            {
+                branch_id: state.branchId,
+                platform_id: rowData.platform_id,
+                product_id: rowData.product_id,
+                external_modifier_key: rowData.external_modifier_key,
+                external_modifier_name: rowData.external_modifier_name,
+                modifier_group_id: groupId,
+                modifier_option_id: optionId,
+                is_active: true
+            },
+            {
+                onConflict:
+                    'branch_id,platform_id,product_id,external_modifier_key'
+            }
+        )
+
+    if (error) {
+        setMessage(error.message, 'bad')
+        return
+    }
+
+    setMessage(
+        `บันทึก Modifier Mapping: ${rowData.external_modifier_name} แล้ว`,
+        'ok'
+    )
+
+    await loadModifierMappings()
+}
+
 async function loadMappings() {
     setMessage('กำลังโหลด Menu Mapping...')
 
@@ -798,6 +1179,7 @@ function bindEvents() {
 
     $('loadOrdersBtn').addEventListener('click', loadOrders)
     $('loadMappingsBtn').addEventListener('click', loadMappings)
+    $('loadModifierMappingsBtn').addEventListener('click', loadModifierMappings)
     $('loadReconBtn').addEventListener('click', loadReconciliation)
 
     $('todayBtn').addEventListener('click', async () => {
@@ -810,6 +1192,7 @@ function bindEvents() {
     $('platformFilter').addEventListener('change', loadOrders)
     $('orderStatusFilter').addEventListener('change', loadOrders)
     $('mappingPlatformFilter').addEventListener('change', loadMappings)
+    $('modifierPlatformFilter').addEventListener('change', loadModifierMappings)
     $('reconPlatformFilter').addEventListener('change', loadReconciliation)
 }
 
@@ -837,6 +1220,7 @@ async function init() {
         await Promise.all([
             loadOrders(),
             loadMappings(),
+            loadModifierMappings(),
             loadReconciliation()
         ])
 
