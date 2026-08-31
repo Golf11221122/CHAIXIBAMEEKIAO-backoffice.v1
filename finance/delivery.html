@@ -304,6 +304,7 @@
             <div class="delivery-tabs" role="tablist">
                 <button class="delivery-tab active" data-tab="ordersPane">ออเดอร์</button>
                 <button class="delivery-tab" data-tab="mappingPane">Menu Mapping</button>
+                <button class="delivery-tab" data-tab="modifierMappingPane">Modifier Mapping</button>
                 <button class="delivery-tab" data-tab="reconPane">Reconciliation</button>
             </div>
 
@@ -348,7 +349,7 @@
                 </div>
 
                 <div class="delivery-note">
-                    Phase 2.3B — Delivery → Kitchen → Sale → Stock • ใช้ราคา Delivery จริง • Commission/Fee ยังอยู่ใน Settlement แยกจากยอดขาย
+                    Phase 2.4 — รองรับ Modifier Mapping • Delivery → Kitchen → Sale → Stock • ใช้ราคา Delivery จริง
                 </div>
 
                 <div class="delivery-table-wrap" style="margin-top:12px">
@@ -411,6 +412,49 @@
                         </thead>
                         <tbody id="mappingRows">
                         <tr><td colspan="8">กำลังโหลด...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+
+            <!-- MODIFIER MAPPING -->
+            <section class="delivery-pane panel" id="modifierMappingPane">
+                <div class="delivery-filters">
+                    <div class="delivery-field">
+                        <label for="modifierPlatformFilter">แพลตฟอร์ม</label>
+                        <select id="modifierPlatformFilter">
+                            <option value="">ทั้งหมด</option>
+                            <option value="grabfood">GrabFood</option>
+                            <option value="lineman">LINE MAN</option>
+                        </select>
+                    </div>
+
+                    <button class="primary-btn" id="loadModifierMappingsBtn">
+                        โหลด Modifier Mapping
+                    </button>
+                </div>
+
+                <div class="delivery-note">
+                    จับคู่ตัวเลือกจาก GrabFood / LINE MAN กับ Modifier ของ POS เดิม
+                    • เมื่อ Mapping แล้ว ระบบจะส่ง Modifier เดิมเข้า Kitchen และใช้กฎ Stock เดิมอัตโนมัติ
+                </div>
+
+                <div class="delivery-table-wrap" style="margin-top:12px">
+                    <table class="delivery-table">
+                        <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>สินค้า</th>
+                            <th>Modifier จาก Delivery</th>
+                            <th class="num">ราคา</th>
+                            <th>จับคู่กับ POS</th>
+                            <th>สถานะ</th>
+                            <th>บันทึก</th>
+                        </tr>
+                        </thead>
+                        <tbody id="modifierMappingRows">
+                        <tr><td colspan="7">กำลังโหลด...</td></tr>
                         </tbody>
                     </table>
                 </div>
