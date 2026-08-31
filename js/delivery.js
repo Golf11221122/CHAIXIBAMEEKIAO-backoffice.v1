@@ -145,6 +145,7 @@ async function loadOrders() {
             external_order_id,
             external_display_id,
             sale_id,
+            restaurant_order_id,
             order_status,
             payment_status,
             customer_name,
@@ -207,13 +208,43 @@ async function loadOrders() {
 
 function renderOrders() {
     const rows = state.orders.map(order => {
-        const posStatus = order.sale_id
-            ? badge('เข้า POS แล้ว', 'ok')
-            : badge('ยังไม่เข้า POS', 'neutral')
+        let posStatus = badge('ยังไม่เข้า POS', 'neutral')
+
+        if (order.sale_id) {
+            posStatus = badge('บันทึกขายแล้ว', 'ok')
+        } else if (order.restaurant_order_id) {
+            posStatus = badge('เข้าครัวแล้ว', 'info')
+        }
+
+        const blocked =
+            ['cancelled', 'rejected'].includes(order.order_status)
+
+        let actionHtml = ''
+
+        if (order.sale_id) {
+            actionHtml = badge('เสร็จแล้ว', 'ok')
+        } else if (order.restaurant_order_id) {
+            actionHtml = `<span class="delivery-status status-info">รอ Phase 2.3B</span>`
+        } else if (blocked) {
+            actionHtml = badge('ส่งไม่ได้', 'bad')
+        } else {
+            actionHtml = `
+                <button
+                    class="delivery-action primary dispatch-delivery-btn"
+                    data-id="${esc(order.id)}"
+                    data-label="${esc(order.external_display_id || order.external_order_id)}"
+                >
+                    ส่งเข้าครัว
+                </button>
+            `
+        }
 
         const detail = [
             order.customer_name ? `ลูกค้า: ${esc(order.customer_name)}` : '',
             order.customer_note ? `หมายเหตุ: ${esc(order.customer_note)}` : '',
+            order.restaurant_order_id
+                ? `Restaurant Order: ${esc(order.restaurant_order_id)}`
+                : '',
             `Gross: ${money(order.gross_sales)}`,
             `Fee: ${money(num(order.service_fee) + num(order.other_fee))}`
         ].filter(Boolean).join('<br>')
@@ -233,13 +264,127 @@ function renderOrders() {
                 <td class="num">${money(order.commission_fee)}</td>
                 <td class="num"><strong>${money(order.expected_settlement)}</strong></td>
                 <td>${posStatus}</td>
+                <td>${actionHtml}</td>
                 <td class="delivery-detail">${detail}</td>
             </tr>
         `
     }).join('')
 
     $('orderRows').innerHTML = rows ||
-        '<tr><td colspan="11">ไม่พบ Delivery Order ในช่วงที่เลือก</td></tr>'
+        '<tr><td colspan="12">ไม่พบ Delivery Order ในช่วงที่เลือก</td></tr>'
+
+    document.querySelectorAll('.dispatch-delivery-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            dispatchDeliveryOrder(
+                button.dataset.id,
+                button.dataset.label,
+                button
+            )
+        })
+    })
+}
+
+async function getCurrentShiftForDelivery() {
+    const { data, error } = await supabase.rpc('get_current_shift')
+
+    if (error) throw error
+
+    const shift =
+        Array.isArray(data)
+            ? (data[0] || null)
+            : (data || null)
+
+    if (!shift?.id) {
+        throw new Error('ยังไม่มีกะเปิดอยู่ กรุณาเปิดกะใน POS ก่อน')
+    }
+
+    if (
+        shift.branch_id &&
+        state.branchId &&
+        shift.branch_id !== state.branchId
+    ) {
+        throw new Error('กะที่เปิดอยู่เป็นคนละสาขา')
+    }
+
+    return shift
+}
+
+async function dispatchDeliveryOrder(id, label, button) {
+    if (!id || !button) return
+
+    const confirmed = window.confirm(
+        `ส่ง ${label || 'Delivery Order'} เข้าครัวตอนนี้?\n\n` +
+        'ขั้นนี้จะสร้าง Restaurant Order และรายการ Kitchen เท่านั้น\n' +
+        'ยังไม่สร้าง Sale และยังไม่ตัด Stock'
+    )
+
+    if (!confirmed) return
+
+    const oldText = button.textContent
+    button.disabled = true
+    button.textContent = 'กำลังส่ง...'
+    setMessage('กำลังตรวจสอบกะและส่ง Delivery เข้าครัว...')
+
+    try {
+        const shift = await getCurrentShiftForDelivery()
+
+        const { data, error } = await supabase.rpc(
+            'backoffice_delivery_dispatch_to_kitchen_v1',
+            {
+                p_delivery_order_id: id,
+                p_shift_id: shift.id
+            }
+        )
+
+        if (error) throw error
+
+        const result =
+            Array.isArray(data)
+                ? (data[0] || {})
+                : (data || {})
+
+        if (!result?.ok) {
+            throw new Error(result?.message || 'ส่ง Delivery เข้าครัวไม่สำเร็จ')
+        }
+
+        setMessage(
+            result.already_dispatched
+                ? 'ออเดอร์นี้ถูกส่งเข้าครัวไปแล้ว — ระบบไม่สร้างซ้ำ'
+                : `ส่ง ${label || 'Delivery Order'} เข้าครัวแล้ว`,
+            'ok'
+        )
+
+        await loadOrders()
+
+    } catch (error) {
+        console.error('Dispatch delivery error:', error)
+
+        let message =
+            error?.message ||
+            'ส่ง Delivery เข้าครัวไม่สำเร็จ'
+
+        const map = {
+            DELIVERY_ORDER_NOT_FOUND: 'ไม่พบ Delivery Order',
+            DELIVERY_ORDER_CANCELLED: 'ออเดอร์ถูกยกเลิก/ปฏิเสธแล้ว จึงส่งเข้าครัวไม่ได้',
+            DELIVERY_ORDER_ALREADY_SOLD: 'ออเดอร์นี้มี Sale อยู่แล้ว',
+            DELIVERY_ORDER_HAS_NO_ITEMS: 'ออเดอร์นี้ไม่มีรายการสินค้า',
+            DELIVERY_ITEM_UNMAPPED: 'มีเมนูที่ยังไม่ได้ Mapping กับสินค้าใน POS',
+            DELIVERY_MODIFIER_MAPPING_NOT_READY: 'ออเดอร์มี Modifier จาก Delivery ที่ยังไม่ได้ Mapping',
+            SHIFT_REQUIRED: 'ยังไม่มีกะเปิดอยู่ กรุณาเปิดกะใน POS ก่อน',
+            SHIFT_BRANCH_MISMATCH: 'กะที่เลือกเป็นคนละสาขา'
+        }
+
+        for (const [code, text] of Object.entries(map)) {
+            if (message.includes(code)) {
+                message = text
+                break
+            }
+        }
+
+        setMessage(message, 'bad')
+        button.disabled = false
+        button.textContent = oldText
+    }
 }
 
 async function loadMappings() {
