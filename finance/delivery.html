@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <title>🛵 Delivery Center | CHAIXI BAMEEKIAO Back Office</title>
+
+    <link href="../css/app.css" rel="stylesheet"/>
+    <link href="../css/stock-v2.css" rel="stylesheet"/>
+    <link href="../css/responsive.css" rel="stylesheet"/>
+    <link href="../css/print.css" rel="stylesheet"/>
+    <link href="../css/ui-store-v3.21.css" rel="stylesheet"/>
+    <link href="../css/ui-safe-v3.23.css" rel="stylesheet"/>
+    <link href="../css/ui-bottom-nav-v3.26.css" rel="stylesheet"/>
+    <link href="../css/ui-overlay-v3.27.css" rel="stylesheet"/>
+
+    <style>
+        .delivery-summary{
+            display:grid;
+            grid-template-columns:repeat(4,minmax(0,1fr));
+            gap:10px;
+            margin:12px 0;
+        }
+        .delivery-kpi{
+            background:var(--card,#fff);
+            border:1px solid var(--border,#e5e7eb);
+            border-radius:14px;
+            padding:14px;
+            min-width:0;
+        }
+        .delivery-kpi span{display:block;font-size:12px;color:#667085;margin-bottom:5px}
+        .delivery-kpi strong{display:block;font-size:21px;line-height:1.15;overflow-wrap:anywhere}
+        .delivery-kpi small{display:block;margin-top:5px;color:#667085}
+
+        .delivery-tabs{
+            display:flex;
+            gap:7px;
+            overflow:auto;
+            padding:2px 0 8px;
+            scrollbar-width:thin;
+        }
+        .delivery-tab{
+            flex:0 0 auto;
+            border:1px solid #d0d5dd;
+            background:#fff;
+            color:#344054;
+            border-radius:999px;
+            padding:9px 13px;
+            font-weight:700;
+            cursor:pointer;
+        }
+        .delivery-tab.active{
+            background:#ffc21a;
+            border-color:#ffc21a;
+            color:#111827;
+        }
+        .delivery-pane{display:none}
+        .delivery-pane.active{display:block}
+
+        .delivery-filters{
+            display:flex;
+            align-items:end;
+            gap:8px;
+            flex-wrap:wrap;
+        }
+        .delivery-field{
+            display:flex;
+            flex-direction:column;
+            gap:4px;
+        }
+        .delivery-field label{
+            font-size:12px;
+            color:#667085;
+            font-weight:700;
+        }
+        .delivery-field input,
+        .delivery-field select{
+            min-height:38px;
+            border:1px solid #d0d5dd;
+            border-radius:9px;
+            padding:7px 9px;
+            background:#fff;
+            color:#101828;
+        }
+
+        .delivery-table-wrap{
+            width:100%;
+            overflow:auto;
+            max-height:58vh;
+            border:1px solid #eaecf0;
+            border-radius:12px;
+        }
+        .delivery-table{
+            width:100%;
+            border-collapse:separate;
+            border-spacing:0;
+            min-width:900px;
+        }
+        .delivery-table th,
+        .delivery-table td{
+            padding:9px 10px;
+            border-bottom:1px solid #eaecf0;
+            vertical-align:middle;
+            white-space:nowrap;
+        }
+        .delivery-table th{
+            position:sticky;
+            top:0;
+            z-index:2;
+            background:#f9fafb;
+            font-size:12px;
+            color:#475467;
+            text-align:left;
+        }
+        .delivery-table td.num,
+        .delivery-table th.num{text-align:right}
+        .delivery-table tr:last-child td{border-bottom:0}
+
+        .delivery-status{
+            display:inline-flex;
+            align-items:center;
+            border-radius:999px;
+            padding:4px 8px;
+            font-size:12px;
+            font-weight:800;
+        }
+        .status-ok{background:#ecfdf3;color:#027a48}
+        .status-warn{background:#fffaeb;color:#b54708}
+        .status-bad{background:#fef3f2;color:#b42318}
+        .status-info{background:#eff8ff;color:#175cd3}
+        .status-neutral{background:#f2f4f7;color:#475467}
+
+        .delivery-action{
+            border:1px solid #d0d5dd;
+            background:#fff;
+            border-radius:8px;
+            padding:7px 10px;
+            cursor:pointer;
+            font-weight:700;
+        }
+        .delivery-action:hover{background:#f9fafb}
+
+        .delivery-edit{
+            width:150px;
+            max-width:100%;
+            min-height:34px;
+            border:1px solid #d0d5dd;
+            border-radius:8px;
+            padding:5px 7px;
+        }
+        .delivery-note{
+            margin:10px 0 0;
+            padding:10px 12px;
+            border-radius:10px;
+            background:#fffaeb;
+            border:1px solid #fedf89;
+            color:#7a2e0e;
+            font-size:13px;
+        }
+        .delivery-message{
+            margin-top:10px;
+            min-height:20px;
+            font-size:13px;
+            font-weight:700;
+        }
+        .delivery-message.ok{color:#027a48}
+        .delivery-message.bad{color:#b42318}
+
+        .delivery-detail{
+            white-space:normal;
+            min-width:250px;
+            max-width:380px;
+        }
+
+        @media(max-width:900px){
+            .delivery-summary{grid-template-columns:1fr 1fr}
+        }
+        @media(max-width:560px){
+            .delivery-summary{grid-template-columns:1fr 1fr}
+            .delivery-kpi{padding:11px}
+            .delivery-kpi strong{font-size:18px}
+            .delivery-filters{
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                align-items:end;
+            }
+            .delivery-filters .wide{grid-column:1/-1}
+            .delivery-filters button{min-height:40px}
+        }
+
+        @media (prefers-color-scheme:dark){
+            .delivery-tab,
+            .delivery-field input,
+            .delivery-field select,
+            .delivery-action{
+                background:#111827;
+                color:#f9fafb;
+                border-color:#374151;
+            }
+            .delivery-tab.active{background:#ffc21a;color:#111827;border-color:#ffc21a}
+            .delivery-table th{background:#111827;color:#d1d5db}
+            .delivery-table-wrap{border-color:#374151}
+            .delivery-table th,.delivery-table td{border-bottom-color:#374151}
+            .delivery-note{background:#422006;border-color:#854d0e;color:#fde68a}
+        }
+    </style>
+</head>
+
+<body>
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <strong>CHAIXI BAMEEKIAO</strong>
+            <small>Back Office</small>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <div class="nav-title">ภาพรวม</div>
+                <a class="nav-link" href="../dashboard.html">📊 Dashboard</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Delivery</div>
+                <a class="nav-link active" data-nav="delivery" href="./delivery.html">🛵 Delivery Center</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Finance</div>
+                <a class="nav-link" href="./financial-summary.html">💰 Financial Summary</a>
+                <a class="nav-link" href="./pnl.html">📈 P&amp;L</a>
+                <a class="nav-link" href="./reconciliation.html">💳 กระทบยอดการขาย</a>
+                <a class="nav-link" href="./bank-cash-reconciliation.html">🏦 Bank / Cash Reconciliation</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Stock &amp; Cost</div>
+                <a class="nav-link" href="../stock/ingredients.html">📦 วัตถุดิบ</a>
+                <a class="nav-link" href="../stock/production.html">🏭 Production</a>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-btn" id="menuBtn">☰</button>
+                <div>
+                    <h1>🛵 Delivery Center</h1>
+                    <p id="branchText">-</p>
+                </div>
+            </div>
+
+            <div class="user-box">
+                <span id="userName">-</span>
+                <span class="role-pill" id="roleBadge">-</span>
+                <button class="outline-btn" id="logoutBtn">ออกจากระบบ</button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="page-head">
+                <div>
+                    <h2>Delivery Back Office</h2>
+                    <p>GrabFood • LINE MAN • Menu Mapping • Settlement / Reconciliation</p>
+                </div>
+            </div>
+
+            <div class="delivery-summary">
+                <div class="delivery-kpi">
+                    <span>Delivery Orders</span>
+                    <strong id="kpiOrders">0</strong>
+                    <small id="kpiOrdersSub">0 ออเดอร์</small>
+                </div>
+
+                <div class="delivery-kpi">
+                    <span>Gross Sales</span>
+                    <strong id="kpiGross">฿0.00</strong>
+                    <small>เฉพาะ Delivery</small>
+                </div>
+
+                <div class="delivery-kpi">
+                    <span>Expected Settlement</span>
+                    <strong id="kpiExpected">฿0.00</strong>
+                    <small>เงินที่ควรได้รับ</small>
+                </div>
+
+                <div class="delivery-kpi">
+                    <span>Settlement Difference</span>
+                    <strong id="kpiDifference">฿0.00</strong>
+                    <small id="kpiDifferenceSub">ตรง</small>
+                </div>
+            </div>
+
+            <div class="delivery-tabs" role="tablist">
+                <button class="delivery-tab active" data-tab="ordersPane">ออเดอร์</button>
+                <button class="delivery-tab" data-tab="mappingPane">Menu Mapping</button>
+                <button class="delivery-tab" data-tab="reconPane">Reconciliation</button>
+            </div>
+
+            <!-- ORDERS -->
+            <section class="delivery-pane active panel" id="ordersPane">
+                <div class="delivery-filters">
+                    <div class="delivery-field">
+                        <label for="dateFrom">จากวันที่</label>
+                        <input id="dateFrom" type="date"/>
+                    </div>
+
+                    <div class="delivery-field">
+                        <label for="dateTo">ถึงวันที่</label>
+                        <input id="dateTo" type="date"/>
+                    </div>
+
+                    <div class="delivery-field">
+                        <label for="platformFilter">แพลตฟอร์ม</label>
+                        <select id="platformFilter">
+                            <option value="">ทั้งหมด</option>
+                            <option value="grabfood">GrabFood</option>
+                            <option value="lineman">LINE MAN</option>
+                        </select>
+                    </div>
+
+                    <div class="delivery-field">
+                        <label for="orderStatusFilter">สถานะ</label>
+                        <select id="orderStatusFilter">
+                            <option value="">ทั้งหมด</option>
+                            <option value="received">Received</option>
+                            <option value="accepted">Accepted</option>
+                            <option value="preparing">Preparing</option>
+                            <option value="ready">Ready</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+
+                    <button class="primary-btn" id="loadOrdersBtn">โหลด</button>
+                    <button class="outline-btn" id="todayBtn">วันนี้</button>
+                </div>
+
+                <div class="delivery-note">
+                    Phase 2.2 ยังเป็น Back Office เท่านั้น — หน้านี้ไม่ส่ง Order เข้า POS/Kitchen และไม่ตัด Stock
+                </div>
+
+                <div class="delivery-table-wrap" style="margin-top:12px">
+                    <table class="delivery-table">
+                        <thead>
+                        <tr>
+                            <th>เวลา</th>
+                            <th>Platform</th>
+                            <th>Order ID</th>
+                            <th>สถานะ</th>
+                            <th class="num">Subtotal</th>
+                            <th class="num">ส่วนลดร้าน</th>
+                            <th class="num">ส่วนลด Platform</th>
+                            <th class="num">Commission</th>
+                            <th class="num">Expected</th>
+                            <th>POS</th>
+                            <th>รายละเอียด</th>
+                        </tr>
+                        </thead>
+                        <tbody id="orderRows">
+                        <tr><td colspan="11">กำลังโหลด...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- MENU MAPPING -->
+            <section class="delivery-pane panel" id="mappingPane">
+                <div class="delivery-filters">
+                    <div class="delivery-field">
+                        <label for="mappingPlatformFilter">แพลตฟอร์ม</label>
+                        <select id="mappingPlatformFilter">
+                            <option value="">ทั้งหมด</option>
+                            <option value="grabfood">GrabFood</option>
+                            <option value="lineman">LINE MAN</option>
+                        </select>
+                    </div>
+
+                    <button class="primary-btn" id="loadMappingsBtn">โหลด Mapping</button>
+                </div>
+
+                <div class="delivery-note">
+                    ตอนนี้ใช้ External Item ID แบบ TEST ได้ก่อน เมื่อได้ ID จริงจาก GrabFood / LINE MAN ค่อยเปลี่ยนในหน้านี้
+                </div>
+
+                <div class="delivery-table-wrap" style="margin-top:12px">
+                    <table class="delivery-table">
+                        <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>เมนูใน POS</th>
+                            <th class="num">ราคา POS</th>
+                            <th>External Item ID</th>
+                            <th class="num">ราคา Delivery</th>
+                            <th>Availability</th>
+                            <th>Sync</th>
+                            <th>บันทึก</th>
+                        </tr>
+                        </thead>
+                        <tbody id="mappingRows">
+                        <tr><td colspan="8">กำลังโหลด...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- RECONCILIATION -->
+            <section class="delivery-pane panel" id="reconPane">
+                <div class="delivery-filters">
+                    <div class="delivery-field">
+                        <label for="reconPlatformFilter">แพลตฟอร์ม</label>
+                        <select id="reconPlatformFilter">
+                            <option value="">ทั้งหมด</option>
+                            <option value="grabfood">GrabFood</option>
+                            <option value="lineman">LINE MAN</option>
+                        </select>
+                    </div>
+
+                    <button class="primary-btn" id="loadReconBtn">โหลด Reconciliation</button>
+                </div>
+
+                <div class="delivery-table-wrap" style="margin-top:12px">
+                    <table class="delivery-table">
+                        <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>ช่วง</th>
+                            <th class="num">Gross</th>
+                            <th class="num">Merchant Discount</th>
+                            <th class="num">Commission</th>
+                            <th class="num">Fee</th>
+                            <th class="num">Expected</th>
+                            <th class="num">Actual</th>
+                            <th class="num">Difference</th>
+                            <th>สถานะ</th>
+                            <th>Bank Ref</th>
+                        </tr>
+                        </thead>
+                        <tbody id="reconRows">
+                        <tr><td colspan="11">กำลังโหลด...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <p class="delivery-message" id="deliveryMessage"></p>
+        </main>
+    </div>
+</div>
+
+<script src="../js/delivery.js" type="module"></script>
+
+<script type="module">
+    import { installReportToolbar } from '../js/report-tools.js';
+    installReportToolbar();
+</script>
+
+<script defer src="../js/ui-store-v3.21.js"></script>
+<script src="../js/ui-safe-v3.23.js"></script>
+<script src="../js/ui-bottom-nav-v3.26.js"></script>
+<script src="../js/ui-overlay-v3.27.js"></script>
+</body>
+</html>
