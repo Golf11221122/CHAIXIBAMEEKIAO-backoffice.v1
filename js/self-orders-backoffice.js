@@ -12,7 +12,7 @@ const el = {
   paidAmount:$('paidAmount'), paidOrders:$('paidOrders'),
   completedSales:$('completedSales'), completedOrders:$('completedOrders'),
   avgTicket:$('avgTicket'), avgReady:$('avgReady'), avgPickup:$('avgPickup'),
-  blockedOrders:$('blockedOrders'), resultCount:$('resultCount'),
+  blockedOrders:$('blockedOrders'), refundPending:$('refundPending'), resultCount:$('resultCount'),
   loadingState:$('loadingState'), emptyState:$('emptyState'), tableWrap:$('tableWrap'),
   orderTableBody:$('orderTableBody'), pageMessage:$('pageMessage'),
   detailModal:$('detailModal'), detailTitle:$('detailTitle'),
@@ -118,6 +118,7 @@ function renderSummary(s={}){
   el.avgReady.textContent=fmtMin(s.avg_ready_minutes)
   el.avgPickup.textContent=fmtMin(s.avg_pickup_minutes)
   el.blockedOrders.textContent=Number(s.blocked_orders||0).toLocaleString('th-TH')
+  el.refundPending.textContent=Number(s.refund_pending_orders||0).toLocaleString('th-TH')
 }
 
 function applyClientFilters(){
@@ -143,8 +144,13 @@ function renderTable(){
 
   el.orderTableBody.innerHTML=rows.map(o=>{
     const blocked=o.sale_stock_status==='blocked' || o.kitchen_dispatch_status==='blocked'
-    const saleKind=blocked?'bad':(o.sale_id?'ok':'warn')
-    const saleText=blocked?'ต้องตรวจสอบ':(o.sale_id?o.invoice_no||'บันทึกขายแล้ว':'ยังไม่บันทึกขาย')
+    const voided=o.sale_stock_status==='voided'
+    const refundPending=['pending_approval','pending'].includes(o.refund_status)
+    const saleKind=blocked?'bad':(voided?'bad':(o.sale_id?'ok':'warn'))
+    const saleText=blocked?'ต้องตรวจสอบ':(voided?'VOID / คืน Stock แล้ว':(o.sale_id?o.invoice_no||'บันทึกขายแล้ว':'ยังไม่บันทึกขาย'))
+    const refundHtml = refundPending
+      ? `<div class="refund-line">คืนเงิน: ${esc(o.refund_status==='pending'?'รอดำเนินการ':'รออนุมัติ')}</div>`
+      : (o.refund_status==='refunded'?'<div class="refund-line refunded">คืนเงินแล้ว</div>':'')
 
     return `<tr>
       <td><strong>${esc(fmtDateTime(o.created_at))}</strong></td>
@@ -161,7 +167,7 @@ function renderTable(){
       </td>
       <td>
         ${badge(saleText,saleKind)}
-        <div class="sub">Stock: ${esc(o.sale_stock_status||'-')}</div>
+        <div class="sub">Stock: ${esc(o.sale_stock_status||'-')}</div>${refundHtml}
       </td>
       <td>
         <div>พร้อม: ${esc(fmtMin(o.ready_minutes))}</div>
@@ -192,6 +198,98 @@ async function loadDashboard(){
 function modifierText(modifiers){
   if(!Array.isArray(modifiers) || !modifiers.length) return ''
   return modifiers.map(m=>m?.name||m?.label||m?.option_name||'').filter(Boolean).join(', ')
+}
+
+
+async function callAction(fn,args,confirmText){
+  if(confirmText && !confirm(confirmText)) return null
+  const {data,error}=await supabase.rpc(fn,args)
+  if(error) throw error
+  return data
+}
+
+async function cancelSelfOrder(id){
+  const reason=prompt('เหตุผลการยกเลิกออเดอร์')
+  if(reason===null) return
+  if(!reason.trim()){
+    alert('กรุณาระบุเหตุผล')
+    return
+  }
+
+  const result=await callAction(
+    'backoffice_self_order_cancel_v1',
+    {p_self_order_id:id,p_reason:reason.trim()},
+    'ยืนยันยกเลิกออเดอร์นี้?'
+  )
+  if(!result) return
+
+  if(result.approval_required){
+    alert('บิลนี้มี Sale/Stock แล้ว\nระบบบันทึกคำขอไว้แล้ว ต้องกดอนุมัติ VOID ก่อนคืน Stock')
+  }else if(result.refund_required){
+    alert('ยกเลิกแล้ว\nรายการนี้ชำระเงินแล้ว จึงถูกตั้งเป็น "รอคืนเงิน"')
+  }else{
+    alert('ยกเลิกออเดอร์แล้ว')
+  }
+
+  closeDetail()
+  await loadDashboard()
+}
+
+async function approveVoid(id){
+  const reason=prompt('เหตุผลอนุมัติ VOID / คืน Stock')
+  if(reason===null) return
+  if(!reason.trim()){
+    alert('กรุณาระบุเหตุผล')
+    return
+  }
+
+  const result=await callAction(
+    'backoffice_approve_self_order_after_sale_cancel_v1',
+    {p_self_order_id:id,p_reason:reason.trim()},
+    'ยืนยัน VOID Sale และคืน Stock ของออเดอร์นี้?\n\nการทำรายการนี้มีผลกับยอดขายและ Stock จริง'
+  )
+  if(!result) return
+
+  alert(`อนุมัติสำเร็จ\nคืน BASE Stock: ${result.base_stock_restored||0}\nคืน Rule Stock: ${result.rule_stock_restored||0}\nสถานะ: รอคืนเงินลูกค้า`)
+  closeDetail()
+  await loadDashboard()
+}
+
+async function rejectCancel(id){
+  const reason=prompt('เหตุผลที่ไม่อนุมัติการยกเลิก')
+  if(reason===null) return
+  if(!reason.trim()){
+    alert('กรุณาระบุเหตุผล')
+    return
+  }
+  await callAction(
+    'backoffice_reject_self_order_cancel_v1',
+    {p_self_order_id:id,p_reason:reason.trim()},
+    'ยืนยันไม่อนุมัติการยกเลิก?'
+  )
+  alert('บันทึกว่าไม่อนุมัติแล้ว')
+  closeDetail()
+  await loadDashboard()
+}
+
+async function completeRefund(id){
+  const reference=prompt('เลขอ้างอิง/หมายเหตุการคืนเงิน\nเช่น KBank 123456 หรือ คืนเงินสด')
+  if(reference===null) return
+  if(!reference.trim()){
+    alert('กรุณาระบุหลักฐาน/เลขอ้างอิงการคืนเงิน')
+    return
+  }
+
+  const result=await callAction(
+    'backoffice_complete_self_order_refund_v1',
+    {p_self_order_id:id,p_refund_reference:reference.trim()},
+    'ยืนยันว่าคุณคืนเงินจริงให้ลูกค้าแล้ว?\n\nปุ่มนี้เป็นการบันทึกสถานะเท่านั้น ระบบไม่ได้โอนเงินให้อัตโนมัติ'
+  )
+  if(!result) return
+
+  alert('บันทึกคืนเงินเรียบร้อย')
+  closeDetail()
+  await loadDashboard()
 }
 
 async function openDetail(id){
@@ -254,6 +352,25 @@ async function openDetail(id){
       `).join('') || '<div class="empty-state">ไม่มี Event</div>'}
     </div>
 
+
+    <h4>จัดการออเดอร์</h4>
+    <div class="action-panel">
+      ${o.status!=='cancelled' && o.cancellation_status!=='requested'
+        ? `<button class="danger-action" data-action="cancel-order" data-order-id="${esc(o.id)}">ยกเลิกออเดอร์</button>`
+        : ''}
+      ${o.cancellation_status==='requested' && o.sale_id
+        ? `<button class="danger-action" data-action="approve-void" data-order-id="${esc(o.id)}">อนุมัติ VOID + คืน Stock</button>
+           <button class="outline-action" data-action="reject-cancel" data-order-id="${esc(o.id)}">ไม่อนุมัติ</button>`
+        : ''}
+      ${o.refund_status==='pending'
+        ? `<button class="refund-action" data-action="complete-refund" data-order-id="${esc(o.id)}">บันทึกว่าคืนเงินแล้ว</button>`
+        : ''}
+      <div class="action-state">
+        <span>Cancel: <strong>${esc(o.cancellation_status||'none')}</strong></span>
+        <span>Refund: <strong>${esc(o.refund_status||'none')}</strong></span>
+      </div>
+    </div>
+
     ${(o.kitchen_dispatch_error||o.sale_stock_error)?`
       <div class="detail-error">
         ${o.kitchen_dispatch_error?`Kitchen: ${esc(o.kitchen_dispatch_error)}<br>`:''}
@@ -289,6 +406,23 @@ el.orderTableBody.addEventListener('click',e=>{
   const b=e.target.closest('[data-id]')
   if(b) openDetail(b.dataset.id)
 })
+el.detailBody.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-action][data-order-id]')
+  if(!b) return
+  b.disabled=true
+  try{
+    const id=b.dataset.orderId
+    if(b.dataset.action==='cancel-order') await cancelSelfOrder(id)
+    if(b.dataset.action==='approve-void') await approveVoid(id)
+    if(b.dataset.action==='reject-cancel') await rejectCancel(id)
+    if(b.dataset.action==='complete-refund') await completeRefund(id)
+  }catch(error){
+    console.error(error)
+    alert(error.message||'ทำรายการไม่สำเร็จ')
+    b.disabled=false
+  }
+})
+
 el.closeDetailBtn.addEventListener('click',closeDetail)
 el.detailModal.addEventListener('click',e=>{ if(e.target===el.detailModal) closeDetail() })
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDetail() })
