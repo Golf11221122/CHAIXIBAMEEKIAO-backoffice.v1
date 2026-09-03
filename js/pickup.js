@@ -36,6 +36,12 @@ function pickupTokenFromUrl(){
   return raw.trim()
 }
 
+function pickupCodeFromUrl(){
+  const raw=new URLSearchParams(location.search).get('code')
+  if(!raw) return null
+  return raw.trim()
+}
+
 function render(order){
   state.order=order
   el.card.classList.remove('hidden')
@@ -111,8 +117,12 @@ async function init(){
   try{
     if(!await requireSession()) return
     const token=pickupTokenFromUrl()
+    const code=pickupCodeFromUrl()
     if(token){
       await lookup({token})
+    }else if(/^\d{4}$/.test(code||'')){
+      el.code.value=code
+      await lookup({code})
     }
   }catch(error){
     console.error(error)
