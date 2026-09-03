@@ -103,3 +103,27 @@
   .detail-summary,.timeline-grid{grid-template-columns:repeat(2,1fr)}
   .so-modal{padding:8px}.so-modal-card{padding:14px;border-radius:15px}
 }
+
+
+/* =========================================================
+   PHASE 4.7 — CANCEL / REFUND / VOID
+   ========================================================= */
+.refund-kpi strong{color:#b54708}
+.refund-line{margin-top:4px;font-size:11px;font-weight:800;color:#b54708}
+.refund-line.refunded{color:#027a48}
+.action-panel{
+  display:flex;flex-wrap:wrap;gap:9px;align-items:center;
+  border:1px solid var(--border,#e5e7eb);border-radius:13px;padding:12px
+}
+.danger-action,.refund-action,.outline-action{
+  border:0;border-radius:10px;padding:10px 12px;font-weight:800;cursor:pointer
+}
+.danger-action{background:#d92d20;color:#fff}
+.refund-action{background:#fdb022;color:#182230}
+.outline-action{background:transparent;color:inherit;border:1px solid var(--border,#d0d5dd)}
+.danger-action:disabled,.refund-action:disabled,.outline-action:disabled{opacity:.55;cursor:not-allowed}
+.action-state{
+  width:100%;display:flex;gap:16px;flex-wrap:wrap;
+  padding-top:8px;border-top:1px solid var(--border,#eef0f2);
+  font-size:12px;color:var(--muted,#667085)
+}
