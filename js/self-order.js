@@ -21,7 +21,8 @@ const state = {
     readyAlertShown: false,
     audioUnlocked: false,
     audioContext: null,
-    recoveredOrder: null
+    recoveredOrder: null,
+    draftSaveTimer: null
 }
 
 const $ = id => document.getElementById(id)
@@ -430,52 +431,135 @@ function sessionDraftKey() {
         : null
 }
 
-function saveSessionDraft() {
+function buildDraftPayload() {
+    return {
+        cart: [...state.cart.values()],
+        customer_name: el.customerNameInput?.value || '',
+        customer_phone: el.customerPhoneInput?.value || '',
+        customer_note: el.customerNoteInput?.value || ''
+    }
+}
+
+function saveDraftLocal(payload) {
     const key = sessionDraftKey()
-    if (!key || state.submittedOrder) return
+    if (!key) return
 
     try {
         localStorage.setItem(key, JSON.stringify({
-            cart: [...state.cart.values()],
-            customer_name: el.customerNameInput?.value || '',
-            customer_phone: el.customerPhoneInput?.value || '',
-            customer_note: el.customerNoteInput?.value || '',
+            ...payload,
             saved_at: new Date().toISOString()
         }))
     } catch (_) {}
 }
 
-function restoreSessionDraft() {
+async function saveDraftServer(payload) {
+    if (!state.sessionToken || state.submittedOrder) return
+
+    const { error } = await supabase.rpc(
+        'self_order_save_session_draft_v1',
+        {
+            p_session_token: state.sessionToken,
+            p_cart: payload.cart,
+            p_customer_name: payload.customer_name || null,
+            p_customer_phone: payload.customer_phone || null,
+            p_customer_note: payload.customer_note || null
+        }
+    )
+
+    if (error) {
+        console.warn('Save session draft server error:', error)
+    }
+}
+
+function saveSessionDraft() {
+    if (!state.sessionToken || state.submittedOrder) return
+
+    const payload = buildDraftPayload()
+    saveDraftLocal(payload)
+
+    if (state.draftSaveTimer) {
+        clearTimeout(state.draftSaveTimer)
+    }
+
+    state.draftSaveTimer = setTimeout(() => {
+        saveDraftServer(payload)
+    }, 250)
+}
+
+function applyDraft(draft) {
+    const items = Array.isArray(draft?.cart) ? draft.cart : []
+
+    state.cart.clear()
+
+    for (const item of items) {
+        if (!item?.key || !item?.product_id) continue
+        state.cart.set(item.key, item)
+    }
+
+    if (el.customerNameInput) el.customerNameInput.value = draft?.customer_name || ''
+    if (el.customerPhoneInput) el.customerPhoneInput.value = draft?.customer_phone || ''
+    if (el.customerNoteInput) el.customerNoteInput.value = draft?.customer_note || ''
+
+    renderCart()
+}
+
+async function restoreSessionDraft() {
+    if (!state.sessionToken || state.submittedOrder) return
+
+    // DB is authoritative so recovery works even after closing browser
+    // or scanning the same QR from another browser/device.
+    try {
+        const { data, error } = await supabase.rpc(
+            'self_order_get_session_draft_v1',
+            { p_session_token: state.sessionToken }
+        )
+
+        if (error) throw error
+
+        const draft = Array.isArray(data) ? data[0] : data
+
+        if (draft && Array.isArray(draft.cart) && draft.cart.length) {
+            applyDraft(draft)
+            saveDraftLocal(draft)
+            return
+        }
+    } catch (error) {
+        console.warn('Restore session draft server error:', error)
+    }
+
+    // Local fallback
     const key = sessionDraftKey()
-    if (!key || state.submittedOrder) return
+    if (!key) return
 
     try {
         const raw = localStorage.getItem(key)
         if (!raw) return
-
-        const draft = JSON.parse(raw)
-        const items = Array.isArray(draft?.cart) ? draft.cart : []
-
-        state.cart.clear()
-        for (const item of items) {
-            if (!item?.key || !item?.product_id) continue
-            state.cart.set(item.key, item)
-        }
-
-        if (el.customerNameInput) el.customerNameInput.value = draft?.customer_name || ''
-        if (el.customerPhoneInput) el.customerPhoneInput.value = draft?.customer_phone || ''
-        if (el.customerNoteInput) el.customerNoteInput.value = draft?.customer_note || ''
-
-        renderCart()
+        applyDraft(JSON.parse(raw))
     } catch (error) {
-        console.warn('Restore self-order draft error:', error)
+        console.warn('Restore self-order local draft error:', error)
     }
 }
 
 function clearSessionDraft() {
     const key = sessionDraftKey()
-    if (!key) return
-    try { localStorage.removeItem(key) } catch (_) {}
+
+    if (state.draftSaveTimer) {
+        clearTimeout(state.draftSaveTimer)
+        state.draftSaveTimer = null
+    }
+
+    if (key) {
+        try { localStorage.removeItem(key) } catch (_) {}
+    }
+
+    if (state.sessionToken) {
+        supabase.rpc(
+            'self_order_clear_session_draft_v1',
+            { p_session_token: state.sessionToken }
+        ).then(({ error }) => {
+            if (error) console.warn('Clear session draft server error:', error)
+        })
+    }
 }
 
 async function recoverSubmittedOrder(order) {
@@ -1119,7 +1203,7 @@ async function init() {
         } else {
             startSessionCountdown()
             await loadContextAndMenu()
-            restoreSessionDraft()
+            await restoreSessionDraft()
         }
 
     } catch (error) {
