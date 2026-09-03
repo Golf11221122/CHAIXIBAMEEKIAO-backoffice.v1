@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>QR Self Order | CHAIXI Back Office</title>
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/self-orders-backoffice.css?v=4.6.0">
+</head>
+<body>
+<div class="app">
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-brand"><strong>CHAIXI BAMEEKIAO</strong><small>Back Office</small></div>
+    <nav>
+      <div class="nav-section">
+        <div class="nav-title">ภาพรวม</div>
+        <a class="nav-link" href="../dashboard.html">📊 Dashboard</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-title">Finance</div>
+        <a class="nav-link" href="./expenses.html">🧾 ค่าใช้จ่าย</a>
+        <a class="nav-link" href="./pnl.html">📈 P&amp;L</a>
+        <a class="nav-link" href="./reconciliation.html">💳 กระทบยอดการขาย</a>
+        <a class="nav-link active" href="./self-orders.html">📱 QR Self Order</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-title">Stock &amp; Cost</div>
+        <a class="nav-link" href="../stock/ingredients.html">📦 วัตถุดิบ / Stock</a>
+        <a class="nav-link" href="../stock/movements.html">🔄 Stock Movement</a>
+        <a class="nav-link" href="../stock/recipes.html">🍳 Recipe / BOM</a>
+      </div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="menuBtn" class="menu-btn" type="button">☰</button>
+        <div>
+          <h1>📱 QR Self Order</h1>
+          <p id="branchText">กำลังโหลด...</p>
+        </div>
+      </div>
+      <div class="user-box">
+        <span id="userName" class="user-name">-</span>
+        <span id="roleBadge" class="role-pill">-</span>
+        <button id="logoutBtn" class="outline-btn" type="button">ออกจากระบบ</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-head">
+        <div>
+          <h2>ภาพรวมออเดอร์ QR สั่งกลับบ้าน</h2>
+          <p>ติดตาม Payment → Kitchen → Pickup → Sale → Stock ในจุดเดียว</p>
+        </div>
+        <button id="refreshBtn" class="outline-btn" type="button">↻ รีเฟรช</button>
+      </div>
+
+      <section class="panel filter-panel">
+        <div class="filter-grid">
+          <label>จากวันที่<input id="dateFrom" type="date"></label>
+          <label>ถึงวันที่<input id="dateTo" type="date"></label>
+          <label>สถานะ
+            <select id="statusFilter">
+              <option value="">ทั้งหมด</option>
+              <option value="payment_pending">รอชำระ</option>
+              <option value="paid">ชำระแล้ว</option>
+              <option value="dispatched">เข้าครัว</option>
+              <option value="ready_for_pickup">พร้อมรับ</option>
+              <option value="picked_up">รับแล้ว</option>
+              <option value="completed">เสร็จสมบูรณ์</option>
+              <option value="cancelled">ยกเลิก</option>
+              <option value="expired">หมดเวลา</option>
+            </select>
+          </label>
+          <label>ค้นหา<input id="searchInput" type="search" placeholder="เลขออเดอร์ / คิว / รหัสรับอาหาร"></label>
+          <button id="applyBtn" class="primary-btn" type="button">แสดงผล</button>
+        </div>
+      </section>
+
+      <section class="self-kpi-grid">
+        <article class="self-kpi"><span>ยอด QR</span><strong id="paidAmount">฿0.00</strong><small id="paidOrders">0 ออเดอร์</small></article>
+        <article class="self-kpi"><span>ขายสำเร็จ</span><strong id="completedSales">฿0.00</strong><small id="completedOrders">0 ออเดอร์</small></article>
+        <article class="self-kpi"><span>ยอดเฉลี่ย/บิล</span><strong id="avgTicket">฿0.00</strong><small>Paid</small></article>
+        <article class="self-kpi"><span>เฉลี่ยจนพร้อมรับ</span><strong id="avgReady">0 นาที</strong><small>Paid → Ready</small></article>
+        <article class="self-kpi"><span>เฉลี่ยจนรับอาหาร</span><strong id="avgPickup">0 นาที</strong><small>Paid → Pickup</small></article>
+        <article class="self-kpi alert-kpi"><span>ต้องตรวจสอบ</span><strong id="blockedOrders">0</strong><small>Sale/Stock blocked</small></article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head-row">
+          <div><h3>รายการออเดอร์</h3><p id="resultCount">0 รายการ</p></div>
+          <div class="legend">
+            <span class="dot ok"></span>เสร็จ
+            <span class="dot warn"></span>กำลังทำ
+            <span class="dot bad"></span>ผิดปกติ
+          </div>
+        </div>
+
+        <div id="loadingState" class="empty-state">กำลังโหลด...</div>
+        <div id="emptyState" class="empty-state hidden">ไม่พบรายการในช่วงวันที่เลือก</div>
+
+        <div id="tableWrap" class="self-table-wrap hidden">
+          <table class="self-table">
+            <thead>
+              <tr>
+                <th>เวลา</th><th>ออเดอร์ / คิว</th><th>ยอด</th><th>Payment</th>
+                <th>Kitchen / Pickup</th><th>Sale / Stock</th><th>เวลารอ</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="orderTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div id="pageMessage" class="page-message"></div>
+    </main>
+  </div>
+</div>
+
+<div id="detailModal" class="so-modal hidden">
+  <div class="so-modal-card">
+    <div class="so-modal-head">
+      <div><small>QR SELF ORDER</small><h3 id="detailTitle">-</h3></div>
+      <button id="closeDetailBtn" class="icon-close" type="button">×</button>
+    </div>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<script type="module" src="../js/self-orders-backoffice.js?v=4.6.0"></script>
+</body>
+</html>
