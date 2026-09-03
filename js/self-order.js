@@ -185,10 +185,7 @@ function renderPickupQr(pickupToken) {
 
     el.pickupQrCode.innerHTML = ''
     new window.QRCode(el.pickupQrCode, {
-        text: new URL(
-            `./pickup.html?t=${encodeURIComponent(pickupToken)}`,
-            window.location.href
-        ).href,
+        text: `${window.location.origin}${window.location.pathname.replace(/\/self-order\.html.*$/,'')}/pickup.html?t=${encodeURIComponent(pickupToken)}`,
         width: 155,
         height: 155,
         correctLevel: window.QRCode.CorrectLevel.M
