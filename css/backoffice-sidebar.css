@@ -1,0 +1,116 @@
+/*
+ * CHAIXI BAMEEKIAO — Back Office Sidebar Accordion
+ * ------------------------------------------------------------
+ * Sidebar category headers only by default.
+ * One category can be expanded at a time.
+ */
+
+[data-backoffice-nav] {
+    display: block;
+}
+
+[data-backoffice-nav] .nav-section {
+    margin: 0 0 6px;
+}
+
+[data-backoffice-nav] .nav-section-toggle {
+    width: 100%;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    transition:
+        background-color .16s ease,
+        color .16s ease,
+        transform .16s ease;
+}
+
+[data-backoffice-nav] .nav-section-toggle:hover {
+    background: rgba(255, 255, 255, .06);
+}
+
+[data-backoffice-nav] .nav-section-toggle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+[data-backoffice-nav] .nav-section-toggle-label {
+    min-width: 0;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    line-height: 1.35;
+}
+
+[data-backoffice-nav] .nav-section-chevron {
+    flex: 0 0 auto;
+    font-size: 18px;
+    line-height: 1;
+    opacity: .72;
+    transform: rotate(0deg);
+    transition: transform .18s ease;
+}
+
+[data-backoffice-nav] .nav-section.is-open > .nav-section-toggle {
+    background: rgba(255, 255, 255, .07);
+}
+
+[data-backoffice-nav] .nav-section.is-open > .nav-section-toggle
+.nav-section-chevron {
+    transform: rotate(180deg);
+}
+
+[data-backoffice-nav] .nav-section.has-current-page >
+.nav-section-toggle .nav-section-toggle-label::after {
+    content: " •";
+    opacity: .85;
+}
+
+[data-backoffice-nav] .nav-section-items {
+    padding: 4px 0 8px;
+}
+
+[data-backoffice-nav] .nav-section-items[hidden] {
+    display: none !important;
+}
+
+[data-backoffice-nav] .nav-section-items .nav-link {
+    margin-top: 2px;
+}
+
+/*
+ * Keep the active page visible and clear when its section is open.
+ * Existing .nav-link.active theme styles remain in control.
+ */
+[data-backoffice-nav] .nav-section-items .nav-link.active {
+    font-weight: 900;
+}
+
+/* Mobile: keep tap target large and compact */
+@media (max-width: 768px) {
+    [data-backoffice-nav] .nav-section-toggle {
+        min-height: 48px;
+        padding: 11px 12px;
+    }
+
+    [data-backoffice-nav] .nav-section-toggle-label {
+        font-size: 11px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-backoffice-nav] .nav-section-toggle,
+    [data-backoffice-nav] .nav-section-chevron {
+        transition: none;
+    }
+}
