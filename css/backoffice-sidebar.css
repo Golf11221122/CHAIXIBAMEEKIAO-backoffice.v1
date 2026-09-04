@@ -1,11 +1,11 @@
 /*
  * CHAIXI BAMEEKIAO
- * CATEGORY SIDEBAR + TOP SUB NAV
+ * FINAL NAVIGATION — MAIN CATEGORY SIDEBAR + TOP SUBNAV SLOT
  */
 
-/* =========================================================
-   SIDEBAR — MAIN CATEGORIES ONLY
-========================================================= */
+/* =========================
+   MAIN CATEGORY SIDEBAR
+========================= */
 
 [data-backoffice-nav] {
     display: grid;
@@ -17,44 +17,33 @@
 .sidebar [data-backoffice-nav] .nav-category-link {
     min-height: 50px;
     display: grid;
-    grid-template-columns: 24px minmax(0,1fr) 16px;
+    grid-template-columns: 24px minmax(0, 1fr) 16px;
     align-items: center;
     gap: 9px;
-
     padding: 10px 12px;
+    border: 1px solid transparent;
     border-radius: 11px;
-
     color: #dbe6f4;
+    background: transparent;
     text-decoration: none;
     font-weight: 900;
-
-    background: transparent;
-    border: 1px solid transparent;
-
-    transition:
-        background-color .16s ease,
-        border-color .16s ease,
-        color .16s ease;
 }
 
 #sidebar [data-backoffice-nav] .nav-category-link:hover,
 .sidebar [data-backoffice-nav] .nav-category-link:hover {
-    color: #ffffff;
+    color: #fff;
     background: rgba(255,255,255,.06);
 }
 
 #sidebar [data-backoffice-nav] .nav-category-link.active,
 .sidebar [data-backoffice-nav] .nav-category-link.active {
-    color: #ffffff;
+    color: #fff;
     background: rgba(255,255,255,.09);
     border-color: rgba(255,255,255,.07);
     box-shadow: inset 3px 0 0 #f4b526;
 }
 
-.nav-category-icon {
-    font-size: 15px;
-}
-
+.nav-category-icon { font-size: 15px; }
 .nav-category-label {
     min-width: 0;
     font-size: 12px;
@@ -62,32 +51,28 @@
     letter-spacing: .045em;
     text-transform: uppercase;
 }
-
 .nav-category-arrow {
     justify-self: end;
     color: #91a4bb;
     font-size: 20px;
-    line-height: 1;
 }
+.nav-category-link.active .nav-category-arrow { color: #f4b526; }
 
-.nav-category-link.active .nav-category-arrow {
-    color: #f4b526;
+/* =========================
+   EXPLICIT TOP SUBNAV SLOT
+========================= */
+
+[data-backoffice-subnav] {
+    margin-bottom: 14px;
 }
-
-/* =========================================================
-   TOP SUB NAV
-========================================================= */
 
 .backoffice-subnav {
     display: grid;
-    grid-template-columns: auto minmax(0,1fr);
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
     gap: 12px;
-
-    margin: 0 0 14px;
     padding: 10px 12px;
-
-    background: #ffffff;
+    background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 14px;
     box-shadow: 0 2px 8px rgba(15,23,42,.035);
@@ -99,11 +84,9 @@
     gap: 7px;
     padding-right: 12px;
     border-right: 1px solid #e2e8f0;
-
     white-space: nowrap;
     color: #172033;
 }
-
 .backoffice-subnav-title strong {
     font-size: 12px;
     font-weight: 950;
@@ -114,37 +97,26 @@
     display: flex;
     align-items: center;
     gap: 6px;
-
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scrollbar-width: thin;
-
     padding: 1px 0 3px;
 }
 
 .backoffice-subnav-link {
     flex: 0 0 auto;
-
     min-height: 36px;
     display: inline-flex;
     align-items: center;
-
     padding: 7px 11px;
+    border: 1px solid #edf1f5;
     border-radius: 9px;
-
     color: #475467;
     background: #f8fafc;
-    border: 1px solid #edf1f5;
-
     text-decoration: none;
     font-size: 11px;
     font-weight: 850;
     white-space: nowrap;
-
-    transition:
-        color .15s ease,
-        background-color .15s ease,
-        border-color .15s ease;
 }
 
 .backoffice-subnav-link:hover {
@@ -154,14 +126,14 @@
 }
 
 .backoffice-subnav-link.active {
-    color: #ffffff;
+    color: #fff;
     background: #172033;
     border-color: #172033;
 }
 
-/* =========================================================
-   TABLET / MOBILE
-========================================================= */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width: 900px) {
     .backoffice-subnav {
@@ -169,7 +141,6 @@
         gap: 8px;
         padding: 9px 10px;
     }
-
     .backoffice-subnav-title {
         border-right: 0;
         padding-right: 0;
@@ -182,30 +153,12 @@
         min-height: 48px;
         padding: 10px 11px;
     }
+    .nav-category-label { font-size: 11px; }
 
-    .nav-category-label {
-        font-size: 11px;
-    }
-
-    .backoffice-subnav {
-        margin-bottom: 10px;
-        border-radius: 12px;
-    }
-
-    .backoffice-subnav-scroll {
-        margin-inline: -2px;
-        padding-bottom: 4px;
-    }
-
+    [data-backoffice-subnav] { margin-bottom: 10px; }
+    .backoffice-subnav { border-radius: 12px; }
     .backoffice-subnav-link {
         min-height: 38px;
         padding: 8px 11px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .nav-category-link,
-    .backoffice-subnav-link {
-        transition: none;
     }
 }
