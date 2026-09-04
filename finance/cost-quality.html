@@ -4,7 +4,8 @@
 <aside class="sidebar" id="sidebar"><div class="sidebar-brand"><strong>CHAIXI BAMEEKIAO</strong><small>Back Office</small></div><nav data-backoffice-nav></nav></aside>
 <script src="../js/backoffice-sidebar.js"></script>
 <div class="main"><header class="topbar"><div class="topbar-left"><button class="menu-btn" id="menuBtn">☰</button><div><h1>🧪 Cost Data Quality</h1><p id="branchText">-</p></div></div><div class="user-box"><span id="userName">-</span><span class="role-pill" id="roleBadge">-</span><button class="outline-btn" id="logoutBtn">ออกจากระบบ</button></div></header>
-<main class="content"><div class="page-head"><div><h2>P&amp;L Readiness</h2><p>ตรวจความครบถ้วนของต้นทุนก่อนใช้ P&amp;L ตัดสินใจ</p></div></div>
+<main class="content">
+<div data-backoffice-subnav></div><div class="page-head"><div><h2>P&amp;L Readiness</h2><p>ตรวจความครบถ้วนของต้นทุนก่อนใช้ P&amp;L ตัดสินใจ</p></div></div>
 <section class="panel"><div class="filters"><input id="dateFrom" type="date"/><input id="dateTo" type="date"/><button class="outline-btn" id="month">เดือนนี้</button><button class="primary-btn" id="load">ตรวจสอบ</button></div></section>
 <div class="qgrid"><div class="qcard"><span>Readiness Score</span><strong id="score">0%</strong><small id="statusText">-</small></div><div class="qcard"><span>Cost Completeness</span><strong id="complete">0%</strong><small id="menus">0 เมนู</small></div><div class="qcard"><span>เมนู COGS = 0</span><strong id="zero">0</strong><small id="zeroSales">ยอดขาย ฿0</small></div><div class="qcard"><span>Stock Count Coverage</span><strong id="coverage">0%</strong><small id="closings">0 Closing</small></div></div>
 <div class="status bad" id="advice"></div>

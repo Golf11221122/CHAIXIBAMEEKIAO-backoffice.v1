@@ -4,7 +4,8 @@
 <aside class="sidebar" id="sidebar"><div class="sidebar-brand"><strong>CHAIXI BAMEEKIAO</strong><small>Back Office</small></div><nav data-backoffice-nav></nav></aside>
 <script src="../js/backoffice-sidebar.js"></script>
 <div class="main"><header class="topbar"><div class="topbar-left"><button class="menu-btn" id="menuBtn">☰</button><div><h1>💳 Payment &amp; Sales Reconciliation</h1><p id="branchText">-</p></div></div><div class="user-box"><span id="userName">-</span><span class="role-pill" id="roleBadge">-</span><button class="outline-btn" id="logoutBtn">ออกจากระบบ</button></div></header>
-<main class="content"><div class="page-head"><div><h2>กระทบยอดการขาย</h2><p>ยอดขาย • เงินสด • QR • ส่วนลด • เงินทอน • ปิดกะ</p></div></div>
+<main class="content">
+<div data-backoffice-subnav></div><div class="page-head"><div><h2>กระทบยอดการขาย</h2><p>ยอดขาย • เงินสด • QR • ส่วนลด • เงินทอน • ปิดกะ</p></div></div>
 <section class="panel"><div class="filters"><input id="dateFrom" type="date"/><input id="dateTo" type="date"/><button class="outline-btn" id="todayBtn">วันนี้</button><button class="outline-btn" id="monthBtn">เดือนนี้</button><button class="primary-btn" id="loadBtn">ตรวจสอบ</button></div></section>
 <div class="kpi"><div class="k"><span>ยอดขายสุทธิ</span><strong id="netSales">฿0</strong><small id="billCount">0 บิล</small></div><div class="k"><span>เงินสดตามระบบ</span><strong id="cashSales">฿0</strong><small id="cashBills">0 บิล</small></div><div class="k"><span>QR ตามระบบ</span><strong id="qrSales">฿0</strong><small id="qrBills">0 บิล</small></div><div class="k"><span>ส่วนลด</span><strong id="discount">฿0</strong><small id="voidInfo">ยกเลิก 0 บิล</small></div></div>
 <div class="recon" id="reconBox"></div>
