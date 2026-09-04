@@ -1,4 +1,5 @@
 import { supabase } from './supabase.js'
+import { requireBackoffice, setupShell } from './auth.js'
 
 const $=id=>document.getElementById(id)
 const el={
@@ -114,13 +115,6 @@ function render(){
             </div>
         </button>`
     }).join('')
-}
-
-async function requireSession(){
-    const {data:{session},error}=await supabase.auth.getSession()
-    if(error)throw error
-    if(!session){location.replace('../index.html');return false}
-    return true
 }
 
 async function load(){
@@ -289,14 +283,18 @@ el.close.addEventListener('click',closeDetail)
 el.backdrop.addEventListener('click',closeDetail)
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail()})
 
-async function init(){
-    try{
+async function init() {
+    try {
+        const ctx = await requireBackoffice()
+        if (!ctx) return
+
+        setupShell(ctx, 'self-order-history')
         initDates()
-        if(!await requireSession())return
         await load()
-    }catch(error){
-        console.error(error)
-        setMessage(error.message||'เปิดหน้าประวัติไม่สำเร็จ',true)
+    } catch (error) {
+        console.error('QR Self Order History init error:', error)
+        setMessage(error?.message || 'เปิดหน้าประวัติไม่สำเร็จ', true)
     }
 }
+
 init()
