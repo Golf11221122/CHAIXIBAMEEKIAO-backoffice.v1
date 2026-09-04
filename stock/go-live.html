@@ -12,19 +12,9 @@
 <div class="app">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-brand"><strong>CHAIXI BAMEEKIAO</strong><small>Back Office</small></div>
-<nav>
-<div class="nav-section"><div class="nav-title">ภาพรวม</div><a class="nav-link" href="../dashboard.html">📊 Dashboard</a></div>
-<div class="nav-section"><div class="nav-title">STOCK &amp; COST</div>
-<a class="nav-link" href="./ingredients.html">📦 วัตถุดิบ / Stock</a>
-<a class="nav-link" href="./production.html">🏭 Production / Prep</a>
-<a class="nav-link active" href="./go-live.html">🚀 Go-Live / Opening Stock</a>
-<a class="nav-link" href="./count.html">🧮 Stock Count</a>
-<a class="nav-link" href="./closing.html">🔒 ปิดรอบ Stock</a>
-<a class="nav-link" href="./reports.html">📈 Stock Report</a>
-<a class="nav-link" href="./cost-control.html">💰 Cost Control</a>
-</div>
-</nav>
+<nav data-backoffice-nav></nav>
 </aside>
+<script src="../js/backoffice-sidebar.js"></script>
 <div class="main">
 <header class="topbar"><div class="topbar-left"><button class="menu-btn" id="menuBtn">☰</button><div><h1>🚀 Go-Live</h1><p id="branchText">กำลังโหลด...</p></div></div><div class="user-box"><span id="userName">-</span><span class="role-pill" id="roleBadge">-</span><button class="outline-btn" id="logoutBtn">ออกจากระบบ</button></div></header>
 <main class="content">
