@@ -1,14 +1,14 @@
 /*
  * CHAIXI BAMEEKIAO — Back Office Sidebar Accordion
- * Phase: visibility / readability fix
+ * DESKTOP VISIBILITY FIX
  *
- * CHANGED ONLY:
- * - clearer section headings on dark sidebar
- * - clearer chevron
- * - stronger open/current state
- * - keeps existing accordion JS behavior
+ * Fixes desktop-only cascade conflicts from older Back Office styles.
+ * Mobile behavior remains unchanged.
  */
 
+/* =========================================================
+   BASE
+========================================================= */
 [data-backoffice-nav] {
     display: block;
 }
@@ -17,24 +17,46 @@
     margin: 0 0 6px;
 }
 
-[data-backoffice-nav] .nav-section-toggle {
+[data-backoffice-nav] .nav-section-items[hidden] {
+    display: none !important;
+}
+
+[data-backoffice-nav] .nav-section-items {
+    padding: 4px 0 8px;
+}
+
+[data-backoffice-nav] .nav-section-items .nav-link {
+    margin-top: 2px;
+}
+
+[data-backoffice-nav] .nav-section-items .nav-link.active {
+    font-weight: 900;
+}
+
+/* =========================================================
+   ACCORDION HEADER — COMMON
+========================================================= */
+#sidebar [data-backoffice-nav] .nav-section-toggle,
+.sidebar [data-backoffice-nav] .nav-section-toggle {
     width: 100%;
     min-height: 46px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+
     padding: 10px 12px;
     border: 0;
     border-radius: 10px;
-    background: transparent;
 
-    /* FIX: heading was too dark on the dark sidebar */
+    background: transparent;
     color: #dbe6f4;
 
     text-align: left;
     cursor: pointer;
     font: inherit;
+
+    opacity: 1;
 
     transition:
         background-color .16s ease,
@@ -42,17 +64,8 @@
         transform .16s ease;
 }
 
-[data-backoffice-nav] .nav-section-toggle:hover {
-    background: rgba(255, 255, 255, .07);
-    color: #ffffff;
-}
-
-[data-backoffice-nav] .nav-section-toggle:focus-visible {
-    outline: 2px solid #f4b526;
-    outline-offset: 2px;
-}
-
-[data-backoffice-nav] .nav-section-toggle-label {
+#sidebar [data-backoffice-nav] .nav-section-toggle-label,
+.sidebar [data-backoffice-nav] .nav-section-toggle-label {
     min-width: 0;
     font-size: 12px;
     font-weight: 900;
@@ -60,13 +73,15 @@
     text-transform: uppercase;
     line-height: 1.35;
     color: inherit;
+    opacity: 1;
 }
 
-[data-backoffice-nav] .nav-section-chevron {
+#sidebar [data-backoffice-nav] .nav-section-chevron,
+.sidebar [data-backoffice-nav] .nav-section-chevron {
     flex: 0 0 auto;
     font-size: 18px;
     line-height: 1;
-    color: #8fa4bd;
+    color: #9fb0c4;
     opacity: 1;
     transform: rotate(0deg);
     transition:
@@ -74,56 +89,116 @@
         color .18s ease;
 }
 
-/* Open category */
-[data-backoffice-nav] .nav-section.is-open > .nav-section-toggle {
-    background: rgba(255, 255, 255, .08);
+#sidebar [data-backoffice-nav] .nav-section-toggle:hover,
+.sidebar [data-backoffice-nav] .nav-section-toggle:hover {
+    background: rgba(255,255,255,.07);
     color: #ffffff;
 }
 
-[data-backoffice-nav] .nav-section.is-open >
+#sidebar [data-backoffice-nav] .nav-section-toggle:focus-visible,
+.sidebar [data-backoffice-nav] .nav-section-toggle:focus-visible {
+    outline: 2px solid #f4b526;
+    outline-offset: 2px;
+}
+
+#sidebar [data-backoffice-nav] .nav-section.is-open > .nav-section-toggle,
+.sidebar [data-backoffice-nav] .nav-section.is-open > .nav-section-toggle {
+    background: rgba(255,255,255,.08);
+    color: #ffffff;
+}
+
+#sidebar [data-backoffice-nav] .nav-section.is-open >
+.nav-section-toggle .nav-section-chevron,
+.sidebar [data-backoffice-nav] .nav-section.is-open >
 .nav-section-toggle .nav-section-chevron {
     color: #f4b526;
     transform: rotate(180deg);
 }
 
-/* Category containing the current page */
-[data-backoffice-nav] .nav-section.has-current-page >
+#sidebar [data-backoffice-nav] .nav-section.has-current-page >
+.nav-section-toggle,
+.sidebar [data-backoffice-nav] .nav-section.has-current-page >
 .nav-section-toggle {
     color: #ffffff;
 }
 
-[data-backoffice-nav] .nav-section.has-current-page >
+#sidebar [data-backoffice-nav] .nav-section.has-current-page >
+.nav-section-toggle .nav-section-toggle-label::after,
+.sidebar [data-backoffice-nav] .nav-section.has-current-page >
 .nav-section-toggle .nav-section-toggle-label::after {
     content: " •";
     color: #f4b526;
     opacity: 1;
 }
 
-[data-backoffice-nav] .nav-section-items {
-    padding: 4px 0 8px;
+/* =========================================================
+   DESKTOP HARD OVERRIDE
+   Older desktop CSS was winning the cascade and making
+   category headings nearly invisible.
+========================================================= */
+@media (min-width: 769px) {
+    body #sidebar [data-backoffice-nav] .nav-section-toggle,
+    body .sidebar [data-backoffice-nav] .nav-section-toggle {
+        color: #dbe6f4 !important;
+        opacity: 1 !important;
+        background-color: transparent !important;
+    }
+
+    body #sidebar [data-backoffice-nav] .nav-section-toggle-label,
+    body .sidebar [data-backoffice-nav] .nav-section-toggle-label {
+        color: inherit !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    body #sidebar [data-backoffice-nav] .nav-section-chevron,
+    body .sidebar [data-backoffice-nav] .nav-section-chevron {
+        color: #9fb0c4 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    body #sidebar [data-backoffice-nav] .nav-section-toggle:hover,
+    body .sidebar [data-backoffice-nav] .nav-section-toggle:hover {
+        color: #ffffff !important;
+        background-color: rgba(255,255,255,.07) !important;
+    }
+
+    body #sidebar [data-backoffice-nav] .nav-section.is-open >
+    .nav-section-toggle,
+    body .sidebar [data-backoffice-nav] .nav-section.is-open >
+    .nav-section-toggle {
+        color: #ffffff !important;
+        background-color: rgba(255,255,255,.09) !important;
+    }
+
+    body #sidebar [data-backoffice-nav] .nav-section.has-current-page >
+    .nav-section-toggle,
+    body .sidebar [data-backoffice-nav] .nav-section.has-current-page >
+    .nav-section-toggle {
+        color: #ffffff !important;
+    }
+
+    body #sidebar [data-backoffice-nav] .nav-section.is-open >
+    .nav-section-toggle .nav-section-chevron,
+    body .sidebar [data-backoffice-nav] .nav-section.is-open >
+    .nav-section-toggle .nav-section-chevron {
+        color: #f4b526 !important;
+    }
 }
 
-[data-backoffice-nav] .nav-section-items[hidden] {
-    display: none !important;
-}
-
-[data-backoffice-nav] .nav-section-items .nav-link {
-    margin-top: 2px;
-}
-
-/* Keep existing theme active styles, but make text unmistakable */
-[data-backoffice-nav] .nav-section-items .nav-link.active {
-    font-weight: 900;
-    color: #ffffff;
-}
-
+/* =========================================================
+   MOBILE
+========================================================= */
 @media (max-width: 768px) {
-    [data-backoffice-nav] .nav-section-toggle {
+    #sidebar [data-backoffice-nav] .nav-section-toggle,
+    .sidebar [data-backoffice-nav] .nav-section-toggle {
         min-height: 48px;
         padding: 11px 12px;
     }
 
-    [data-backoffice-nav] .nav-section-toggle-label {
+    #sidebar [data-backoffice-nav] .nav-section-toggle-label,
+    .sidebar [data-backoffice-nav] .nav-section-toggle-label {
         font-size: 11px;
     }
 }
