@@ -1,23 +1,14 @@
 /*
- * CHAIXI BAMEEKIAO — Back Office Sidebar
- * ------------------------------------------------------------
- * Single source of truth for Back Office navigation.
+ * CHAIXI BAMEEKIAO — Back Office Navigation
+ * Phase: Category Sidebar + Top Sub Navigation
  *
  * UX:
- * - แสดงเฉพาะ "หัวข้อ" ของแต่ละหมวดเป็นค่าเริ่มต้น
- * - กดหัวข้อเพื่อเปิดเมนูในหมวดนั้น
- * - เปิดได้ทีละ 1 หมวด (Accordion)
- * - จำหมวดที่เปิดไว้ระหว่างเปลี่ยนหน้าใน session เดียวกัน
- *
- * To add / rename / reorder a menu:
- * edit NAV_SECTIONS below only.
- *
- * Pages with:
- *   <nav data-backoffice-nav></nav>
- * will receive the same sidebar automatically.
+ * - Sidebar shows ONLY main categories.
+ * - Clicking a category goes to the first page in that category.
+ * - The current category is highlighted.
+ * - Sub-pages for the current category are shown in a compact top bar.
+ * - One navigation source for the entire Back Office.
  */
-
-const SIDEBAR_OPEN_KEY = 'chaixi_backoffice_open_nav_section'
 
 const NAV_SECTIONS = [
     {
@@ -110,163 +101,135 @@ function normalizePath(pathname) {
         .replace(/\/index\.html$/i, '/')
 }
 
-function isCurrentPage(itemPath, projectRoot) {
-    const current = normalizePath(window.location.pathname)
-    const target = normalizePath(`${projectRoot}${itemPath}`)
-    return current === target
+function itemHref(item, projectRoot) {
+    return `${projectRoot}${item.path}`
 }
 
-function ensureSidebarStyles(projectRoot) {
+function isCurrentPage(item, projectRoot) {
+    return normalizePath(window.location.pathname) ===
+        normalizePath(itemHref(item, projectRoot))
+}
+
+function findCurrentSection(projectRoot) {
+    for (const section of NAV_SECTIONS) {
+        if (section.items.some(item => isCurrentPage(item, projectRoot))) {
+            return section
+        }
+    }
+
+    return NAV_SECTIONS[0]
+}
+
+function ensureNavigationStyles(projectRoot) {
     if (document.querySelector('link[data-chaixi-sidebar-css]')) return
 
     const link = document.createElement('link')
     link.rel = 'stylesheet'
-    link.href = `${projectRoot}css/backoffice-sidebar.css?v=4.16.0`
+    link.href = `${projectRoot}css/backoffice-sidebar.css?v=4.17.0`
     link.dataset.chaixiSidebarCss = 'true'
     document.head.appendChild(link)
 }
 
-function createNavLink(item, projectRoot) {
-    const link = document.createElement('a')
-    link.className = 'nav-link'
-    link.dataset.nav = item.key
-    link.href = `${projectRoot}${item.path}`
-    link.textContent = item.label
-
-    if (isCurrentPage(item.path, projectRoot)) {
-        link.classList.add('active')
-        link.setAttribute('aria-current', 'page')
-    }
-
-    return link
-}
-
-function getStoredOpenSection() {
-    try {
-        return sessionStorage.getItem(SIDEBAR_OPEN_KEY)
-    } catch (_) {
-        return null
-    }
-}
-
-function setStoredOpenSection(sectionKey) {
-    try {
-        if (sectionKey) {
-            sessionStorage.setItem(SIDEBAR_OPEN_KEY, sectionKey)
-        } else {
-            sessionStorage.removeItem(SIDEBAR_OPEN_KEY)
-        }
-    } catch (_) {}
-}
-
-function setSectionOpen(sectionEl, open) {
-    const button = sectionEl.querySelector('.nav-section-toggle')
-    const items = sectionEl.querySelector('.nav-section-items')
-
-    sectionEl.classList.toggle('is-open', open)
-    button?.setAttribute('aria-expanded', open ? 'true' : 'false')
-
-    if (items) {
-        items.hidden = !open
-    }
-}
-
-function closeAllSections(nav, exceptSection = null) {
-    nav.querySelectorAll('.nav-section').forEach(sectionEl => {
-        if (sectionEl !== exceptSection) {
-            setSectionOpen(sectionEl, false)
-        }
-    })
-}
-
-function toggleSection(nav, sectionEl) {
-    const willOpen = !sectionEl.classList.contains('is-open')
-
-    closeAllSections(nav, sectionEl)
-    setSectionOpen(sectionEl, willOpen)
-
-    setStoredOpenSection(
-        willOpen ? sectionEl.dataset.sectionKey : null
-    )
-}
-
-function createSection(section, projectRoot, nav) {
-    const sectionEl = document.createElement('div')
-    sectionEl.className = 'nav-section'
-    sectionEl.dataset.sectionKey = section.key
-
-    const hasCurrentPage = section.items.some(item =>
-        isCurrentPage(item.path, projectRoot)
-    )
-
-    if (hasCurrentPage) {
-        sectionEl.classList.add('has-current-page')
-    }
-
-    const titleButton = document.createElement('button')
-    titleButton.type = 'button'
-    titleButton.className = 'nav-section-toggle'
-    titleButton.setAttribute('aria-expanded', 'false')
-
-    const titleLeft = document.createElement('span')
-    titleLeft.className = 'nav-section-toggle-label'
-    titleLeft.textContent = `${section.icon || '•'} ${section.title}`
-
-    const chevron = document.createElement('span')
-    chevron.className = 'nav-section-chevron'
-    chevron.setAttribute('aria-hidden', 'true')
-    chevron.textContent = '⌄'
-
-    titleButton.append(titleLeft, chevron)
-
-    const itemsEl = document.createElement('div')
-    itemsEl.className = 'nav-section-items'
-    itemsEl.hidden = true
-
-    for (const item of section.items) {
-        itemsEl.appendChild(createNavLink(item, projectRoot))
-    }
-
-    titleButton.addEventListener('click', () => {
-        toggleSection(nav, sectionEl)
-    })
-
-    sectionEl.append(titleButton, itemsEl)
-
-    return sectionEl
-}
-
-function restoreOpenSection(nav) {
-    const storedKey = getStoredOpenSection()
-    if (!storedKey) return
-
-    const sectionEl = nav.querySelector(
-        `.nav-section[data-section-key="${CSS.escape(storedKey)}"]`
-    )
-
-    if (sectionEl) {
-        setSectionOpen(sectionEl, true)
-    }
-}
-
-function renderBackofficeNav() {
+function renderSidebar(projectRoot, currentSection) {
     const nav = document.querySelector('[data-backoffice-nav]')
     if (!nav) return
-
-    const projectRoot = getProjectRootPath()
-    ensureSidebarStyles(projectRoot)
 
     const fragment = document.createDocumentFragment()
 
     for (const section of NAV_SECTIONS) {
-        fragment.appendChild(createSection(section, projectRoot, nav))
+        const firstItem = section.items[0]
+        const link = document.createElement('a')
+
+        link.className = 'nav-category-link'
+        link.dataset.sectionKey = section.key
+        link.href = itemHref(firstItem, projectRoot)
+
+        if (section.key === currentSection.key) {
+            link.classList.add('active')
+            link.setAttribute('aria-current', 'true')
+        }
+
+        const icon = document.createElement('span')
+        icon.className = 'nav-category-icon'
+        icon.textContent = section.icon
+
+        const label = document.createElement('span')
+        label.className = 'nav-category-label'
+        label.textContent = section.title
+
+        const arrow = document.createElement('span')
+        arrow.className = 'nav-category-arrow'
+        arrow.textContent = '›'
+        arrow.setAttribute('aria-hidden', 'true')
+
+        link.append(icon, label, arrow)
+        fragment.appendChild(link)
     }
 
     nav.replaceChildren(fragment)
-
-    // ค่าเริ่มต้น: ปิดทุกหมวด
-    // ถ้าผู้ใช้เปิดหมวดไว้ก่อนเปลี่ยนหน้า จะคืนสถานะหมวดนั้นให้
-    restoreOpenSection(nav)
 }
 
-renderBackofficeNav()
+function renderTopSubNav(projectRoot, currentSection) {
+    const content = document.querySelector('.content')
+    if (!content) return
+
+    document.querySelector('.backoffice-subnav')?.remove()
+
+    const shell = document.createElement('section')
+    shell.className = 'backoffice-subnav'
+    shell.setAttribute('aria-label', `${currentSection.title} navigation`)
+
+    const title = document.createElement('div')
+    title.className = 'backoffice-subnav-title'
+
+    const titleIcon = document.createElement('span')
+    titleIcon.textContent = currentSection.icon
+
+    const titleText = document.createElement('strong')
+    titleText.textContent = currentSection.title
+
+    title.append(titleIcon, titleText)
+
+    const scroller = document.createElement('div')
+    scroller.className = 'backoffice-subnav-scroll'
+
+    for (const item of currentSection.items) {
+        const link = document.createElement('a')
+        link.className = 'backoffice-subnav-link'
+        link.href = itemHref(item, projectRoot)
+        link.textContent = item.label
+
+        if (isCurrentPage(item, projectRoot)) {
+            link.classList.add('active')
+            link.setAttribute('aria-current', 'page')
+        }
+
+        scroller.appendChild(link)
+    }
+
+    shell.append(title, scroller)
+    content.prepend(shell)
+
+    requestAnimationFrame(() => {
+        const active = shell.querySelector('.backoffice-subnav-link.active')
+        active?.scrollIntoView({
+            behavior: 'auto',
+            block: 'nearest',
+            inline: 'center'
+        })
+    })
+}
+
+function initBackofficeNavigation() {
+    const nav = document.querySelector('[data-backoffice-nav]')
+    if (!nav) return
+
+    const projectRoot = getProjectRootPath()
+    const currentSection = findCurrentSection(projectRoot)
+
+    ensureNavigationStyles(projectRoot)
+    renderSidebar(projectRoot, currentSection)
+    renderTopSubNav(projectRoot, currentSection)
+}
+
+initBackofficeNavigation()
