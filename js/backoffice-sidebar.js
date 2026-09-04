@@ -1,9 +1,15 @@
 /*
  * CHAIXI BAMEEKIAO — Back Office Sidebar
  * ------------------------------------------------------------
- * Single source of truth for the Back Office navigation.
+ * Single source of truth for Back Office navigation.
  *
- * To add / rename / reorder a menu in the future:
+ * UX:
+ * - แสดงเฉพาะ "หัวข้อ" ของแต่ละหมวดเป็นค่าเริ่มต้น
+ * - กดหัวข้อเพื่อเปิดเมนูในหมวดนั้น
+ * - เปิดได้ทีละ 1 หมวด (Accordion)
+ * - จำหมวดที่เปิดไว้ระหว่างเปลี่ยนหน้าใน session เดียวกัน
+ *
+ * To add / rename / reorder a menu:
  * edit NAV_SECTIONS below only.
  *
  * Pages with:
@@ -11,9 +17,13 @@
  * will receive the same sidebar automatically.
  */
 
+const SIDEBAR_OPEN_KEY = 'chaixi_backoffice_open_nav_section'
+
 const NAV_SECTIONS = [
     {
+        key: 'overview',
         title: 'ภาพรวม',
+        icon: '🏠',
         items: [
             { key: 'dashboard', label: '📊 Dashboard', path: 'dashboard.html' },
             { key: 'financial-summary', label: '🧭 Financial Summary', path: 'finance/financial-summary.html' },
@@ -24,7 +34,9 @@ const NAV_SECTIONS = [
         ]
     },
     {
+        key: 'delivery-qr',
         title: 'Delivery & QR Order',
+        icon: '🛵',
         items: [
             { key: 'delivery', label: '🛵 Delivery Center', path: 'finance/delivery.html' },
             { key: 'self-orders', label: '📱 QR Self Order', path: 'finance/self-orders.html' },
@@ -32,7 +44,9 @@ const NAV_SECTIONS = [
         ]
     },
     {
+        key: 'finance',
         title: 'Finance',
+        icon: '💰',
         items: [
             { key: 'expenses', label: '🧾 ค่าใช้จ่าย', path: 'finance/expenses.html' },
             { key: 'pnl', label: '📈 P&L', path: 'finance/pnl.html' },
@@ -47,7 +61,9 @@ const NAV_SECTIONS = [
         ]
     },
     {
+        key: 'stock-cost',
         title: 'Stock & Cost',
+        icon: '📦',
         items: [
             { key: 'ingredients', label: '📦 วัตถุดิบ / Stock', path: 'stock/ingredients.html' },
             { key: 'ingredient-categories', label: '🗂️ หมวดวัตถุดิบ', path: 'stock/categories.html' },
@@ -62,7 +78,9 @@ const NAV_SECTIONS = [
         ]
     },
     {
+        key: 'purchasing',
         title: 'Purchasing',
+        icon: '🛒',
         items: [
             { key: 'suppliers', label: '🚚 Supplier', path: 'purchasing/suppliers.html' },
             { key: 'purchase-orders', label: '🛒 Purchase Orders', path: 'purchasing/purchase-orders.html' },
@@ -98,6 +116,16 @@ function isCurrentPage(itemPath, projectRoot) {
     return current === target
 }
 
+function ensureSidebarStyles(projectRoot) {
+    if (document.querySelector('link[data-chaixi-sidebar-css]')) return
+
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = `${projectRoot}css/backoffice-sidebar.css?v=4.16.0`
+    link.dataset.chaixiSidebarCss = 'true'
+    document.head.appendChild(link)
+}
+
 function createNavLink(item, projectRoot) {
     const link = document.createElement('a')
     link.className = 'nav-link'
@@ -113,30 +141,132 @@ function createNavLink(item, projectRoot) {
     return link
 }
 
+function getStoredOpenSection() {
+    try {
+        return sessionStorage.getItem(SIDEBAR_OPEN_KEY)
+    } catch (_) {
+        return null
+    }
+}
+
+function setStoredOpenSection(sectionKey) {
+    try {
+        if (sectionKey) {
+            sessionStorage.setItem(SIDEBAR_OPEN_KEY, sectionKey)
+        } else {
+            sessionStorage.removeItem(SIDEBAR_OPEN_KEY)
+        }
+    } catch (_) {}
+}
+
+function setSectionOpen(sectionEl, open) {
+    const button = sectionEl.querySelector('.nav-section-toggle')
+    const items = sectionEl.querySelector('.nav-section-items')
+
+    sectionEl.classList.toggle('is-open', open)
+    button?.setAttribute('aria-expanded', open ? 'true' : 'false')
+
+    if (items) {
+        items.hidden = !open
+    }
+}
+
+function closeAllSections(nav, exceptSection = null) {
+    nav.querySelectorAll('.nav-section').forEach(sectionEl => {
+        if (sectionEl !== exceptSection) {
+            setSectionOpen(sectionEl, false)
+        }
+    })
+}
+
+function toggleSection(nav, sectionEl) {
+    const willOpen = !sectionEl.classList.contains('is-open')
+
+    closeAllSections(nav, sectionEl)
+    setSectionOpen(sectionEl, willOpen)
+
+    setStoredOpenSection(
+        willOpen ? sectionEl.dataset.sectionKey : null
+    )
+}
+
+function createSection(section, projectRoot, nav) {
+    const sectionEl = document.createElement('div')
+    sectionEl.className = 'nav-section'
+    sectionEl.dataset.sectionKey = section.key
+
+    const hasCurrentPage = section.items.some(item =>
+        isCurrentPage(item.path, projectRoot)
+    )
+
+    if (hasCurrentPage) {
+        sectionEl.classList.add('has-current-page')
+    }
+
+    const titleButton = document.createElement('button')
+    titleButton.type = 'button'
+    titleButton.className = 'nav-section-toggle'
+    titleButton.setAttribute('aria-expanded', 'false')
+
+    const titleLeft = document.createElement('span')
+    titleLeft.className = 'nav-section-toggle-label'
+    titleLeft.textContent = `${section.icon || '•'} ${section.title}`
+
+    const chevron = document.createElement('span')
+    chevron.className = 'nav-section-chevron'
+    chevron.setAttribute('aria-hidden', 'true')
+    chevron.textContent = '⌄'
+
+    titleButton.append(titleLeft, chevron)
+
+    const itemsEl = document.createElement('div')
+    itemsEl.className = 'nav-section-items'
+    itemsEl.hidden = true
+
+    for (const item of section.items) {
+        itemsEl.appendChild(createNavLink(item, projectRoot))
+    }
+
+    titleButton.addEventListener('click', () => {
+        toggleSection(nav, sectionEl)
+    })
+
+    sectionEl.append(titleButton, itemsEl)
+
+    return sectionEl
+}
+
+function restoreOpenSection(nav) {
+    const storedKey = getStoredOpenSection()
+    if (!storedKey) return
+
+    const sectionEl = nav.querySelector(
+        `.nav-section[data-section-key="${CSS.escape(storedKey)}"]`
+    )
+
+    if (sectionEl) {
+        setSectionOpen(sectionEl, true)
+    }
+}
+
 function renderBackofficeNav() {
     const nav = document.querySelector('[data-backoffice-nav]')
     if (!nav) return
 
     const projectRoot = getProjectRootPath()
+    ensureSidebarStyles(projectRoot)
+
     const fragment = document.createDocumentFragment()
 
     for (const section of NAV_SECTIONS) {
-        const sectionEl = document.createElement('div')
-        sectionEl.className = 'nav-section'
-
-        const titleEl = document.createElement('div')
-        titleEl.className = 'nav-title'
-        titleEl.textContent = section.title
-        sectionEl.appendChild(titleEl)
-
-        for (const item of section.items) {
-            sectionEl.appendChild(createNavLink(item, projectRoot))
-        }
-
-        fragment.appendChild(sectionEl)
+        fragment.appendChild(createSection(section, projectRoot, nav))
     }
 
     nav.replaceChildren(fragment)
+
+    // ค่าเริ่มต้น: ปิดทุกหมวด
+    // ถ้าผู้ใช้เปิดหมวดไว้ก่อนเปลี่ยนหน้า จะคืนสถานะหมวดนั้นให้
+    restoreOpenSection(nav)
 }
 
 renderBackofficeNav()
