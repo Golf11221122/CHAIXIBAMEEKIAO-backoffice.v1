@@ -29,20 +29,8 @@
 <body><div class="app">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-brand"><strong>CHAIXI BAMEEKIAO</strong><small>Back Office</small></div>
-<nav>
-<div class="nav-section"><div class="nav-title">ภาพรวม</div><a class="nav-link" href="../dashboard.html">📊 Dashboard</a></div>
-<div class="nav-section"><div class="nav-title">Finance</div>
-<a class="nav-link" href="./expenses.html">🧾 ค่าใช้จ่าย</a>
-<a class="nav-link" href="./pnl.html">📈 P&amp;L</a>
-<a class="nav-link" href="./cost-quality.html">🧪 Cost Data Quality</a>
-<a class="nav-link active" href="./cost-fix.html">🛠 Cost Fix Center</a><a class="nav-link" data-nav="bulk-cost-sync" href="./bulk-cost-sync.html">🔄 Bulk Cost Sync</a>
-</div>
-<div class="nav-section"><div class="nav-title">Stock &amp; Cost</div>
-<a class="nav-link" href="../stock/ingredients.html">📦 วัตถุดิบ / Stock</a>
-<a class="nav-link" href="../stock/recipes.html">🧾 Recipe / BOM</a>
-<a class="nav-link" href="../stock/cost-control.html">💰 Cost Control</a>
-</div>
-</nav></aside>
+<nav data-backoffice-nav></nav></aside>
+<script src="../js/backoffice-sidebar.js"></script>
 <div class="main">
 <header class="topbar"><div class="topbar-left"><button class="menu-btn" id="menuBtn">☰</button><div><h1>🛠 Cost Fix Center</h1><p id="branchText">-</p></div></div><div class="user-box"><span id="userName">-</span><span class="role-pill" id="roleBadge">-</span><button class="outline-btn" id="logoutBtn">ออกจากระบบ</button></div></header>
 <main class="content">
