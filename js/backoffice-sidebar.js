@@ -232,4 +232,12 @@ function initBackofficeNavigation() {
     renderTopSubNav(projectRoot, currentSection)
 }
 
-initBackofficeNavigation()
+if (document.readyState === 'loading') {
+    document.addEventListener(
+        'DOMContentLoaded',
+        initBackofficeNavigation,
+        { once: true }
+    )
+} else {
+    initBackofficeNavigation()
+}
