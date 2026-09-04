@@ -1,8 +1,12 @@
 /*
  * CHAIXI BAMEEKIAO — Back Office Sidebar Accordion
- * ------------------------------------------------------------
- * Sidebar category headers only by default.
- * One category can be expanded at a time.
+ * Phase: visibility / readability fix
+ *
+ * CHANGED ONLY:
+ * - clearer section headings on dark sidebar
+ * - clearer chevron
+ * - stronger open/current state
+ * - keeps existing accordion JS behavior
  */
 
 [data-backoffice-nav] {
@@ -24,10 +28,14 @@
     border: 0;
     border-radius: 10px;
     background: transparent;
-    color: inherit;
+
+    /* FIX: heading was too dark on the dark sidebar */
+    color: #dbe6f4;
+
     text-align: left;
     cursor: pointer;
     font: inherit;
+
     transition:
         background-color .16s ease,
         color .16s ease,
@@ -35,11 +43,12 @@
 }
 
 [data-backoffice-nav] .nav-section-toggle:hover {
-    background: rgba(255, 255, 255, .06);
+    background: rgba(255, 255, 255, .07);
+    color: #ffffff;
 }
 
 [data-backoffice-nav] .nav-section-toggle:focus-visible {
-    outline: 2px solid currentColor;
+    outline: 2px solid #f4b526;
     outline-offset: 2px;
 }
 
@@ -50,30 +59,44 @@
     letter-spacing: .08em;
     text-transform: uppercase;
     line-height: 1.35;
+    color: inherit;
 }
 
 [data-backoffice-nav] .nav-section-chevron {
     flex: 0 0 auto;
     font-size: 18px;
     line-height: 1;
-    opacity: .72;
+    color: #8fa4bd;
+    opacity: 1;
     transform: rotate(0deg);
-    transition: transform .18s ease;
+    transition:
+        transform .18s ease,
+        color .18s ease;
 }
 
+/* Open category */
 [data-backoffice-nav] .nav-section.is-open > .nav-section-toggle {
-    background: rgba(255, 255, 255, .07);
+    background: rgba(255, 255, 255, .08);
+    color: #ffffff;
 }
 
-[data-backoffice-nav] .nav-section.is-open > .nav-section-toggle
-.nav-section-chevron {
+[data-backoffice-nav] .nav-section.is-open >
+.nav-section-toggle .nav-section-chevron {
+    color: #f4b526;
     transform: rotate(180deg);
+}
+
+/* Category containing the current page */
+[data-backoffice-nav] .nav-section.has-current-page >
+.nav-section-toggle {
+    color: #ffffff;
 }
 
 [data-backoffice-nav] .nav-section.has-current-page >
 .nav-section-toggle .nav-section-toggle-label::after {
     content: " •";
-    opacity: .85;
+    color: #f4b526;
+    opacity: 1;
 }
 
 [data-backoffice-nav] .nav-section-items {
@@ -88,15 +111,12 @@
     margin-top: 2px;
 }
 
-/*
- * Keep the active page visible and clear when its section is open.
- * Existing .nav-link.active theme styles remain in control.
- */
+/* Keep existing theme active styles, but make text unmistakable */
 [data-backoffice-nav] .nav-section-items .nav-link.active {
     font-weight: 900;
+    color: #ffffff;
 }
 
-/* Mobile: keep tap target large and compact */
 @media (max-width: 768px) {
     [data-backoffice-nav] .nav-section-toggle {
         min-height: 48px;
