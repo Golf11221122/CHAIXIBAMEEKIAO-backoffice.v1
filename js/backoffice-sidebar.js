@@ -1,13 +1,13 @@
 /*
  * CHAIXI BAMEEKIAO — Back Office Navigation
- * Phase: Category Sidebar + Top Sub Navigation
+ * FINAL: Main Category Sidebar + Explicit Top Subnav Slot
  *
- * UX:
- * - Sidebar shows ONLY main categories.
- * - Clicking a category goes to the first page in that category.
- * - The current category is highlighted.
- * - Sub-pages for the current category are shown in a compact top bar.
- * - One navigation source for the entire Back Office.
+ * Required HTML:
+ *   <nav data-backoffice-nav></nav>
+ *   <div data-backoffice-subnav></div>
+ *
+ * Sidebar shows only main categories.
+ * Sub-pages render ONLY inside the explicit subnav slot.
  */
 
 const NAV_SECTIONS = [
@@ -81,125 +81,92 @@ const NAV_SECTIONS = [
     }
 ]
 
-function getProjectRootPath() {
-    const pathname = window.location.pathname
-    const nestedMarkers = ['/finance/', '/stock/', '/purchasing/']
-
-    for (const marker of nestedMarkers) {
-        const index = pathname.indexOf(marker)
-        if (index >= 0) {
-            return pathname.slice(0, index + 1)
-        }
+function projectRoot() {
+    const path = window.location.pathname
+    for (const marker of ['/finance/', '/stock/', '/purchasing/']) {
+        const i = path.indexOf(marker)
+        if (i >= 0) return path.slice(0, i + 1)
     }
-
-    return pathname.slice(0, pathname.lastIndexOf('/') + 1)
+    return path.slice(0, path.lastIndexOf('/') + 1)
 }
 
-function normalizePath(pathname) {
-    return decodeURIComponent(pathname)
+function normalize(path) {
+    return decodeURIComponent(path)
         .replace(/\/+/g, '/')
         .replace(/\/index\.html$/i, '/')
 }
 
-function itemHref(item, projectRoot) {
-    return `${projectRoot}${item.path}`
+function hrefFor(item, root) {
+    return `${root}${item.path}`
 }
 
-function isCurrentPage(item, projectRoot) {
-    return normalizePath(window.location.pathname) ===
-        normalizePath(itemHref(item, projectRoot))
+function isCurrent(item, root) {
+    return normalize(window.location.pathname) === normalize(hrefFor(item, root))
 }
 
-function findCurrentSection(projectRoot) {
-    for (const section of NAV_SECTIONS) {
-        if (section.items.some(item => isCurrentPage(item, projectRoot))) {
-            return section
-        }
-    }
-
-    return NAV_SECTIONS[0]
+function currentSection(root) {
+    return NAV_SECTIONS.find(section =>
+        section.items.some(item => isCurrent(item, root))
+    ) || NAV_SECTIONS[0]
 }
 
-function ensureNavigationStyles(projectRoot) {
+function ensureCss(root) {
     if (document.querySelector('link[data-chaixi-sidebar-css]')) return
-
     const link = document.createElement('link')
     link.rel = 'stylesheet'
-    link.href = `${projectRoot}css/backoffice-sidebar.css?v=4.17.0`
+    link.href = `${root}css/backoffice-sidebar.css?v=4.18.0`
     link.dataset.chaixiSidebarCss = 'true'
     document.head.appendChild(link)
 }
 
-function renderSidebar(projectRoot, currentSection) {
+function renderSidebar(root, sectionNow) {
     const nav = document.querySelector('[data-backoffice-nav]')
     if (!nav) return
 
-    const fragment = document.createDocumentFragment()
-
-    for (const section of NAV_SECTIONS) {
-        const firstItem = section.items[0]
+    nav.replaceChildren(...NAV_SECTIONS.map(section => {
         const link = document.createElement('a')
-
         link.className = 'nav-category-link'
+        link.href = hrefFor(section.items[0], root)
         link.dataset.sectionKey = section.key
-        link.href = itemHref(firstItem, projectRoot)
 
-        if (section.key === currentSection.key) {
+        if (section.key === sectionNow.key) {
             link.classList.add('active')
             link.setAttribute('aria-current', 'true')
         }
 
-        const icon = document.createElement('span')
-        icon.className = 'nav-category-icon'
-        icon.textContent = section.icon
-
-        const label = document.createElement('span')
-        label.className = 'nav-category-label'
-        label.textContent = section.title
-
-        const arrow = document.createElement('span')
-        arrow.className = 'nav-category-arrow'
-        arrow.textContent = '›'
-        arrow.setAttribute('aria-hidden', 'true')
-
-        link.append(icon, label, arrow)
-        fragment.appendChild(link)
-    }
-
-    nav.replaceChildren(fragment)
+        link.innerHTML = `
+            <span class="nav-category-icon">${section.icon}</span>
+            <span class="nav-category-label">${section.title}</span>
+            <span class="nav-category-arrow" aria-hidden="true">›</span>
+        `
+        return link
+    }))
 }
 
-function renderTopSubNav(projectRoot, currentSection) {
-    const content = document.querySelector('.content')
-    if (!content) return
+function renderSubnav(root, sectionNow) {
+    const slot = document.querySelector('[data-backoffice-subnav]')
+    if (!slot) {
+        console.warn('CHAIXI subnav slot not found on this page')
+        return
+    }
 
-    document.querySelector('.backoffice-subnav')?.remove()
-
-    const shell = document.createElement('section')
-    shell.className = 'backoffice-subnav'
-    shell.setAttribute('aria-label', `${currentSection.title} navigation`)
+    slot.className = 'backoffice-subnav'
+    slot.setAttribute('aria-label', `${sectionNow.title} navigation`)
 
     const title = document.createElement('div')
     title.className = 'backoffice-subnav-title'
-
-    const titleIcon = document.createElement('span')
-    titleIcon.textContent = currentSection.icon
-
-    const titleText = document.createElement('strong')
-    titleText.textContent = currentSection.title
-
-    title.append(titleIcon, titleText)
+    title.innerHTML = `<span>${sectionNow.icon}</span><strong>${sectionNow.title}</strong>`
 
     const scroller = document.createElement('div')
     scroller.className = 'backoffice-subnav-scroll'
 
-    for (const item of currentSection.items) {
+    for (const item of sectionNow.items) {
         const link = document.createElement('a')
         link.className = 'backoffice-subnav-link'
-        link.href = itemHref(item, projectRoot)
+        link.href = hrefFor(item, root)
         link.textContent = item.label
 
-        if (isCurrentPage(item, projectRoot)) {
+        if (isCurrent(item, root)) {
             link.classList.add('active')
             link.setAttribute('aria-current', 'page')
         }
@@ -207,12 +174,10 @@ function renderTopSubNav(projectRoot, currentSection) {
         scroller.appendChild(link)
     }
 
-    shell.append(title, scroller)
-    content.prepend(shell)
+    slot.replaceChildren(title, scroller)
 
     requestAnimationFrame(() => {
-        const active = shell.querySelector('.backoffice-subnav-link.active')
-        active?.scrollIntoView({
+        slot.querySelector('.backoffice-subnav-link.active')?.scrollIntoView({
             behavior: 'auto',
             block: 'nearest',
             inline: 'center'
@@ -224,20 +189,16 @@ function initBackofficeNavigation() {
     const nav = document.querySelector('[data-backoffice-nav]')
     if (!nav) return
 
-    const projectRoot = getProjectRootPath()
-    const currentSection = findCurrentSection(projectRoot)
+    const root = projectRoot()
+    const sectionNow = currentSection(root)
 
-    ensureNavigationStyles(projectRoot)
-    renderSidebar(projectRoot, currentSection)
-    renderTopSubNav(projectRoot, currentSection)
+    ensureCss(root)
+    renderSidebar(root, sectionNow)
+    renderSubnav(root, sectionNow)
 }
 
 if (document.readyState === 'loading') {
-    document.addEventListener(
-        'DOMContentLoaded',
-        initBackofficeNavigation,
-        { once: true }
-    )
+    document.addEventListener('DOMContentLoaded', initBackofficeNavigation, { once: true })
 } else {
     initBackofficeNavigation()
 }
