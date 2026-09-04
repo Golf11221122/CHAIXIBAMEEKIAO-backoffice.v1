@@ -1,211 +1,211 @@
 /*
- * CHAIXI BAMEEKIAO — Back Office Sidebar Accordion
- * DESKTOP VISIBILITY FIX
- *
- * Fixes desktop-only cascade conflicts from older Back Office styles.
- * Mobile behavior remains unchanged.
+ * CHAIXI BAMEEKIAO
+ * CATEGORY SIDEBAR + TOP SUB NAV
  */
 
 /* =========================================================
-   BASE
+   SIDEBAR — MAIN CATEGORIES ONLY
 ========================================================= */
+
 [data-backoffice-nav] {
-    display: block;
+    display: grid;
+    gap: 7px;
+    padding: 4px 0 12px;
 }
 
-[data-backoffice-nav] .nav-section {
-    margin: 0 0 6px;
-}
-
-[data-backoffice-nav] .nav-section-items[hidden] {
-    display: none !important;
-}
-
-[data-backoffice-nav] .nav-section-items {
-    padding: 4px 0 8px;
-}
-
-[data-backoffice-nav] .nav-section-items .nav-link {
-    margin-top: 2px;
-}
-
-[data-backoffice-nav] .nav-section-items .nav-link.active {
-    font-weight: 900;
-}
-
-/* =========================================================
-   ACCORDION HEADER — COMMON
-========================================================= */
-#sidebar [data-backoffice-nav] .nav-section-toggle,
-.sidebar [data-backoffice-nav] .nav-section-toggle {
-    width: 100%;
-    min-height: 46px;
-    display: flex;
+#sidebar [data-backoffice-nav] .nav-category-link,
+.sidebar [data-backoffice-nav] .nav-category-link {
+    min-height: 50px;
+    display: grid;
+    grid-template-columns: 24px minmax(0,1fr) 16px;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    gap: 9px;
 
     padding: 10px 12px;
-    border: 0;
-    border-radius: 10px;
+    border-radius: 11px;
+
+    color: #dbe6f4;
+    text-decoration: none;
+    font-weight: 900;
 
     background: transparent;
-    color: #dbe6f4;
-
-    text-align: left;
-    cursor: pointer;
-    font: inherit;
-
-    opacity: 1;
+    border: 1px solid transparent;
 
     transition:
         background-color .16s ease,
-        color .16s ease,
-        transform .16s ease;
+        border-color .16s ease,
+        color .16s ease;
 }
 
-#sidebar [data-backoffice-nav] .nav-section-toggle-label,
-.sidebar [data-backoffice-nav] .nav-section-toggle-label {
+#sidebar [data-backoffice-nav] .nav-category-link:hover,
+.sidebar [data-backoffice-nav] .nav-category-link:hover {
+    color: #ffffff;
+    background: rgba(255,255,255,.06);
+}
+
+#sidebar [data-backoffice-nav] .nav-category-link.active,
+.sidebar [data-backoffice-nav] .nav-category-link.active {
+    color: #ffffff;
+    background: rgba(255,255,255,.09);
+    border-color: rgba(255,255,255,.07);
+    box-shadow: inset 3px 0 0 #f4b526;
+}
+
+.nav-category-icon {
+    font-size: 15px;
+}
+
+.nav-category-label {
     min-width: 0;
     font-size: 12px;
-    font-weight: 900;
-    letter-spacing: .08em;
-    text-transform: uppercase;
     line-height: 1.35;
-    color: inherit;
-    opacity: 1;
+    letter-spacing: .045em;
+    text-transform: uppercase;
 }
 
-#sidebar [data-backoffice-nav] .nav-section-chevron,
-.sidebar [data-backoffice-nav] .nav-section-chevron {
-    flex: 0 0 auto;
-    font-size: 18px;
+.nav-category-arrow {
+    justify-self: end;
+    color: #91a4bb;
+    font-size: 20px;
     line-height: 1;
-    color: #9fb0c4;
-    opacity: 1;
-    transform: rotate(0deg);
+}
+
+.nav-category-link.active .nav-category-arrow {
+    color: #f4b526;
+}
+
+/* =========================================================
+   TOP SUB NAV
+========================================================= */
+
+.backoffice-subnav {
+    display: grid;
+    grid-template-columns: auto minmax(0,1fr);
+    align-items: center;
+    gap: 12px;
+
+    margin: 0 0 14px;
+    padding: 10px 12px;
+
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(15,23,42,.035);
+}
+
+.backoffice-subnav-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding-right: 12px;
+    border-right: 1px solid #e2e8f0;
+
+    white-space: nowrap;
+    color: #172033;
+}
+
+.backoffice-subnav-title strong {
+    font-size: 12px;
+    font-weight: 950;
+}
+
+.backoffice-subnav-scroll {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+
+    padding: 1px 0 3px;
+}
+
+.backoffice-subnav-link {
+    flex: 0 0 auto;
+
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+
+    padding: 7px 11px;
+    border-radius: 9px;
+
+    color: #475467;
+    background: #f8fafc;
+    border: 1px solid #edf1f5;
+
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 850;
+    white-space: nowrap;
+
     transition:
-        transform .18s ease,
-        color .18s ease;
+        color .15s ease,
+        background-color .15s ease,
+        border-color .15s ease;
 }
 
-#sidebar [data-backoffice-nav] .nav-section-toggle:hover,
-.sidebar [data-backoffice-nav] .nav-section-toggle:hover {
-    background: rgba(255,255,255,.07);
+.backoffice-subnav-link:hover {
+    color: #172033;
+    background: #f1f5f9;
+    border-color: #dce3eb;
+}
+
+.backoffice-subnav-link.active {
     color: #ffffff;
-}
-
-#sidebar [data-backoffice-nav] .nav-section-toggle:focus-visible,
-.sidebar [data-backoffice-nav] .nav-section-toggle:focus-visible {
-    outline: 2px solid #f4b526;
-    outline-offset: 2px;
-}
-
-#sidebar [data-backoffice-nav] .nav-section.is-open > .nav-section-toggle,
-.sidebar [data-backoffice-nav] .nav-section.is-open > .nav-section-toggle {
-    background: rgba(255,255,255,.08);
-    color: #ffffff;
-}
-
-#sidebar [data-backoffice-nav] .nav-section.is-open >
-.nav-section-toggle .nav-section-chevron,
-.sidebar [data-backoffice-nav] .nav-section.is-open >
-.nav-section-toggle .nav-section-chevron {
-    color: #f4b526;
-    transform: rotate(180deg);
-}
-
-#sidebar [data-backoffice-nav] .nav-section.has-current-page >
-.nav-section-toggle,
-.sidebar [data-backoffice-nav] .nav-section.has-current-page >
-.nav-section-toggle {
-    color: #ffffff;
-}
-
-#sidebar [data-backoffice-nav] .nav-section.has-current-page >
-.nav-section-toggle .nav-section-toggle-label::after,
-.sidebar [data-backoffice-nav] .nav-section.has-current-page >
-.nav-section-toggle .nav-section-toggle-label::after {
-    content: " •";
-    color: #f4b526;
-    opacity: 1;
+    background: #172033;
+    border-color: #172033;
 }
 
 /* =========================================================
-   DESKTOP HARD OVERRIDE
-   Older desktop CSS was winning the cascade and making
-   category headings nearly invisible.
+   TABLET / MOBILE
 ========================================================= */
-@media (min-width: 769px) {
-    body #sidebar [data-backoffice-nav] .nav-section-toggle,
-    body .sidebar [data-backoffice-nav] .nav-section-toggle {
-        color: #dbe6f4 !important;
-        opacity: 1 !important;
-        background-color: transparent !important;
+
+@media (max-width: 900px) {
+    .backoffice-subnav {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 9px 10px;
     }
 
-    body #sidebar [data-backoffice-nav] .nav-section-toggle-label,
-    body .sidebar [data-backoffice-nav] .nav-section-toggle-label {
-        color: inherit !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-    body #sidebar [data-backoffice-nav] .nav-section-chevron,
-    body .sidebar [data-backoffice-nav] .nav-section-chevron {
-        color: #9fb0c4 !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-    body #sidebar [data-backoffice-nav] .nav-section-toggle:hover,
-    body .sidebar [data-backoffice-nav] .nav-section-toggle:hover {
-        color: #ffffff !important;
-        background-color: rgba(255,255,255,.07) !important;
-    }
-
-    body #sidebar [data-backoffice-nav] .nav-section.is-open >
-    .nav-section-toggle,
-    body .sidebar [data-backoffice-nav] .nav-section.is-open >
-    .nav-section-toggle {
-        color: #ffffff !important;
-        background-color: rgba(255,255,255,.09) !important;
-    }
-
-    body #sidebar [data-backoffice-nav] .nav-section.has-current-page >
-    .nav-section-toggle,
-    body .sidebar [data-backoffice-nav] .nav-section.has-current-page >
-    .nav-section-toggle {
-        color: #ffffff !important;
-    }
-
-    body #sidebar [data-backoffice-nav] .nav-section.is-open >
-    .nav-section-toggle .nav-section-chevron,
-    body .sidebar [data-backoffice-nav] .nav-section.is-open >
-    .nav-section-toggle .nav-section-chevron {
-        color: #f4b526 !important;
+    .backoffice-subnav-title {
+        border-right: 0;
+        padding-right: 0;
     }
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
 @media (max-width: 768px) {
-    #sidebar [data-backoffice-nav] .nav-section-toggle,
-    .sidebar [data-backoffice-nav] .nav-section-toggle {
+    #sidebar [data-backoffice-nav] .nav-category-link,
+    .sidebar [data-backoffice-nav] .nav-category-link {
         min-height: 48px;
-        padding: 11px 12px;
+        padding: 10px 11px;
     }
 
-    #sidebar [data-backoffice-nav] .nav-section-toggle-label,
-    .sidebar [data-backoffice-nav] .nav-section-toggle-label {
+    .nav-category-label {
         font-size: 11px;
+    }
+
+    .backoffice-subnav {
+        margin-bottom: 10px;
+        border-radius: 12px;
+    }
+
+    .backoffice-subnav-scroll {
+        margin-inline: -2px;
+        padding-bottom: 4px;
+    }
+
+    .backoffice-subnav-link {
+        min-height: 38px;
+        padding: 8px 11px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    [data-backoffice-nav] .nav-section-toggle,
-    [data-backoffice-nav] .nav-section-chevron {
+    .nav-category-link,
+    .backoffice-subnav-link {
         transition: none;
     }
 }
