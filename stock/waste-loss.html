@@ -19,6 +19,7 @@
 <div class="main">
 <header class="topbar"><div class="topbar-left"><button class="menu-btn" id="menuBtn">☰</button><div><h1>🗑️ Waste / Inventory Loss</h1><p id="branchText">กำลังโหลด...</p></div></div><div class="user-box"><span class="user-name" id="userName">-</span><span class="role-pill" id="roleBadge">-</span><button class="outline-btn" id="logoutBtn">ออกจากระบบ</button></div></header>
 <main class="content">
+<div data-backoffice-subnav></div>
 <div class="page-head"><div><h2>ควบคุมของเสียและสูญเสีย</h2><p>บันทึก → รออนุมัติ → ตัด Stock → เก็บ Cost และ Audit</p></div><button class="primary-btn" id="newBtn">+ บันทึกของเสีย</button></div>
 <section class="kpi-grid" id="wasteKpis"></section>
 <section class="panel"><div class="toolbar waste-toolbar"><label class="field"><span>ตั้งแต่</span><input id="dateFrom" type="date"/></label><label class="field"><span>ถึง</span><input id="dateTo" type="date"/></label><label class="field"><span>สถานะ</span><select id="statusFilter"><option value="">ทั้งหมด</option><option value="pending">รออนุมัติ</option><option value="approved">อนุมัติแล้ว</option><option value="cancelled">ยกเลิก</option><option value="reversed">Reversed</option></select></label><label class="field"><span>เหตุผล</span><select id="reasonFilter"><option value="">ทั้งหมด</option></select></label><button class="outline-btn" id="refreshBtn">↻ รีเฟรช</button></div></section>
