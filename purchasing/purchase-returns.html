@@ -13,19 +13,9 @@
 <div class="app">
 <aside class="sidebar" id="sidebar">
 <div class="sidebar-brand"><strong>CHAIXI BAMEEKIAO</strong><small>Back Office</small></div>
-<nav>
-<div class="nav-section"><div class="nav-title">ภาพรวม</div><a class="nav-link" data-nav="dashboard" href="../dashboard.html">📊 Dashboard</a><a class="nav-link" data-nav="financial-summary" href="../finance/financial-summary.html">🧭 Financial Summary</a></div>
-<div class="nav-section"><div class="nav-title">Purchasing</div>
-<a class="nav-link" data-nav="suppliers" href="./suppliers.html">🚚 Supplier</a>
-<a class="nav-link" data-nav="purchase-orders" href="./purchase-orders.html">🛒 Purchase Orders</a>
-<a class="nav-link" data-nav="purchase-documents" href="./purchase-documents.html">🧾 Purchase Documents</a>
-<a class="nav-link active" data-nav="purchase-returns" href="./purchase-returns.html">↩️ Purchase Returns</a>
-</div>
-<div class="nav-section"><div class="nav-title">Finance</div>
-<a class="nav-link" data-nav="accounts-payable" href="../finance/accounts-payable.html">💸 Accounts Payable</a><a class="nav-link" data-nav="payment-forecast" href="../finance/payment-forecast.html">📅 Payment Forecast</a><a class="nav-link" data-nav="cash-flow" href="../finance/cash-flow.html">💵 Cash Flow</a>
-</div>
-</nav>
+<nav data-backoffice-nav></nav>
 </aside>
+<script src="../js/backoffice-sidebar.js"></script>
 <div class="main">
 <header class="topbar">
 <div class="topbar-left"><button class="menu-btn" id="menuBtn">☰</button><div><h1>↩️ Purchase Returns</h1><p id="branchText">กำลังโหลด...</p></div></div>
