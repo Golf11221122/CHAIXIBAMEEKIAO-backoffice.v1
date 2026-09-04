@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>QR Self Order History | CHAIXI BAMEEKIAO</title>
+<link rel="stylesheet" href="../css/self-order-history.css?v=4.15.0">
+</head>
+<body>
+<main class="page">
+    <header class="head">
+        <div>
+            <small>CHAIXI BAMEEKIAO</small>
+            <h1>🧾 QR Self Order History</h1>
+            <p>ประวัติการทำงานและ Audit ย้อนหลัง</p>
+        </div>
+        <div class="head-actions">
+            <a href="./self-orders.html">← QR Self Order</a>
+            <a href="../dashboard.html">🏠 หน้าหลัก</a>
+        </div>
+    </header>
+
+    <section class="filters">
+        <label>จากวันที่<input id="dateFrom" type="date"></label>
+        <label>ถึงวันที่<input id="dateTo" type="date"></label>
+        <label>สถานะ
+            <select id="statusFilter">
+                <option value="all">ทั้งหมด</option>
+                <option value="completed">สำเร็จ</option>
+                <option value="expired">หมดเวลา</option>
+                <option value="cancelled">ยกเลิก</option>
+                <option value="refund">คืนเงิน</option>
+                <option value="blocked">มีปัญหา</option>
+            </select>
+        </label>
+        <label class="search">ค้นหา
+            <input id="searchInput" type="search" placeholder="เลขออเดอร์ / คิว / รหัสรับอาหาร / ลูกค้า">
+        </label>
+        <button id="refreshBtn" type="button">รีเฟรช</button>
+    </section>
+
+    <section class="summary">
+        <article><span>ทั้งหมด</span><strong id="sumTotal">0</strong></article>
+        <article><span>สำเร็จ</span><strong id="sumCompleted">0</strong></article>
+        <article><span>หมดเวลา</span><strong id="sumExpired">0</strong></article>
+        <article><span>ยกเลิก/คืนเงิน</span><strong id="sumCancelled">0</strong></article>
+        <article><span>มีปัญหา</span><strong id="sumBlocked">0</strong></article>
+        <article><span>ยอด Paid</span><strong id="sumPaid">฿0.00</strong></article>
+    </section>
+
+    <p id="message" class="message"></p>
+
+    <section class="list-card">
+        <div class="list-head">
+            <h2>รายการย้อนหลัง</h2>
+            <span id="resultCount">0 รายการ</span>
+        </div>
+        <div id="orderList" class="order-list"></div>
+        <div id="emptyState" class="empty hidden">ไม่พบรายการตามตัวกรอง</div>
+    </section>
+</main>
+
+<div id="backdrop" class="backdrop hidden"></div>
+<aside id="detailDrawer" class="drawer hidden">
+    <div class="drawer-head">
+        <div>
+            <h2 id="detailTitle">รายละเอียด</h2>
+            <p id="detailSub">-</p>
+        </div>
+        <button id="closeDetailBtn" type="button">✕</button>
+    </div>
+    <div id="detailBody" class="drawer-body"></div>
+</aside>
+
+<script type="module" src="../js/self-order-history.js?v=4.15.0"></script>
+</body>
+</html>
